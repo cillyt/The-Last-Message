@@ -23,6 +23,7 @@ public abstract class MovingGameEntity extends GameEntity{
     protected int targetJumpHeight;
 
     protected boolean onGround;
+
     //Акумулятори для дробових частин кроку
     protected double subPixelX;
     protected double subPixelY;
@@ -31,9 +32,9 @@ public abstract class MovingGameEntity extends GameEntity{
     protected double timePeriod;
 
     /*
-     * В нащадках зробити:
-     * this.targetJumpHeight = кінцева висота
-     * this.startJumpSpeed = -Math.sqrt(2 * GRAVITY * this.targetJumpHeight);
+     В нащадках зробити:
+     this.targetJumpHeight = кінцева висота
+     this.startJumpSpeed = -Math.sqrt(2 * GRAVITY * this.targetJumpHeight);
      */
     public MovingGameEntity(int x, int y) {
         super(x, y);
@@ -166,7 +167,6 @@ public abstract class MovingGameEntity extends GameEntity{
         }
     }
 
-    @Override
     public void render(GraphicsContext gc) {
 
     }

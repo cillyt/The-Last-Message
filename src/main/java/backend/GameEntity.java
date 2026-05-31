@@ -26,12 +26,19 @@ public abstract class GameEntity {
         this.height = height;
     }
 
+    public GameEntity (int x, int y, int width, int height, boolean isWalkable){
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.isWalkable = isWalkable;
+    }
+
     public Rectangle2D getBounds() {
         return new Rectangle2D(x, y, width, height);
     }
 
-    public abstract void update(double deltaTime);
-    public abstract void render(GraphicsContext gc);
+
 
 
 }
