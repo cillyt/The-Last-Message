@@ -13,6 +13,7 @@ public abstract class MovingGameEntity extends GameEntity{
     }
     protected State currentState = State.STAND;
 
+
     // Швидкості в px/sec
     protected static final int GRAVITY = 980;
     protected double speedX;
@@ -22,7 +23,8 @@ public abstract class MovingGameEntity extends GameEntity{
 
     protected int targetJumpHeight;
 
-    protected boolean onGround;
+    protected boolean onGround = true;
+    protected boolean facingRight = true;
 
     //Акумулятори для дробових частин кроку
     protected double subPixelX;
@@ -40,11 +42,14 @@ public abstract class MovingGameEntity extends GameEntity{
         super(x, y);
     }
 
+    // Викликати раз при створенні рівня
+
+
 
     // Методи руху
-    // ВАЖЛИВО відсортувати список, щоб у ньому об'єкти isWalkable були спочатку
+    // ВАЖЛИВО відсортувати список, щоб у ньому об'єкти з isWalkable = false були спочатку
 
-    public void moveHorizontally(double deltaTime, List<GameEntity> objects) {
+    public void moveHorizontally(double deltaTime) {
         if (currentVelocityX == 0) return;
 
         subPixelX += currentVelocityX * deltaTime;
@@ -62,7 +67,7 @@ public abstract class MovingGameEntity extends GameEntity{
         if (deltaX > 0) sensorX = x + width;
         else sensorX = x + deltaX;
 
-        GameEntity collision = collision(sensorX, sensorY, sensorW, sensorH, objects);
+        GameEntity collision = collision(sensorX, sensorY, sensorW, sensorH, Level.getCurrentLevel().getBlokingObjects());
 
         if (collision == null || collision.isWalkable) x += deltaX;
         else {
@@ -74,7 +79,7 @@ public abstract class MovingGameEntity extends GameEntity{
         }
     }
 
-    public void moveVertically(double deltaTime, List<GameEntity> objects) {
+    public void moveVertically(double deltaTime) {
         currentVelocityY += GRAVITY * deltaTime;
         subPixelY += currentVelocityY * deltaTime;
 
@@ -97,7 +102,7 @@ public abstract class MovingGameEntity extends GameEntity{
             sensorH = -deltaY;
         }
 
-        GameEntity collision = collision(sensorX, sensorY, sensorW, sensorH, objects);
+        GameEntity collision = collision(sensorX, sensorY, sensorW, sensorH, Level.getCurrentLevel().getBlokingObjects());
 
         if (collision == null || collision.isWalkable) {
             y += deltaY;
@@ -117,10 +122,9 @@ public abstract class MovingGameEntity extends GameEntity{
 
     }
 
-    public void jump(int moveDirection) {
+    public void jump() {
         if (onGround) {
             currentVelocityY = startJumpSpeed;
-            currentVelocityX = moveDirection * speedX;
             currentState = State.IN_AIR;
             onGround = false;
         }
@@ -139,9 +143,9 @@ public abstract class MovingGameEntity extends GameEntity{
         return null;
     }
 
-    public void update(double deltaTime, List<GameEntity> objects) {
+    public void update(double deltaTime) {
 
-        moveVertically(deltaTime, objects);
+        moveVertically(deltaTime);
 
         if (!onGround && currentState != State.IN_AIR) {
             currentState = State.IN_AIR;
@@ -149,7 +153,7 @@ public abstract class MovingGameEntity extends GameEntity{
 
         switch (currentState) {
             case GO:
-                moveHorizontally(deltaTime, objects);
+                moveHorizontally(deltaTime);
 
                 currentTimeX += deltaTime;
                 if (currentTimeX >= timePeriod) {
@@ -158,7 +162,7 @@ public abstract class MovingGameEntity extends GameEntity{
                 break;
 
             case IN_AIR:
-                moveHorizontally(deltaTime, objects);
+                moveHorizontally(deltaTime);
                 break;
 
             case STAND:
