@@ -14,27 +14,26 @@ public class Controller {
     public void handleKeyPressed(KeyEvent event) {
         switch (event.getCode()) {
             case W:
-                player.jump();
+                player.commandJump();
                 break;
             case A:
-                player.facingRight = false;
-                player.go();
+                player.commandMoveLeft();
                 break;
             case S:
-                player.crouch();
+                player.commandCrouch();
                 break;
             case D:
-                player.facingRight = true;
-                player.go();
+                player.commandMoveRight();
                 break;
             case ENTER:
-                // запуск стрільби
+                player.commandStartShooting();
+                break;
 
             case DIGIT1:
-                player.takePistol();
+                player.commandEquipPistol();
                 break;
             case DIGIT2:
-                player.takeAR();
+                player.commandEquipAR();
                 break;
         }
     }
@@ -42,13 +41,16 @@ public class Controller {
     public void handleKeyReleased (KeyEvent event) {
         switch (event.getCode()){
             case A:
-                player.stop();
+                player.commandStopMoveLeft();
                 break;
             case D:
-                player.stop();
+                player.commandStopMoveRight();
                 break;
             case S:
-                player.stop();
+                player.commandStandUp();
+                break;
+            case ENTER:
+                player.commandStopShooting();
                 break;
         }
 

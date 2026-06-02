@@ -21,8 +21,9 @@ public class Player extends MovingGameEntity{
     private int maxHp = 100;
     private int currentHp = 100;
 
-    public boolean wantToMoveRight = false;
-    public boolean wantToMoveLeft = false;
+    private boolean wantToMoveRight = false;
+    private boolean wantToMoveLeft = false;
+    private boolean wantToCrouch = false;
 
 
     /*
@@ -50,28 +51,14 @@ public class Player extends MovingGameEntity{
         currentVelocityY = 0;
     }
 
-     // Методи переходу в різні стани
+    // Методи переходу в різні стани
 
-    public void standUp (){
-        if (!onGround) return;
-
-        if (isCrouching && !canStand()) return;
-
-        height = defaultHeight;
-        y -= defaultHeight - heightInCrouch;
-        currentState = State.STAND;
-        isCrouching = false;
-    }
-
-    public void stop() {
+    private void stop() {
         currentVelocityX = 0;
-        if (onGround) {
-            currentState = State.STAND;
-        }
+        currentState = State.STAND;
     }
 
-    public void go() {
-        if (!onGround) return;
+    private void go() {
 
         if (isCrouching) currentVelocityX = speedXinCrouch;
         else currentVelocityX = speedX;
@@ -82,34 +69,112 @@ public class Player extends MovingGameEntity{
     }
 
     @Override
-    public void jump() {
+    protected void jump() {
+        currentVelocityY = startJumpSpeed;
+        currentState = State.IN_AIR;
+        onGround = false;
+    }
+
+    private void crouch (){
+        if (isCrouching) return;
+        height = heightInCrouch;
+        isCrouching = true;
+        y += defaultHeight - heightInCrouch;
+    }
+
+    private void standUp (){
+        if(!isCrouching) return;
+        height = defaultHeight;
+        y -= defaultHeight - heightInCrouch;
+        isCrouching = false;
+    }
+
+    // Методи прийому команд
+
+    public void commandMoveRight() {
+        wantToMoveRight = true;
+        if(onGround) {
+            facingRight = true;
+            go();
+        }
+    }
+
+    public void commandStopMoveRight() {
+        wantToMoveRight = false;
+        if (onGround) {
+            if (wantToMoveLeft) {
+                facingRight = false;
+                go();
+            } else stop();
+
+        }
+    }
+
+    public void commandMoveLeft() {
+        wantToMoveLeft = true;
+        if(onGround) {
+            facingRight = false;
+            go();
+        }
+    }
+
+    public void commandStopMoveLeft() {
+        wantToMoveLeft = false;
+        if (onGround) {
+            if (wantToMoveRight) {
+                facingRight = true;
+                go();
+            } else stop();
+
+        }
+    }
+
+    public void commandCrouch() {
+        wantToCrouch = true;
+        if (onGround) crouch();
+    }
+
+    public void commandStandUp() {
+        wantToCrouch = false;
+        if (isCrouching && canStand()) standUp();
+    }
+
+    public void commandJump(){
         if (isCrouching && canStand()) standUp();
 
-        if (onGround && !isCrouching) {
-            currentVelocityY = startJumpSpeed;
-            currentState = State.IN_AIR;
-            onGround = false;
-        }
-    }
-
-    public void crouch (){
-        if (onGround){
-            height = heightInCrouch;
-            isCrouching = true;
-            y += defaultHeight - heightInCrouch;
-        }
+        if (onGround && !isCrouching) jump();
 
     }
 
-    // Методи взяття різної зброї
+    public void commandStartShooting() {
+        // дописати
+    }
 
-    public void takePistol (){
+    public void commandStopShooting() {
+        // дописати
+    }
+
+    public void commandEquipPistol() {
         currentWeapon = 0;
     }
 
-    public void takeAR (){
+    public void commandEquipAR (){
         if (weaponNumber > 0) currentWeapon = 1;
     }
+
+
+    @Override
+    protected void onLand(){
+        if (wantToMoveRight ^ wantToMoveLeft){
+            facingRight = wantToMoveRight;
+            go();
+        }
+        else stop();
+
+        if (wantToCrouch) commandCrouch();
+        else commandStandUp();
+    }
+
 
 
     private boolean canStand() {

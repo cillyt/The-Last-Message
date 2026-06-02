@@ -47,7 +47,6 @@ public abstract class MovingGameEntity extends GameEntity{
 
 
     // Методи руху
-    // ВАЖЛИВО відсортувати список, щоб у ньому об'єкти з isWalkable = false були спочатку
 
     public void moveHorizontally(double deltaTime) {
         if (currentVelocityX == 0) return;
@@ -104,13 +103,16 @@ public abstract class MovingGameEntity extends GameEntity{
 
         GameEntity collision = collision(sensorX, sensorY, sensorW, sensorH, Level.getCurrentLevel().getBlokingObjects());
 
-        if (collision == null || collision.isWalkable) {
+        boolean wasInAir = !onGround;
+
+        if (collision == null) {
             y += deltaY;
             onGround = false;
         } else {
             if (deltaY > 0) {
                 y = collision.getY() - height;
                 onGround = true;
+                if (wasInAir) onLand();
             } else {
                 y = collision.getY() + collision.getHeight();
             }
@@ -118,11 +120,9 @@ public abstract class MovingGameEntity extends GameEntity{
             currentVelocityY = 0;
             subPixelY = 0;
         }
-
-
     }
 
-    public void jump() {
+    protected void jump() {
         if (onGround) {
             currentVelocityY = startJumpSpeed;
             currentState = State.IN_AIR;
@@ -130,6 +130,7 @@ public abstract class MovingGameEntity extends GameEntity{
         }
     }
 
+    protected void onLand(){}
 
     public GameEntity collision(int qX, int qY, int qW, int qH, List<GameEntity> objects) {
         for (GameEntity obj : objects) {
