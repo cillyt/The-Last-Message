@@ -13,11 +13,15 @@ public abstract class GameEntity {
 
     protected boolean isWalkable;
 
+    public GameEntity() {
+        x = -1000;
+        y = -1000;
+    }
+
     public GameEntity (int x, int y){
         this.x = x;
         this.y = y;
     }
-
 
     public GameEntity (int x, int y, int width, int height){
         this.x = x;

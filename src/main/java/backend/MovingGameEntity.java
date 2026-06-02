@@ -1,12 +1,14 @@
 package backend;
 
 import javafx.scene.canvas.GraphicsContext;
+import lombok.Getter;
 
 import java.util.List;
 
+@Getter
 public abstract class MovingGameEntity extends GameEntity{
 
-    enum State {
+    protected enum State {
         STAND,
         GO,
         IN_AIR,
@@ -15,7 +17,7 @@ public abstract class MovingGameEntity extends GameEntity{
 
 
     // Швидкості в px/sec
-    protected static final int GRAVITY = 980;
+    protected int gravity = 980;
     protected double speedX;
     protected double startJumpSpeed;
     protected double currentVelocityY;
@@ -40,6 +42,10 @@ public abstract class MovingGameEntity extends GameEntity{
      */
     public MovingGameEntity(int x, int y) {
         super(x, y);
+    }
+
+    public MovingGameEntity(){
+        super();
     }
 
     // Викликати раз при створенні рівня
@@ -79,7 +85,7 @@ public abstract class MovingGameEntity extends GameEntity{
     }
 
     public void moveVertically(double deltaTime) {
-        currentVelocityY += GRAVITY * deltaTime;
+        currentVelocityY += gravity * deltaTime;
         subPixelY += currentVelocityY * deltaTime;
 
         int deltaY = (int) subPixelY;
@@ -119,14 +125,6 @@ public abstract class MovingGameEntity extends GameEntity{
 
             currentVelocityY = 0;
             subPixelY = 0;
-        }
-    }
-
-    protected void jump() {
-        if (onGround) {
-            currentVelocityY = startJumpSpeed;
-            currentState = State.IN_AIR;
-            onGround = false;
         }
     }
 

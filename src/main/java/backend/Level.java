@@ -1,6 +1,8 @@
 package backend;
 
 import backend.triggeredZones.Detector;
+import backend.weapon.Bullet;
+import backend.weapon.Weapon;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,6 +18,7 @@ public class Level {
     private List<GameEntity> blokingObjects; // об'єкти з !isWalkable
     private List<Detector> playerDetectors; // детектори, які перевіряє гравець
     private List<Detector> independDetector; // детектори, які самі себе перевіряють
+    private List<Detector> bullets; // кулі всіх видів зброї
 
     public Level (List<GameEntity> allObjects){
         this.allObjects = allObjects;
@@ -25,6 +28,14 @@ public class Level {
 
     private void initialLists(){
         blokingObjects = allObjects.stream().filter(obj -> !obj.isWalkable).toList();
+
+        for (Weapon weapon : Player.getInstance().getWeapons()) {
+            if (weapon != null) {
+                for (Bullet bullet : weapon.getBullets()) {
+                    allObjects.add(bullet);
+                }
+            }
+        }
         // дописати
     }
 

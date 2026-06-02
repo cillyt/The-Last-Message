@@ -4,9 +4,10 @@
 
 package backend;
 
+import backend.weapon.AR;
+import backend.weapon.Pistol;
+import backend.weapon.Weapon;
 import lombok.Getter;
-
-import java.util.List;
 
 @Getter
 public class Player extends MovingGameEntity{
@@ -28,16 +29,9 @@ public class Player extends MovingGameEntity{
     private boolean wantToMoveLeft = false;
     private boolean wantToCrouch = false;
 
-
-    /*
-      weaponNumber - кількість зброї у гравця на руках
-      0 - нічого не підібрано (тільки стартовий пістолет)
-      1 - автомат
-      2 - дробовик (якщо реалузуємо)
-      3 - лазган (якщо реалізуємо)
-     */
-    private int weaponNumber =0;
-    private int currentWeapon = 0;     // поточна зброя, логіка та сама
+    private Weapon[] weapons;
+    private boolean[] weaponUnlocked;
+    private Weapon currentWeapon;
 
 
     public Player(int x, int y) {
@@ -50,10 +44,19 @@ public class Player extends MovingGameEntity{
 
         speedX = 200;
         this.targetJumpHeight = 120;
-        this.startJumpSpeed = -Math.sqrt(2 * GRAVITY * this.targetJumpHeight);
+        this.startJumpSpeed = -Math.sqrt(2 * gravity * this.targetJumpHeight);
 
         currentVelocityX = 0;
         currentVelocityY = 0;
+
+        weapons = new Weapon[2];
+        weaponUnlocked = new boolean[2];
+
+        weapons[0] = new Pistol();
+        weapons[1] = new AR();
+
+        weaponUnlocked[0] = true;
+        currentWeapon = weapons[0];
     }
 
     // Методи переходу в різні стани
@@ -73,8 +76,7 @@ public class Player extends MovingGameEntity{
         currentState = State.GO;
     }
 
-    @Override
-    protected void jump() {
+    private void jump() {
         currentVelocityY = startJumpSpeed;
         currentState = State.IN_AIR;
         onGround = false;
@@ -152,19 +154,25 @@ public class Player extends MovingGameEntity{
     }
 
     public void commandStartShooting() {
-        // дописати
+        currentWeapon.startFire();
     }
 
     public void commandStopShooting() {
-        // дописати
+        currentWeapon.stopFire();
     }
 
     public void commandEquipPistol() {
-        currentWeapon = 0;
+        if (weaponUnlocked[0]) {
+            currentWeapon.stopFire();
+            currentWeapon = weapons[0];
+        }
     }
 
-    public void commandEquipAR (){
-        if (weaponNumber > 0) currentWeapon = 1;
+    public void commandEquipAR() {
+        if (weaponUnlocked[1]) {
+            currentWeapon.stopFire();
+            currentWeapon = weapons[1];
+        }
     }
 
 
@@ -180,8 +188,6 @@ public class Player extends MovingGameEntity{
         else commandStandUp();
     }
 
-
-
     private boolean canStand() {
         int heightDiff = defaultHeight - heightInCrouch;
         int testY = this.y - heightDiff;
@@ -189,5 +195,11 @@ public class Player extends MovingGameEntity{
         GameEntity object = collision(this.x, testY, this.width, heightDiff, Level.getCurrentLevel().getBlokingObjects());
 
         return object == null || object.isWalkable;
+    }
+
+    @Override
+    public void update(double deltaTime) {
+        super.update(deltaTime);
+        currentWeapon.update(deltaTime);
     }
 }
