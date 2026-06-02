@@ -11,6 +11,9 @@ import java.util.List;
 @Getter
 public class Player extends MovingGameEntity{
 
+    @Getter
+    private static Player instance;
+
     private int defaultHeight = 170;
     private int heightInCrouch = 100;
 
@@ -39,6 +42,8 @@ public class Player extends MovingGameEntity{
 
     public Player(int x, int y) {
         super(x, y);
+
+        instance = this;
 
         height = 170;
         width = 50;

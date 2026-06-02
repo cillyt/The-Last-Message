@@ -38,7 +38,22 @@ public abstract class GameEntity {
         return new Rectangle2D(x, y, width, height);
     }
 
+    public void render(GraphicsContext gc) {
+        CameraWindow camera = CameraWindow.getInstance();
 
+        boolean isVisible = (x + width > camera.getX()) &&
+                (x < camera.getX() + camera.getScreenWidth()) &&
+                (y + height > camera.getY()) &&
+                (y < camera.getY() + camera.getScreenHeight());
+
+        if (isVisible) {
+            int screenX = this.x - camera.getX();
+            int screenY = this.y - camera.getY();
+
+            // заглушка, поки немає спрайтів
+            gc.fillRect(screenX, screenY, width, height);
+        }
+    }
 
 
 }
