@@ -11,6 +11,7 @@ public abstract class GameEntity {
     protected int width;
     protected int height;
     protected int zIndex;
+    protected boolean isActive = true;
 
     protected boolean isWalkable;
 
@@ -44,6 +45,9 @@ public abstract class GameEntity {
     }
 
     public void render(GraphicsContext gc) {
+
+        if (isActive = false) return;
+
         CameraWindow camera = CameraWindow.getInstance();
 
         boolean isVisible = (x + width > camera.getX()) &&

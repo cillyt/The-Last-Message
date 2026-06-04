@@ -39,6 +39,10 @@ public abstract class Weapon {
         }
     }
 
+    public void addAmmunition(int amount) {
+        ammunitionNumber += amount;
+    }
+
     public void update(double deltaTime) {
         if (currentFireTime < cooldown) currentFireTime += deltaTime;
 

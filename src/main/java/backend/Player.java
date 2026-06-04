@@ -4,6 +4,7 @@
 
 package backend;
 
+import backend.triggeredZones.Detector;
 import backend.weapon.AR;
 import backend.weapon.Pistol;
 import backend.weapon.Weapon;
@@ -178,6 +179,7 @@ public class Player extends MovingGameEntity{
         }
     }
 
+    // Допоміжні методи руху
 
     @Override
     protected void onLand(){
@@ -200,9 +202,29 @@ public class Player extends MovingGameEntity{
         return object == null || object.isWalkable;
     }
 
+    // Методи детекторів
+
+    public void healHp(int amount) {
+        currentHp += amount;
+    }
+
+    public void unlockWeapon(int i) {
+        weaponUnlocked[i] = true;
+    }
+    // -----------------
+
     @Override
     public void update(double deltaTime) {
         super.update(deltaTime);
         currentWeapon.update(deltaTime);
+
+        GameEntity detector = collision(x, y, width, height, Level.getCurrentLevel().getPlayerDetectors());
+
+        if (detector != null){
+            Detector det = (Detector) detector;
+            det.executeTrigger();
+        }
     }
+
+
 }

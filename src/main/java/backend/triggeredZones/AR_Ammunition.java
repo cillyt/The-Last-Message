@@ -4,6 +4,10 @@
 
 package backend.triggeredZones;
 
+import backend.Player;
+import backend.weapon.AR;
+import backend.weapon.Weapon;
+
 public class AR_Ammunition extends Detector {
     private int number; // кількість набоїв
 
@@ -15,5 +19,20 @@ public class AR_Ammunition extends Detector {
         height = 40;
 
         zIndex = 3;
+    }
+
+    public void executeTrigger() {
+        if (!isActive) return;
+
+        isTriggered = true;
+
+        Weapon[] weapons = Player.getInstance().getWeapons();
+        for (Weapon weapon : weapons){
+            if(weapon instanceof AR) {
+                weapon.addAmmunition(number);
+                isActive = false;
+                return;
+            }
+        }
     }
 }

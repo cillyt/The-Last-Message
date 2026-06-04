@@ -17,9 +17,9 @@ public class Level {
 
     private List<GameEntity> allObjects;
     private List<GameEntity> blokingObjects; // об'єкти з !isWalkable
-    private List<Detector> playerDetectors; // детектори, які перевіряє гравець
-    private List<Detector> independDetector; // детектори, які самі себе перевіряють
-    private List<Detector> bullets; // кулі всіх видів зброї
+    private List<GameEntity> playerDetectors; // детектори, які перевіряє гравець
+    private List<GameEntity> independDetector; // детектори, які самі себе перевіряють
+    private List<GameEntity> bullets; // кулі всіх видів зброї
 
     public Level (List<GameEntity> allObjects){
         currentLevel = this;

@@ -47,6 +47,20 @@ public class Detector extends GameEntity {
     }
 
 
+    public void executeTrigger() {
+        isTriggered = true;
+        if (onTriggerAction != null) {
+            onTriggerAction.run();
+        }
+    }
+
+    private boolean checkCollision(GameEntity obj) {
+        return this.x < obj.getX() + obj.getWidth() &&
+                this.x + this.width > obj.getX() &&
+                this.y < obj.getY() + obj.getHeight() &&
+                this.y + this.height > obj.getY();
+    }
+
     public void update(double deltaTime) {
         if (isTriggered && triggerOnce) return;
 
@@ -60,20 +74,6 @@ public class Detector extends GameEntity {
                 }
             }
         }
-    }
-
-    private void executeTrigger() {
-        isTriggered = true;
-        if (onTriggerAction != null) {
-            onTriggerAction.run();
-        }
-    }
-
-    private boolean checkCollision(GameEntity obj) {
-        return this.x < obj.getX() + obj.getWidth() &&
-                this.x + this.width > obj.getX() &&
-                this.y < obj.getY() + obj.getHeight() &&
-                this.y + this.height > obj.getY();
     }
 
     public void render(GraphicsContext gc) {

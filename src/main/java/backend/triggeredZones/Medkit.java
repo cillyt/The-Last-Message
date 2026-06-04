@@ -4,6 +4,8 @@
 
 package backend.triggeredZones;
 
+import backend.Player;
+
 public class Medkit extends Detector {
 
     public Medkit(int x, int y) {
@@ -13,5 +15,15 @@ public class Medkit extends Detector {
         height = 40;
 
         zIndex = 3;
+    }
+
+    public void executeTrigger() {
+        if (!isActive) return;
+
+        isTriggered = true;
+
+        Player.getInstance().healHp(20);
+
+        isActive = false;
     }
 }
