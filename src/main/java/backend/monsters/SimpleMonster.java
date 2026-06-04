@@ -15,6 +15,6 @@ public class SimpleMonster extends MovingGameEntity {
         width = 50;
 
         this.targetJumpHeight = 120;
-        this.startJumpSpeed = -Math.sqrt(2 * GRAVITY * this.targetJumpHeight);
+        this.startJumpSpeed = -Math.sqrt(2 * gravity * this.targetJumpHeight);
     }
 }
