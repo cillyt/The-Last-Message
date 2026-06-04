@@ -6,7 +6,6 @@
 
 package backend.triggeredZones;
 
-import backend.CameraWindow;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;

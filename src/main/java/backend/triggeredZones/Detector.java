@@ -7,7 +7,6 @@ package backend.triggeredZones;
 
 import backend.GameEntity;
 import backend.Player;
-import javafx.scene.canvas.GraphicsContext;
 import java.util.List;
 
 public class Detector extends GameEntity {

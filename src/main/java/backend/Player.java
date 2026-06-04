@@ -10,6 +10,13 @@ import backend.weapon.Pistol;
 import backend.weapon.Weapon;
 import lombok.Getter;
 
+
+import javafx.scene.SnapshotParameters;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+
 @Getter
 public class Player extends MovingGameEntity{
 
@@ -61,6 +68,19 @@ public class Player extends MovingGameEntity{
 
         weaponUnlocked[0] = true;
         currentWeapon = weapons[0];
+
+        // --- ЗАГЛУШКА ---
+        Canvas canvas = new Canvas(width, height);
+        GraphicsContext tempGc = canvas.getGraphicsContext2D();
+        tempGc.setFill(Color.web("#00FFFF"));
+        tempGc.fillRect(0, 0, width, height);
+        tempGc.setFill(Color.BLACK);
+        tempGc.setFont(new Font("Arial", 12));
+        tempGc.fillText("Player", 5, 15);
+        SnapshotParameters params = new SnapshotParameters();
+        params.setFill(Color.TRANSPARENT);
+        this.image = canvas.snapshot(params, null);
+        // ----------------
     }
 
     // Методи переходу в різні стани

@@ -6,6 +6,11 @@ import backend.Level;
 import backend.GameEntity;
 import backend.monsters.Monster;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public abstract class Bullet extends MovingGameEntity {
     protected int damage;
@@ -18,6 +23,10 @@ public abstract class Bullet extends MovingGameEntity {
         super(0, 0);
         this.isFlying = false;
         zIndex = 7;
+
+        // --- ЗАГЛУШКА ---
+
+        // ----------------
     }
 
     public void shootOut(double angle) {
