@@ -6,6 +6,7 @@ import backend.weapon.Weapon;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Getter
@@ -21,8 +22,11 @@ public class Level {
     private List<Detector> bullets; // кулі всіх видів зброї
 
     public Level (List<GameEntity> allObjects){
-        this.allObjects = allObjects;
         currentLevel = this;
+
+        this.allObjects = allObjects;
+        this.allObjects.sort(Comparator.comparingInt(GameEntity::getZIndex));
+
         initialLists();
     }
 

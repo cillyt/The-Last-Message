@@ -11,6 +11,9 @@ public class Monster extends MovingGameEntity {
 
     public Monster(int x, int y) {
         super(x, y);
+
+        isWalkable = false;
+        zIndex = 5;
     }
 
 

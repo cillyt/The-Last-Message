@@ -12,5 +12,7 @@ public class AR_Item extends Detector {
 
         width = 50;
         height = 50;
+
+        zIndex = 3;
     }
 }

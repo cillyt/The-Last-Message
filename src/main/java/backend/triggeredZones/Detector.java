@@ -29,9 +29,9 @@ public class Detector extends GameEntity {
     }
 
     public Detector(int x, int y, int width, int height,
-                    Player targetPlayer, boolean triggerOnce, Runnable onTriggerAction) {
+                    boolean triggerOnce, Runnable onTriggerAction) {
         super(x, y, width, height, true);
-        this.targetPlayer = targetPlayer;
+        this.targetPlayer = Player.getInstance();
         this.triggerOnce = triggerOnce;
         this.onTriggerAction = onTriggerAction;
         this.isTriggered = false;

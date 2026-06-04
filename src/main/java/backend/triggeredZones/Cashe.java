@@ -10,5 +10,6 @@ public class Cashe extends Detector{
 
     public Cashe(int x, int y, int width, int height) {
         super(x, y, width, height);
+        zIndex = 2;
     }
 }

@@ -11,5 +11,7 @@ public class Medkit extends Detector {
 
         width = 40;
         height = 40;
+
+        zIndex = 3;
     }
 }

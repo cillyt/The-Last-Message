@@ -17,6 +17,7 @@ public abstract class Bullet extends MovingGameEntity {
     public Bullet() {
         super(0, 0);
         this.isActive = false;
+        zIndex = 7;
     }
 
     public void shootOut(double angle) {

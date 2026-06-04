@@ -1,5 +1,5 @@
 /*
-  Набої для автомата
+  Поповнення набоїв для автомата
  */
 
 package backend.triggeredZones;
@@ -13,5 +13,7 @@ public class AR_Ammunition extends Detector {
 
         width = 40;
         height = 40;
+
+        zIndex = 3;
     }
 }

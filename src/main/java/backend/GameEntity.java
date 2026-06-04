@@ -10,6 +10,7 @@ public abstract class GameEntity {
     protected int y;
     protected int width;
     protected int height;
+    protected int zIndex;
 
     protected boolean isWalkable;
 
