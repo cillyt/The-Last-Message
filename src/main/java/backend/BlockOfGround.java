@@ -29,21 +29,4 @@ public class BlockOfGround extends GameEntity {
         params.setFill(Color.TRANSPARENT);
         cachedTexture = canvas.snapshot(params, null);
     }
-
-    @Override
-    public void render(GraphicsContext gc) {
-        CameraWindow camera = CameraWindow.getInstance();
-
-        boolean isVisible = (x + width > camera.getX()) &&
-                (x < camera.getX() + camera.getScreenWidth()) &&
-                (y + height > camera.getY()) &&
-                (y < camera.getY() + camera.getScreenHeight());
-
-        if (isVisible) {
-            int screenX = this.x - camera.getX();
-            int screenY = this.y - camera.getY();
-
-            gc.drawImage(cachedTexture, screenX, screenY);
-        }
-    }
 }

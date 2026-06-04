@@ -169,9 +169,4 @@ public abstract class MovingGameEntity extends GameEntity{
                 break;
         }
     }
-
-    public void render(GraphicsContext gc) {
-
-    }
-
 }

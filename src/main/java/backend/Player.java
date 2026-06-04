@@ -225,6 +225,4 @@ public class Player extends MovingGameEntity{
             det.executeTrigger();
         }
     }
-
-
 }

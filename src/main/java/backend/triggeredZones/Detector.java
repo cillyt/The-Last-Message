@@ -75,7 +75,4 @@ public class Detector extends GameEntity {
             }
         }
     }
-
-    public void render(GraphicsContext gc) {
-    }
 }

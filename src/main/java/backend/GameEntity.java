@@ -2,6 +2,7 @@ package backend;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import lombok.Getter;
 
 @Getter
@@ -12,6 +13,7 @@ public abstract class GameEntity {
     protected int height;
     protected int zIndex;
     protected boolean isActive = true;
+    protected Image image;
 
     protected boolean isWalkable;
 
@@ -45,9 +47,6 @@ public abstract class GameEntity {
     }
 
     public void render(GraphicsContext gc) {
-
-        if (isActive = false) return;
-
         CameraWindow camera = CameraWindow.getInstance();
 
         boolean isVisible = (x + width > camera.getX()) &&
@@ -55,12 +54,11 @@ public abstract class GameEntity {
                 (y + height > camera.getY()) &&
                 (y < camera.getY() + camera.getScreenHeight());
 
-        if (isVisible) {
+        if (isVisible && image != null) {
             int screenX = this.x - camera.getX();
             int screenY = this.y - camera.getY();
 
-            // заглушка, поки немає спрайтів
-            gc.fillRect(screenX, screenY, width, height);
+            gc.drawImage(image, screenX, screenY);
         }
     }
 
