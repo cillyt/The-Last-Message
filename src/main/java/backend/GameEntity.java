@@ -4,8 +4,10 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public abstract class GameEntity {
     protected int x;
     protected int y;

@@ -1,0 +1,208 @@
+{
+  "identifier": "Level_0",
+  "uniqueIdentifer": "fbdaed80-48b0-11f1-a911-ebb2713f54f8",
+  "x": -550,
+  "y": -207,
+  "width": 4464,
+  "height": 503,
+  "bgColor": "#696A79",
+  "neighbourLevels": [],
+  "customFields" : {},
+  "layers": [],
+  "entities": {
+    "BlockOfGround": [
+      {
+        "id": "BlockOfGround",
+        "iid": "823cdfd0-48b0-11f1-a911-bfa8c3e58b1e",
+        "layer": "Entities",
+        "x": 0,
+        "y": 434,
+        "width": 4461,
+        "height": 69,
+        "color": 4073265,
+        "customFields": {
+          "IsWalkable": false
+        }
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "a6c3a770-48b0-11f1-a911-bf664ced62bf",
+        "layer": "Entities",
+        "x": 939,
+        "y": 5,
+        "width": 16,
+        "height": 492,
+        "color": 4073265,
+        "customFields": {
+          "IsWalkable": false
+        }
+      }
+    ],
+    "Player": [
+      {
+        "id": "Player",
+        "iid": "9fd1a8a0-48b0-11f1-a911-0f96f6b3b45e",
+        "layer": "Entities",
+        "x": 192,
+        "y": 283,
+        "width": 50,
+        "height": 170,
+        "color": 16777215,
+        "customFields": {
+          "currentHp": 100
+        }
+      }
+    ],
+    "AR_Item": [
+      {
+        "id": "AR_Item",
+        "iid": "62d11040-48b0-11f1-a911-157214ceb13a",
+        "layer": "Entities",
+        "x": 361,
+        "y": 411,
+        "width": 50,
+        "height": 50,
+        "color": 2501444,
+        "customFields" : {}
+      }
+    ],
+    "AR_Ammunition": [
+      {
+        "id": "AR_Ammunition",
+        "iid": "762fdd60-48b0-11f1-a911-b3a8a5dab589",
+        "layer": "Entities",
+        "x": 28,
+        "y": 410,
+        "width": 40,
+        "height": 40,
+        "color": 16705377,
+        "customFields": {
+          "Picked": false
+        }
+      },
+      {
+        "id": "AR_Ammunition",
+        "iid": "c0974cc0-48b0-11f1-a911-aba5f59f4aff",
+        "layer": "Entities",
+        "x": 2167,
+        "y": 412,
+        "width": 40,
+        "height": 40,
+        "color": 16705377,
+        "customFields": {
+          "Picked": false
+        }
+      }
+    ],
+    "Medkit": [
+      {
+        "id": "Medkit",
+        "iid": "7e4a2500-48b0-11f1-a911-0b358e5b4df1",
+        "layer": "Entities",
+        "x": 594,
+        "y": 310,
+        "width": 40,
+        "height": 40,
+        "color": 14957380,
+        "customFields": {
+          "Picked": false
+        }
+      }
+    ],
+    "SimpleMonster": [
+      {
+        "id": "SimpleMonster",
+        "iid": "78a6db60-48b0-11f1-a911-f100c5764681",
+        "layer": "Entities",
+        "x": 1623,
+        "y": 320,
+        "width": 50,
+        "height": 150,
+        "color": 10078003,
+        "customFields": {
+          "hp": 50
+        }
+      },
+      {
+        "id": "SimpleMonster",
+        "iid": "792b4da0-48b0-11f1-a911-071ff4313760",
+        "layer": "Entities",
+        "x": 2913,
+        "y": 314,
+        "width": 50,
+        "height": 150,
+        "color": 10078003,
+        "customFields": {
+          "hp": 50
+        }
+      }
+    ],
+    "Monster": [
+      {
+        "id": "Monster",
+        "iid": "7c2f3ed0-48b0-11f1-a911-ed74a4064f1e",
+        "layer": "Entities",
+        "x": 4228,
+        "y": 298,
+        "width": 50,
+        "height": 160,
+        "color": 2080038,
+        "customFields": {
+          "hp": 100
+        }
+      }
+    ],
+    "Trap2": [
+      {
+        "id": "Trap2",
+        "iid": "c6c4df90-48b0-11f1-a911-0b8b43a70bfe",
+        "layer": "Entities",
+        "x": 2437,
+        "y": 251,
+        "width": 30,
+        "height": 200,
+        "color": 16217634,
+        "customFields" : {}
+      }
+    ],
+    "Trap1": [
+      {
+        "id": "Trap1",
+        "iid": "095f0b50-48b0-11f1-a911-f1050a3e6562",
+        "layer": "Entities",
+        "x": 3787,
+        "y": 436,
+        "width": 100,
+        "height": 10,
+        "color": 2096896,
+        "customFields" : {}
+      }
+    ],
+    "Supplies": [
+      {
+        "id": "Supplies",
+        "iid": "fa189350-48b0-11f1-a911-e5c1a0b85cd5",
+        "layer": "Entities",
+        "x": 3406,
+        "y": 398,
+        "width": 50,
+        "height": 50,
+        "color": 15389866,
+        "customFields" : {}
+      }
+    ],
+    "Cashe": [
+      {
+        "id": "Cashe",
+        "iid": "14ac2a10-48b0-11f1-a911-f542a79f0349",
+        "layer": "Entities",
+        "x": 3334,
+        "y": 257,
+        "width": 200,
+        "height": 200,
+        "color": 12635100,
+        "customFields" : {}
+      }
+    ]
+  }
+}

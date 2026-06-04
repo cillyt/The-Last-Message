@@ -16,6 +16,9 @@ public class Trap2 extends Detector {
         super(x, y);
         zIndex = 6;
 
+        width = 30;
+        height = 200;
+
         // --- ЗАГЛУШКА ---
         Canvas canvas = new Canvas(width, height);
         GraphicsContext tempGc = canvas.getGraphicsContext2D();

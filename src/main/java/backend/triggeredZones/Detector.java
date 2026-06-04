@@ -7,8 +7,11 @@ package backend.triggeredZones;
 
 import backend.GameEntity;
 import backend.Player;
+import lombok.Getter;
+
 import java.util.List;
 
+@Getter
 public class Detector extends GameEntity {
 
     protected Player targetPlayer;
