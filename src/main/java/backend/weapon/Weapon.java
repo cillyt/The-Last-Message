@@ -27,7 +27,7 @@ public abstract class Weapon {
             double angle = Player.getInstance().isFacingRight() ? 0 : Math.PI;
 
             for (int i = 0; i < bullets.length; i++) {
-                if (!bullets[i].isActive) {
+                if (!bullets[i].isFlying) {
                     bullets[i].shootOut(angle);
                     currentFireTime = 0;
                     if (!(this instanceof Pistol)) {

@@ -9,14 +9,14 @@ import javafx.scene.canvas.GraphicsContext;
 
 public abstract class Bullet extends MovingGameEntity {
     protected int damage;
-    protected boolean isActive;
+    protected boolean isFlying;
 
     protected int baseWidth;
     protected int baseHeight;
 
     public Bullet() {
         super(0, 0);
-        this.isActive = false;
+        this.isFlying = false;
         zIndex = 7;
     }
 
@@ -25,7 +25,7 @@ public abstract class Bullet extends MovingGameEntity {
         this.x = player.getX() + (player.getWidth() / 2);
         this.y = player.getY() + (player.getHeight() / 2);
 
-        this.isActive = true;
+        this.isFlying = true;
 
         this.currentVelocityX = speedX * Math.cos(angle);
         this.currentVelocityY = speedX * Math.sin(angle);
@@ -35,7 +35,7 @@ public abstract class Bullet extends MovingGameEntity {
     }
 
     public void deactivate() {
-        this.isActive = false;
+        this.isFlying = false;
         this.currentVelocityX = 0;
         this.currentVelocityY = 0;
         this.x = -1000;
@@ -44,7 +44,7 @@ public abstract class Bullet extends MovingGameEntity {
 
     @Override
     public void update(double deltaTime) {
-        if (!isActive) return;
+        if (!isFlying) return;
 
         subPixelX += currentVelocityX * deltaTime;
         subPixelY += currentVelocityY * deltaTime;
@@ -75,7 +75,7 @@ public abstract class Bullet extends MovingGameEntity {
 
     @Override
     public void render(GraphicsContext gc) {
-        if (!isActive) return;
+        if (!isFlying) return;
         super.render(gc);
     }
 }
