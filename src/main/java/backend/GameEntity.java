@@ -60,9 +60,12 @@ public abstract class GameEntity {
             int screenX = this.x - camera.getX();
             int screenY = this.y - camera.getY();
 
-            gc.drawImage(image, screenX, screenY);
+            gc.drawImage(image, screenX, screenY, width, height);
         }
     }
 
-
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
 }

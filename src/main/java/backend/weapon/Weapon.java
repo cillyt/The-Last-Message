@@ -51,5 +51,8 @@ public abstract class Weapon {
 
     }
 
-
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
 }
