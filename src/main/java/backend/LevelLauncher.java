@@ -61,7 +61,6 @@ public class LevelLauncher extends Application {
             }
 
             private void update(double deltaTime) {
-                Player.getInstance().update(deltaTime);
 
                 for (GameEntity entity : Level.getCurrentLevel().getAllObjects()) {
                     if (entity instanceof MovingGameEntity) {

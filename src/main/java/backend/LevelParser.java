@@ -19,6 +19,7 @@ public class LevelParser {
         JSONObject entities = root.getJSONObject("entities");
 
         List<GameEntity> allObjects = new ArrayList<>();
+        allObjects.add(Player.getInstance());
 
         for (String entityType : entities.keySet()) {
             if (entityType.equals("Supplies")) continue;

@@ -31,16 +31,19 @@ public abstract class Bullet extends MovingGameEntity {
 
     public void shootOut(double angle) {
         Player player = Player.getInstance();
-        this.x = player.getX() + (player.getWidth() / 2);
-        this.y = player.getY() + (player.getHeight() / 2);
+        if (player.isFacingRight()) {
+            x = player.getX() + player.getWidth() + 1;
+        }
+        else x = player.getX() - width - 1;
+        y = player.getY() + 40;
 
-        this.isFlying = true;
+        this.width = (int) (Math.abs(baseWidth * Math.cos(angle)) + Math.abs(baseHeight * Math.sin(angle)));
+        this.height = (int) (Math.abs(baseWidth * Math.sin(angle)) + Math.abs(baseHeight * Math.cos(angle)));
 
         this.currentVelocityX = speedX * Math.cos(angle);
         this.currentVelocityY = speedX * Math.sin(angle);
 
-        this.width = (int) (Math.abs(baseWidth * Math.cos(angle)) + Math.abs(baseHeight * Math.sin(angle)));
-        this.height = (int) (Math.abs(baseWidth * Math.sin(angle)) + Math.abs(baseHeight * Math.cos(angle)));
+        this.isFlying = true;
     }
 
     public void deactivate() {
