@@ -1,6 +1,5 @@
 package backend;
 
-import javafx.scene.canvas.GraphicsContext;
 import lombok.Getter;
 
 import java.util.List;
@@ -47,11 +46,6 @@ public abstract class MovingGameEntity extends GameEntity{
     public MovingGameEntity(){
         super();
     }
-
-    // Викликати раз при створенні рівня
-
-
-
     // Методи руху
 
     public void moveHorizontally(double deltaTime) {

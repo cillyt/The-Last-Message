@@ -53,7 +53,7 @@ public class Player extends MovingGameEntity{
         isWalkable = false;
         zIndex = 4;
 
-        speedX = 200;
+        speedX = 300;
         this.targetJumpHeight = 120;
         this.startJumpSpeed = -Math.sqrt(2 * gravity * this.targetJumpHeight);
 

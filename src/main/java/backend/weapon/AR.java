@@ -4,6 +4,8 @@ public class AR extends Weapon{
 
     public AR () {
         cooldown = 0.1;
+        currentFireTime = 0.1;
+
         ammunitionNumber = 15;
         isShooting = false;
 

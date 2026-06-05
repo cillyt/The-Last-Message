@@ -24,10 +24,13 @@ public class Detector extends GameEntity {
     public Detector (int x, int y){
         super(x, y);
         isWalkable = true;
+        targetPlayer = Player.getInstance();
     }
 
     public Detector (int x, int y, int width, int height){
         super(x, y, width, height, true);
+        isWalkable = true;
+        targetPlayer = Player.getInstance();
     }
 
     public Detector(int x, int y, int width, int height,
