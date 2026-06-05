@@ -11,6 +11,7 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.geometry.Rectangle2D;
 import java.io.File;
+import java.util.List;
 
 public class LevelLauncher extends Application {
 
@@ -70,11 +71,9 @@ public class LevelLauncher extends Application {
                     }
                 }
 
-                Level.getCurrentLevel().getAllObjects().removeIf(obj -> !obj.isActive());
-                Level.getCurrentLevel().getPlayerDetectors().removeIf(obj -> !obj.isActive());
-                Level.getCurrentLevel().getIndependDetectors().removeIf(obj -> !obj.isActive());
-                Level.getCurrentLevel().getBullets().removeIf(obj -> !obj.isActive());
-                Level.getCurrentLevel().getBlokingObjects().removeIf(obj -> !obj.isActive());
+                for (List<GameEntity> list : Level.getCurrentLevel().getLists()){
+                    list.removeIf(obj -> !obj.isActive());
+                }
             }
 
             private void render(GraphicsContext gc, int w, int h) {

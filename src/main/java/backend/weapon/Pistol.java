@@ -3,7 +3,7 @@ package backend.weapon;
 public class Pistol extends Weapon{
 
     public Pistol () {
-        cooldown = 1;
+        cooldown = 0.7;
         currentFireTime = 1;
 
         ammunitionNumber = 999;

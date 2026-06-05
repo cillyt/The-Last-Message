@@ -22,10 +22,15 @@ public class Level {
     private List<GameEntity> independDetectors; // детектори, які самі себе перевіряють
     private List<GameEntity> bullets; // кулі всіх видів зброї
 
+    private List<List> lists; // всі списки
+
     public Level (List<GameEntity> allObjects){
         currentLevel = this;
 
         this.allObjects = allObjects;
+        lists = new ArrayList<>();
+        lists.add(allObjects);
+
         this.allObjects.sort(Comparator.comparingInt(GameEntity::getZIndex));
 
         initialLists();
@@ -35,6 +40,7 @@ public class Level {
         blokingObjects = allObjects.stream()
                 .filter(obj -> !obj.isWalkable())
                 .collect(Collectors.toList());
+        lists.add(blokingObjects);
 
         playerDetectors = allObjects.stream()
                 .filter(obj -> {
@@ -45,6 +51,7 @@ public class Level {
                     return false;
                 })
                 .collect(Collectors.toList());
+        lists.add(playerDetectors);
 
         independDetectors = allObjects.stream()
                 .filter(obj -> {
@@ -55,9 +62,9 @@ public class Level {
                     return false;
                 })
                 .collect(Collectors.toList());
+        lists.add(independDetectors);
 
         bullets = new ArrayList<>();
-
         for (Weapon weapon : Player.getInstance().getWeapons()) {
             if (weapon != null) {
                 for (Bullet bullet : weapon.getBullets()) {
@@ -66,6 +73,7 @@ public class Level {
                 }
             }
         }
+        lists.add(bullets);
     }
 
 }
