@@ -1,7 +1,5 @@
 package backend;
 
-import javafx.scene.SnapshotParameters;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -11,19 +9,27 @@ public class BlockOfGround extends GameEntity {
         super(x, y, width, height, false);
         isWalkable = false;
         this.zIndex = 1;
+    }
 
-        Canvas canvas = new Canvas(width, height);
-        GraphicsContext tempGc = canvas.getGraphicsContext2D();
+    @Override
+    public void render(GraphicsContext gc) {
+        CameraWindow camera = CameraWindow.getInstance();
 
-        tempGc.setFill(Color.web("#6b7785"));
-        tempGc.fillRect(0, 0, width, height);
+        boolean isVisible = (x + width > camera.getX()) &&
+                (x < camera.getX() + camera.getScreenWidth()) &&
+                (y + height > camera.getY()) &&
+                (y < camera.getY() + camera.getScreenHeight());
 
-        tempGc.setStroke(Color.web("#2a2e33"));
-        tempGc.setLineWidth(4);
-        tempGc.strokeRect(2, 2, width - 4, height - 4);
+        if (isVisible) {
+            int screenX = this.x - camera.getX();
+            int screenY = this.y - camera.getY();
 
-        SnapshotParameters params = new SnapshotParameters();
-        params.setFill(Color.TRANSPARENT);
-        image = canvas.snapshot(params, null);
+            gc.setFill(Color.web("#6b7785"));
+            gc.fillRect(screenX, screenY, width, height);
+
+            gc.setStroke(Color.web("#2a2e33"));
+            gc.setLineWidth(4);
+            gc.strokeRect(screenX + 2, screenY + 2, width - 4, height - 4);
+        }
     }
 }

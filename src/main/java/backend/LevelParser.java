@@ -22,7 +22,7 @@ public class LevelParser {
         allObjects.add(Player.getInstance());
 
         for (String entityType : entities.keySet()) {
-            if (entityType.equals("Supplies")) continue;
+            if (entityType.equals("Doors")) continue;
 
             JSONArray items = entities.getJSONArray(entityType);
 
@@ -55,12 +55,19 @@ public class LevelParser {
                         allObjects.add(new Medkit(x, y));
                         break;
                     case "AR_Ammunition":
-                        allObjects.add(new AR_Ammunition(x, y, 30));
+                        int ammo = 10;
+                        if (obj.has("customFields")) {
+                            JSONObject custom = obj.getJSONObject("customFields");
+                            if (custom.has("AmmunitionNumber")) {
+                                ammo = custom.getInt("AmmunitionNumber");
+                            }
+                        }
+                        allObjects.add(new AR_Ammunition(x, y, ammo));
                         break;
                     case "SimpleMonster":
                         allObjects.add(new SimpleMonster(x, y));
                         break;
-                    case "Monster":
+                    case "BigMonster":
                         allObjects.add(new BigMonster(x, y));
                         break;
                     case "Trap1":
