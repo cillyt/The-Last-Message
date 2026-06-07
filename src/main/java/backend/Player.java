@@ -41,6 +41,9 @@ public class Player extends MovingGameEntity{
     private boolean[] weaponUnlocked;
     private Weapon currentWeapon;
 
+    private double currentTime;
+    private double soundPeriod = 5.0; // час між записами звуків при ходьбі
+
 
     public Player(int x, int y) {
         super(x, y);
@@ -240,10 +243,17 @@ public class Player extends MovingGameEntity{
         currentWeapon.update(deltaTime);
 
         GameEntity detector = collision(x, y, width, height, Level.getCurrentLevel().getPlayerDetectors());
-
         if (detector != null){
             Detector det = (Detector) detector;
             det.executeTrigger();
+        }
+
+        if(currentState == State.GO){
+            currentTime += deltaTime;
+            if(currentTime >= soundPeriod){
+                currentTime -= soundPeriod;
+                if(!isCrouching) Level.getCurrentLevel().getSoundPrints().add(new SoundPrint(x, y, 0.4));
+            }
         }
     }
 

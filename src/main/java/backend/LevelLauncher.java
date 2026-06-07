@@ -59,6 +59,7 @@ public class LevelLauncher extends Application {
 
                 update(deltaTime);
                 render(gc, width, height);
+                Level.getCurrentLevel().update(deltaTime);
             }
 
             private void update(double deltaTime) {

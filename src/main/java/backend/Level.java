@@ -21,6 +21,7 @@ public class Level {
     private List<GameEntity> playerDetectors; // детектори, які перевіряє гравець
     private List<GameEntity> independDetectors; // детектори, які самі себе перевіряють
     private List<GameEntity> bullets; // кулі всіх видів зброї
+    private List<SoundPrint> soundPrints = new ArrayList<>();
 
     private List<List> lists; // всі списки
 
@@ -74,6 +75,14 @@ public class Level {
             }
         }
         lists.add(bullets);
+    }
+
+    public void update(double deltaTime) {
+        if (soundPrints.isEmpty()) return;
+        for(SoundPrint sound : soundPrints){
+            sound.intensity -= 0.1 * deltaTime;
+        }
+        soundPrints.removeIf(sound -> sound.intensity <= 0);
     }
 
 }

@@ -39,6 +39,8 @@ public abstract class Monster extends MovingGameEntity {
     protected int lastSeenPlayerX;
     protected int lastSeenPlayerY;
 
+    protected int hearingPower = 1000; // дистанція, на яку монстр чує звук з intencity = 1.0
+
     protected int damage;
     protected int cooldown;
 

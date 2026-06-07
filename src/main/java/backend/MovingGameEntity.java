@@ -31,9 +31,6 @@ public abstract class MovingGameEntity extends GameEntity{
     protected double subPixelX;
     protected double subPixelY;
 
-    protected double currentTimeX;
-    protected double timePeriod;
-
     /*
      В нащадках зробити:
      this.targetJumpHeight = кінцева висота
@@ -147,11 +144,6 @@ public abstract class MovingGameEntity extends GameEntity{
         switch (currentState) {
             case GO:
                 moveHorizontally(deltaTime);
-
-                currentTimeX += deltaTime;
-                if (currentTimeX >= timePeriod) {
-                    currentTimeX -= timePeriod;
-                }
                 break;
 
             case IN_AIR:
