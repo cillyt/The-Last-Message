@@ -48,6 +48,12 @@ public abstract class GameEntity {
         return new Rectangle2D(x, y, width, height);
     }
 
+    public double calcDistance(int targetX, int targetY) {
+        int a = x - targetX;
+        int b = y - targetY;
+        return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+    }
+
     public void render(GraphicsContext gc) {
         CameraWindow camera = CameraWindow.getInstance();
 

@@ -12,6 +12,6 @@ public class Pistol extends Weapon{
             bullets[i] = new PistolBullet();
         }
 
-        noiseLevel = 0.7;
+        noiseLevel = 1;
     }
 }

@@ -133,6 +133,13 @@ public abstract class MovingGameEntity extends GameEntity{
         return null;
     }
 
+    public boolean collision(int qX, int qY, int qW, int qH,GameEntity obj) {
+        return qX < obj.getX() + obj.getWidth() &&
+                qX + qW > obj.getX() &&
+                qY < obj.getY() + obj.getHeight() &&
+                qY + qH > obj.getY();
+    }
+
     public void update(double deltaTime) {
 
         moveVertically(deltaTime);

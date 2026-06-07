@@ -21,15 +21,15 @@ public class Level {
     private List<GameEntity> playerDetectors; // детектори, які перевіряє гравець
     private List<GameEntity> independDetectors; // детектори, які самі себе перевіряють
     private List<GameEntity> bullets; // кулі всіх видів зброї
+    private List<BlockOfGround> blocksOfGround;
     private List<SoundPrint> soundPrints = new ArrayList<>();
 
-    private List<List> lists; // всі списки
+    List<List<? extends GameEntity>> lists = new ArrayList<>(); // список списків
 
     public Level (List<GameEntity> allObjects){
         currentLevel = this;
 
         this.allObjects = allObjects;
-        lists = new ArrayList<>();
         lists.add(allObjects);
 
         this.allObjects.sort(Comparator.comparingInt(GameEntity::getZIndex));
@@ -42,6 +42,12 @@ public class Level {
                 .filter(obj -> !obj.isWalkable())
                 .collect(Collectors.toList());
         lists.add(blokingObjects);
+
+        List<BlockOfGround> blocksOfGround = blokingObjects.stream()
+                .filter(obj -> obj instanceof BlockOfGround)
+                .map(obj -> (BlockOfGround) obj)
+                .collect(Collectors.toList());
+        lists.add(blocksOfGround);
 
         playerDetectors = allObjects.stream()
                 .filter(obj -> {

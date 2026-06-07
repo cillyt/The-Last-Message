@@ -232,6 +232,10 @@ public class Player extends MovingGameEntity{
         if (currentHp > maxHp) currentHp = maxHp;
     }
 
+    public void takeDamage(int damage){
+        currentHp -= damage;
+    }
+
     public void unlockWeapon(int i) {
         weaponUnlocked[i] = true;
     }
@@ -252,7 +256,7 @@ public class Player extends MovingGameEntity{
             currentTime += deltaTime;
             if(currentTime >= soundPeriod){
                 currentTime -= soundPeriod;
-                if(!isCrouching) Level.getCurrentLevel().getSoundPrints().add(new SoundPrint(x, y, 0.4));
+                if(!isCrouching) Level.getCurrentLevel().getSoundPrints().add(new SoundPrint(x, y, 0.3));
             }
         }
     }

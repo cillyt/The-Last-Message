@@ -15,6 +15,6 @@ public class AR extends Weapon{
             bullets[i] = new AR_Bullet();
         }
 
-        noiseLevel = 0.9;
+        noiseLevel = 1.5;
     }
 }
