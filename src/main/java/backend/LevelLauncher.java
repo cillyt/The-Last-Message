@@ -33,6 +33,7 @@ public class LevelLauncher extends Application {
 
         new Player(0, 0);
         new CameraWindow(width, height);
+        new LightingManager();
 
         Controller controller = new Controller(Player.getInstance());
         scene.setOnKeyPressed(controller::handleKeyPressed);
@@ -87,7 +88,7 @@ public class LevelLauncher extends Application {
                     entity.render(gc);
                 }
 
-                Player.getInstance().render(gc);
+                LightingManager.getInstance().renderLighting(gc);
             }
         };
 

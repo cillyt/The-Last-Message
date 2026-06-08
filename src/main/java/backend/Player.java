@@ -44,6 +44,8 @@ public class Player extends MovingGameEntity{
     private double currentTime;
     private double soundPeriod = 5.0; // час між записами звуків при ходьбі
 
+    private int eyeH = 15;
+
 
     public Player(int x, int y) {
         super(x, y);

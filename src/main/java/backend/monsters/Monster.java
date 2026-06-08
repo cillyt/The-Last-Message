@@ -55,7 +55,7 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
 
     protected int hearingPower = 1000; // дистанція, на яку монстр чує звук з intencity = 1.0
 
-    protected int damage;
+    protected int damage = 10;
 
     // зона ураження
     protected int attackWidth = 75;

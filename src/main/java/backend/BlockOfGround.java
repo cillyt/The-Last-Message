@@ -20,6 +20,8 @@ public class BlockOfGround extends GameEntity {
                 (y + height > camera.getY()) &&
                 (y < camera.getY() + camera.getScreenHeight());
 
+        this.inCamera = isVisible;
+
         if (isVisible) {
             int screenX = this.x - camera.getX();
             int screenY = this.y - camera.getY();

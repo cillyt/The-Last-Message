@@ -127,19 +127,6 @@
         "customFields": {
           "IsWalkable": false
         }
-      },
-      {
-        "id": "BlockOfGround",
-        "iid": "e3284370-48b0-11f1-a911-3d525d4aa764",
-        "layer": "Entities",
-        "x": 259,
-        "y": 264,
-        "width": 16,
-        "height": 171,
-        "color": 4073265,
-        "customFields": {
-          "IsWalkable": false
-        }
       }
     ],
     "Player": [
@@ -372,7 +359,7 @@
         "iid": "8ceb15a0-48b0-11f1-a911-eb7b6a3dce20",
         "layer": "Entities",
         "x": 1591,
-        "y": 284,
+        "y": 300,
         "width": 50,
         "height": 150,
         "color": 10078003,

@@ -4,8 +4,6 @@
 
 package backend.monsters;
 
-import backend.MovingGameEntity;
-
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -19,6 +17,13 @@ public class BigMonster extends Monster {
 
         height = 200;
         width = 150;
+
+        speedX = 350;
+
+        currentHP = 250;
+
+        targetJumpHeight = 120;
+        initialJumpParams();
 
         this.targetJumpHeight = 120;
         this.startJumpSpeed = -Math.sqrt(2 * gravity * this.targetJumpHeight);

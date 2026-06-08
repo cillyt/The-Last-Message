@@ -14,6 +14,7 @@ public abstract class GameEntity {
     protected int width;
     protected int height;
     protected int zIndex;
+    protected boolean inCamera;
     protected boolean isActive = true;
     protected Image image;
 
@@ -55,12 +56,16 @@ public abstract class GameEntity {
     }
 
     public void render(GraphicsContext gc) {
+        if(!isActive) return;
+
         CameraWindow camera = CameraWindow.getInstance();
 
         boolean isVisible = (x + width > camera.getX()) &&
                 (x < camera.getX() + camera.getScreenWidth()) &&
                 (y + height > camera.getY()) &&
                 (y < camera.getY() + camera.getScreenHeight());
+
+        inCamera = isVisible;
 
         if (isVisible && image != null) {
             int screenX = this.x - camera.getX();

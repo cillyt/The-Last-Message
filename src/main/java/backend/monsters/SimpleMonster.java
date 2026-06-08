@@ -12,7 +12,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class SimpleMonster extends MovingGameEntity {
+public class SimpleMonster extends Monster {
 
     public SimpleMonster(int x, int y) {
         super(x, y);
@@ -20,8 +20,14 @@ public class SimpleMonster extends MovingGameEntity {
         height = 150;
         width = 50;
 
+        speedX = 200;
+
+        maxHp = 10;
+        currentHP = maxHp;
+
+
         this.targetJumpHeight = 120;
-        this.startJumpSpeed = -Math.sqrt(2 * gravity * this.targetJumpHeight);
+        initialJumpParams();
 
         // --- ЗАГЛУШКА ---
         Canvas canvas = new Canvas(width, height);
