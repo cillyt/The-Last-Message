@@ -20,6 +20,14 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         COMEBACK, // повертається до патрулювання
         DYING // помирає
     }
+
+    // Стан шляху попереду
+    protected enum PathCondition {
+        CLEAR,       // шлях чистий
+        PASSABLE,    // є перешкода/яма, але можна перестрибнути
+        IMPASSABLE   // нездоланна перешкода або заширока яма
+    }
+
     protected BehavioralState behState = BehavioralState.PATROL;
 
     protected int patrolRadius; // радіус патрулювання навколо точки спавну
@@ -44,7 +52,6 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
 
     // Останні побачені координати гравця
     protected int lastSeenPlayerX;
-    protected int lastSeenPlayerY;
 
     protected int hearingPower = 1000; // дистанція, на яку монстр чує звук з intencity = 1.0
 
@@ -60,6 +67,18 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
 
     protected int maxHp = 100;
     protected int currentHP;
+
+    public Monster(int x, int y) {
+        super(x, y);
+
+        isWalkable = false;
+        zIndex = 5;
+
+        patrolRadius = 500;
+        leftPatrolPoint = x - patrolRadius;
+        rightPatrolPoint = x + patrolRadius;
+
+    }
 
     public Monster(int x, int y, int patrolRadius) {
         super(x, y);
@@ -154,6 +173,86 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         currentState = State.GO;
     }
 
+    protected PathCondition checkObstacle() {
+        int colWidth = maxJumpDistance / 2;
+        int colX = facingRight ? x + width : x - colWidth;
+
+        // 1. Перевіряємо, чи є перешкода
+        boolean hasObstacle = collision(colX, y-1, colWidth, height, Level.getCurrentLevel().getBlocksOfGround()) != null;
+
+        if (!hasObstacle) return PathCondition.CLEAR;
+
+        // 2. Перешкода є. Перевіряємо, чи вистачить висоти стрибка, щоб її подолати.
+        int apexY = (y + height) - targetJumpHeight;
+
+        // перевіряємо коридор над перешкодою
+        boolean canJumpOver = collision(colX, apexY, colWidth, height, Level.getCurrentLevel().getBlocksOfGround()) == null;
+
+        return canJumpOver ? PathCondition.PASSABLE : PathCondition.IMPASSABLE;
+    }
+
+    protected PathCondition checkHole() {
+        // 1. Перевіряємл землю під ногами
+        int checkX = facingRight ? x + width + 10 : x - 10;
+        int checkY = y + height + 5;
+
+        boolean hasGround = collision(checkX, checkY, 5, 5, Level.getCurrentLevel().getBlocksOfGround()) != null;
+
+        if (hasGround) return PathCondition.CLEAR;
+
+        // 2. Яма є. Перевіряємо землю на іншій стороні
+        if (jumpOverHoles) {
+            int landingX = facingRight ? x + maxJumpDistance : x - maxJumpDistance;
+            boolean hasLanding = collision(landingX, checkY, 5, 5, Level.getCurrentLevel().getBlocksOfGround()) != null;
+
+            if (hasLanding) return PathCondition.PASSABLE;
+        }
+
+        // 3. Яма заширока
+        return PathCondition.IMPASSABLE;
+    }
+
+    // Загальний метод оцінки шляху перед рухом
+    protected void checkPathAndMove() {
+        PathCondition obstacle = checkObstacle();
+        PathCondition hole = checkHole();
+
+        if (obstacle == PathCondition.IMPASSABLE || hole == PathCondition.IMPASSABLE) {
+            handleImpassable();
+        } else if (obstacle == PathCondition.PASSABLE || hole == PathCondition.PASSABLE) {
+            // стрибаємо
+            if(onGround) {
+                currentVelocityY = startJumpSpeed;
+                currentState = State.IN_AIR;
+                onGround = false;
+            }
+        }
+    }
+
+    // Реакція на глухий кут
+    private void handleImpassable() {
+        currentVelocityX = 0;
+        currentState = State.STAND;
+
+        switch (behState) {
+            case PATROL:
+                // перезаписуємо межу патрулювання, щоб не битися в стіну знову
+                if (facingRight) rightPatrolPoint = this.x;
+                else leftPatrolPoint = this.x;
+                toScane();
+                break;
+            case INVESTIGATE:
+                toScane();
+                break;
+            case COMEBACK:
+                // якщо шлях відрізано - новий дім
+                this.rightPatrolPoint = this.x + patrolRadius;
+                this.leftPatrolPoint = this.x - patrolRadius;
+                toPatrol();
+                break;
+        }
+    }
+
     protected boolean checkAttack(){
         int attackX = facingRight ? x + width : x - attackWidth;
 
@@ -167,9 +266,11 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
                 x - width/2 < player.getX() && player.getX() < x + width + frontVisionDistance :
                 x - frontVisionDistance < player.getX() && player.getX() < x + width/2;
 
+        if (y - 500 >= player.getY() || player.getY() >= y + 200) return false;
+
         if (checkPlayerX){
 
-            // перевірка стін (для низа і верха гравця
+            // перевірка стін (для низа і верха гравця)
             int eyeY = y + eyeH;
             int eyeX = facingRight ? x + width : x;
 
@@ -182,7 +283,6 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
 
             if(seenTop || seenBottom) {
                 lastSeenPlayerX = player.getX();
-                lastSeenPlayerY = player.getY();
 
                 return true;
             }
@@ -208,8 +308,10 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
             if(soundPower > loudestSoundPower) loudestSound = sound;
         }
 
+        if (y - 500 >= loudestSound.y || loudestSound.y >= y + 200) return false;
+
+
         lastSeenPlayerX = loudestSound.x;
-        lastSeenPlayerY = loudestSound.y;
         return true;
     }
 
@@ -224,77 +326,89 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
 
         switch (behState) {
             case PATROL:
-                if(seePlayer()) {
+                if (seePlayer()) {
                     toEspy();
                     break;
-                }
-                else if(hearPlayer()){
+                } else if (hearPlayer()) {
                     toInvestigate();
                     break;
                 }
-                if(leftPatrolPoint > x || x > rightPatrolPoint) toScane();
+
+                checkPathAndMove();
+
+                if (leftPatrolPoint > x || x > rightPatrolPoint) toScane();
                 break;
             case SCANE:
+                double prevTime = currentTime;
                 currentTime += deltaTime;
-                if(seePlayer()) {
+
+                if (seePlayer()) {
                     toEspy();
                     break;
                 }
-                // другий поворот
                 if (currentTime >= 2 * scaneTime) {
                     facingRight = !facingRight;
                     toPatrol();
                 }
-                // перший поворот
-                if (currentTime >= scaneTime) facingRight = !facingRight;
+                else if (currentTime >= scaneTime && prevTime < scaneTime) {
+                    facingRight = !facingRight;
+                }
                 break;
             case ESPY:
                 currentTime += deltaTime;
-                if (currentTime >= delayBefAgro){
+                if (currentTime >= delayBefAgro) {
                     toChase();
                 }
                 break;
             case CHASE:
-                // оновлення координат гравця раз на 0.5 с
                 currentTime += deltaTime;
-                if(currentTime >= 0.5){
+                if (currentTime >= 0.5) {
                     currentTime = 0;
                     seePlayer();
                     moveToPoint(lastSeenPlayerX);
                 }
-                // коли дійшов до останніх координат, які побачив
+
+                checkPathAndMove();
+
                 double step = Math.abs(currentVelocityX) * deltaTime;
-                if(x - step <= lastSeenPlayerX && lastSeenPlayerX <= x + step){
+                if (x - step <= lastSeenPlayerX && lastSeenPlayerX <= x + step) {
                     if (seePlayer()) toChase();
                     else if (hearPlayer()) toInvestigate();
                     else toLose();
                 }
-                // атака
-                if(checkAttack()) toAttack();
+                if (checkAttack()) toAttack();
+                break;
+            case INVESTIGATE:
+                checkPathAndMove();
+
+                double invStep = Math.abs(currentVelocityX) * deltaTime;
+                if (x - invStep <= lastSeenPlayerX && lastSeenPlayerX <= x + invStep) {
+                    toScane();
+                }
                 break;
             case LOSE:
                 currentTime += deltaTime;
                 if (currentTime > loseTime) toComeback();
-
                 if (hearPlayer()) toInvestigate();
                 if (seePlayer()) toChase();
-
                 break;
             case COMEBACK:
+                checkPathAndMove();
+
                 if (hearPlayer()) toInvestigate();
                 if (seePlayer()) toChase();
                 break;
             case ATTACK:
                 currentTime += deltaTime;
-                if(currentTime >= cooldown) {
+                if (currentTime >= cooldown) {
                     currentTime = 0;
                     Player.getInstance().takeDamage(damage);
                 }
-                if(!checkAttack()) toChase();
+                if (!checkAttack()) toChase();
                 break;
             case DYING:
                 currentTime += deltaTime;
-                if(currentTime >= dyingTime) {
+                if (currentTime >= dyingTime) {
                     isActive = false;
                 }
                 break;

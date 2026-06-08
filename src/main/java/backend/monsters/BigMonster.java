@@ -12,7 +12,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class BigMonster extends MovingGameEntity {
+public class BigMonster extends Monster {
 
     public BigMonster(int x, int y) {
         super(x, y);

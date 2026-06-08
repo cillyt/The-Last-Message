@@ -43,7 +43,7 @@ public class Level {
                 .collect(Collectors.toList());
         lists.add(blokingObjects);
 
-        List<BlockOfGround> blocksOfGround = blokingObjects.stream()
+        blocksOfGround = blokingObjects.stream()
                 .filter(obj -> obj instanceof BlockOfGround)
                 .map(obj -> (BlockOfGround) obj)
                 .collect(Collectors.toList());

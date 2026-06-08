@@ -23,6 +23,7 @@ public abstract class MovingGameEntity extends GameEntity{
     protected double currentVelocityX;
 
     protected int targetJumpHeight;
+    protected int maxJumpDistance; // максимальна дальність стрибка
 
     protected boolean onGround = true;
     protected boolean facingRight = true;
@@ -33,8 +34,8 @@ public abstract class MovingGameEntity extends GameEntity{
 
     /*
      В нащадках зробити:
-     this.targetJumpHeight = кінцева висота
-     this.startJumpSpeed = -Math.sqrt(2 * GRAVITY * this.targetJumpHeight);
+     this.targetJumpHeight = кінцева висота;
+     initialJumpParams();
      */
     public MovingGameEntity(int x, int y) {
         super(x, y);
@@ -43,6 +44,15 @@ public abstract class MovingGameEntity extends GameEntity{
     public MovingGameEntity(){
         super();
     }
+
+    protected void initialJumpParams() {
+        startJumpSpeed = -Math.sqrt(2 * gravity * targetJumpHeight);
+        double timeToPeak = -startJumpSpeed / gravity;
+        double totalAirTime = timeToPeak * 2;
+
+        maxJumpDistance = (int) (speedX * totalAirTime);
+    }
+
     // Методи руху
 
     public void moveHorizontally(double deltaTime) {
@@ -121,7 +131,7 @@ public abstract class MovingGameEntity extends GameEntity{
 
     protected void onLand(){}
 
-    public GameEntity collision(int qX, int qY, int qW, int qH, List<GameEntity> objects) {
+    public GameEntity collision(int qX, int qY, int qW, int qH, List<? extends GameEntity> objects) {
         for (GameEntity obj : objects) {
             if (qX < obj.getX() + obj.getWidth() &&
                     qX + qW > obj.getX() &&

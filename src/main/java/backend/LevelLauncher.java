@@ -72,7 +72,7 @@ public class LevelLauncher extends Application {
                     }
                 }
 
-                for (List<GameEntity> list : Level.getCurrentLevel().getLists()){
+                for (List<? extends GameEntity> list : Level.getCurrentLevel().getLists()){
                     list.removeIf(obj -> !obj.isActive());
                 }
             }
