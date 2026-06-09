@@ -4,10 +4,11 @@ import backend.triggeredZones.Detector;
 import backend.weapon.Bullet;
 import backend.weapon.Weapon;
 import lombok.Getter;
-import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class Level {
@@ -18,29 +19,76 @@ public class Level {
     private List<GameEntity> allObjects;
     private List<GameEntity> blokingObjects; // об'єкти з !isWalkable
     private List<GameEntity> playerDetectors; // детектори, які перевіряє гравець
-    private List<GameEntity> independDetector; // детектори, які самі себе перевіряють
+    private List<GameEntity> independDetectors; // детектори, які самі себе перевіряють
     private List<GameEntity> bullets; // кулі всіх видів зброї
+    private List<BlockOfGround> blocksOfGround;
+    private List<SoundPrint> soundPrints = new ArrayList<>();
+
+    List<List<? extends GameEntity>> lists = new ArrayList<>(); // список списків
 
     public Level (List<GameEntity> allObjects){
         currentLevel = this;
 
         this.allObjects = allObjects;
+        lists.add(allObjects);
+
         this.allObjects.sort(Comparator.comparingInt(GameEntity::getZIndex));
 
         initialLists();
     }
 
     private void initialLists(){
-        blokingObjects = allObjects.stream().filter(obj -> !obj.isWalkable).toList();
+        blokingObjects = allObjects.stream()
+                .filter(obj -> !obj.isWalkable())
+                .collect(Collectors.toList());
+        lists.add(blokingObjects);
 
+        blocksOfGround = blokingObjects.stream()
+                .filter(obj -> obj instanceof BlockOfGround)
+                .map(obj -> (BlockOfGround) obj)
+                .collect(Collectors.toList());
+        lists.add(blocksOfGround);
+
+        playerDetectors = allObjects.stream()
+                .filter(obj -> {
+                    if(obj instanceof Detector){
+                        Detector det = (Detector) obj;
+                        return det.getTargetPlayer() == Player.getInstance();
+                    }
+                    return false;
+                })
+                .collect(Collectors.toList());
+        lists.add(playerDetectors);
+
+        independDetectors = allObjects.stream()
+                .filter(obj -> {
+                    if(obj instanceof Detector){
+                        Detector det = (Detector) obj;
+                        return det.getTargetObjects() != null;
+                    }
+                    return false;
+                })
+                .collect(Collectors.toList());
+        lists.add(independDetectors);
+
+        bullets = new ArrayList<>();
         for (Weapon weapon : Player.getInstance().getWeapons()) {
             if (weapon != null) {
                 for (Bullet bullet : weapon.getBullets()) {
                     allObjects.add(bullet);
+                    bullets.add(bullet);
                 }
             }
         }
-        // дописати
+        lists.add(bullets);
+    }
+
+    public void update(double deltaTime) {
+        if (soundPrints.isEmpty()) return;
+        for(SoundPrint sound : soundPrints){
+            sound.intensity -= 0.1 * deltaTime;
+        }
+        soundPrints.removeIf(sound -> sound.intensity <= 0);
     }
 
 }

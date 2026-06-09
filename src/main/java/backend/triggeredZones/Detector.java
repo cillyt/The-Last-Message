@@ -7,9 +7,11 @@ package backend.triggeredZones;
 
 import backend.GameEntity;
 import backend.Player;
-import javafx.scene.canvas.GraphicsContext;
+import lombok.Getter;
+
 import java.util.List;
 
+@Getter
 public class Detector extends GameEntity {
 
     protected Player targetPlayer;
@@ -22,10 +24,13 @@ public class Detector extends GameEntity {
     public Detector (int x, int y){
         super(x, y);
         isWalkable = true;
+        targetPlayer = Player.getInstance();
     }
 
     public Detector (int x, int y, int width, int height){
         super(x, y, width, height, true);
+        isWalkable = true;
+        targetPlayer = Player.getInstance();
     }
 
     public Detector(int x, int y, int width, int height,
@@ -74,8 +79,5 @@ public class Detector extends GameEntity {
                 }
             }
         }
-    }
-
-    public void render(GraphicsContext gc) {
     }
 }

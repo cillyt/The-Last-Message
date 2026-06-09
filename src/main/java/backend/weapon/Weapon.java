@@ -1,6 +1,8 @@
 package backend.weapon;
 
+import backend.Level;
 import backend.Player;
+import backend.SoundPrint;
 import lombok.Getter;
 
 @Getter
@@ -18,6 +20,8 @@ public abstract class Weapon {
         isShooting = true;
     }
 
+    public double noiseLevel;
+
     public void stopFire() {
         isShooting = false;
     }
@@ -33,6 +37,8 @@ public abstract class Weapon {
                     if (!(this instanceof Pistol)) {
                         ammunitionNumber--;
                     }
+                    Level.getCurrentLevel().getSoundPrints().add(
+                            new SoundPrint(Player.getInstance().getX(), Player.getInstance().getY(), noiseLevel));
                     return;
                 }
             }
@@ -51,5 +57,8 @@ public abstract class Weapon {
 
     }
 
-
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
 }

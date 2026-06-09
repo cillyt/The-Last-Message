@@ -1,6 +1,5 @@
 package backend;
 
-import javafx.scene.canvas.GraphicsContext;
 import lombok.Getter;
 
 import java.util.List;
@@ -24,6 +23,7 @@ public abstract class MovingGameEntity extends GameEntity{
     protected double currentVelocityX;
 
     protected int targetJumpHeight;
+    protected int maxJumpDistance; // максимальна дальність стрибка
 
     protected boolean onGround = true;
     protected boolean facingRight = true;
@@ -32,13 +32,10 @@ public abstract class MovingGameEntity extends GameEntity{
     protected double subPixelX;
     protected double subPixelY;
 
-    protected double currentTimeX;
-    protected double timePeriod;
-
     /*
      В нащадках зробити:
-     this.targetJumpHeight = кінцева висота
-     this.startJumpSpeed = -Math.sqrt(2 * GRAVITY * this.targetJumpHeight);
+     this.targetJumpHeight = кінцева висота;
+     initialJumpParams();
      */
     public MovingGameEntity(int x, int y) {
         super(x, y);
@@ -48,9 +45,13 @@ public abstract class MovingGameEntity extends GameEntity{
         super();
     }
 
-    // Викликати раз при створенні рівня
+    protected void initialJumpParams() {
+        startJumpSpeed = -Math.sqrt(2 * gravity * targetJumpHeight);
+        double timeToPeak = -startJumpSpeed / gravity;
+        double totalAirTime = timeToPeak * 2;
 
-
+        maxJumpDistance = (int) (speedX * totalAirTime);
+    }
 
     // Методи руху
 
@@ -130,7 +131,7 @@ public abstract class MovingGameEntity extends GameEntity{
 
     protected void onLand(){}
 
-    public GameEntity collision(int qX, int qY, int qW, int qH, List<GameEntity> objects) {
+    public GameEntity collision(int qX, int qY, int qW, int qH, List<? extends GameEntity> objects) {
         for (GameEntity obj : objects) {
             if (qX < obj.getX() + obj.getWidth() &&
                     qX + qW > obj.getX() &&
@@ -140,6 +141,13 @@ public abstract class MovingGameEntity extends GameEntity{
             }
         }
         return null;
+    }
+
+    public boolean collision(int qX, int qY, int qW, int qH,GameEntity obj) {
+        return qX < obj.getX() + obj.getWidth() &&
+                qX + qW > obj.getX() &&
+                qY < obj.getY() + obj.getHeight() &&
+                qY + qH > obj.getY();
     }
 
     public void update(double deltaTime) {
@@ -153,11 +161,6 @@ public abstract class MovingGameEntity extends GameEntity{
         switch (currentState) {
             case GO:
                 moveHorizontally(deltaTime);
-
-                currentTimeX += deltaTime;
-                if (currentTimeX >= timePeriod) {
-                    currentTimeX -= timePeriod;
-                }
                 break;
 
             case IN_AIR:
@@ -169,9 +172,4 @@ public abstract class MovingGameEntity extends GameEntity{
                 break;
         }
     }
-
-    public void render(GraphicsContext gc) {
-
-    }
-
 }

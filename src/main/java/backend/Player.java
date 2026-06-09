@@ -10,6 +10,13 @@ import backend.weapon.Pistol;
 import backend.weapon.Weapon;
 import lombok.Getter;
 
+
+import javafx.scene.SnapshotParameters;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+
 @Getter
 public class Player extends MovingGameEntity{
 
@@ -34,6 +41,11 @@ public class Player extends MovingGameEntity{
     private boolean[] weaponUnlocked;
     private Weapon currentWeapon;
 
+    private double currentTime;
+    private double soundPeriod = 5.0; // час між записами звуків при ходьбі
+
+    private int eyeH = 15;
+
 
     public Player(int x, int y) {
         super(x, y);
@@ -46,7 +58,7 @@ public class Player extends MovingGameEntity{
         isWalkable = false;
         zIndex = 4;
 
-        speedX = 200;
+        speedX = 300;
         this.targetJumpHeight = 120;
         this.startJumpSpeed = -Math.sqrt(2 * gravity * this.targetJumpHeight);
 
@@ -61,6 +73,19 @@ public class Player extends MovingGameEntity{
 
         weaponUnlocked[0] = true;
         currentWeapon = weapons[0];
+
+        // --- ЗАГЛУШКА ---
+        Canvas canvas = new Canvas(width, height);
+        GraphicsContext tempGc = canvas.getGraphicsContext2D();
+        tempGc.setFill(Color.web("#00FFFF"));
+        tempGc.fillRect(0, 0, width, height);
+        tempGc.setFill(Color.BLACK);
+        tempGc.setFont(new Font("Arial", 12));
+        tempGc.fillText("Player", 5, 15);
+        SnapshotParameters params = new SnapshotParameters();
+        params.setFill(Color.TRANSPARENT);
+        this.image = canvas.snapshot(params, null);
+        // ----------------
     }
 
     // Методи переходу в різні стани
@@ -206,6 +231,11 @@ public class Player extends MovingGameEntity{
 
     public void healHp(int amount) {
         currentHp += amount;
+        if (currentHp > maxHp) currentHp = maxHp;
+    }
+
+    public void takeDamage(int damage){
+        currentHp -= damage;
     }
 
     public void unlockWeapon(int i) {
@@ -219,12 +249,36 @@ public class Player extends MovingGameEntity{
         currentWeapon.update(deltaTime);
 
         GameEntity detector = collision(x, y, width, height, Level.getCurrentLevel().getPlayerDetectors());
-
         if (detector != null){
             Detector det = (Detector) detector;
             det.executeTrigger();
         }
+
+        if(currentState == State.GO){
+            currentTime += deltaTime;
+            if(currentTime >= soundPeriod){
+                currentTime -= soundPeriod;
+                if(!isCrouching) Level.getCurrentLevel().getSoundPrints().add(new SoundPrint(x, y, 0.3));
+            }
+        }
     }
 
+    @Override
+    public void render(GraphicsContext gc) {
+        super.render(gc);
 
+        // --- ЗАГЛУШКА ---
+        backend.CameraWindow camera = backend.CameraWindow.getInstance();
+        int screenX = this.x - camera.getX();
+        int screenY = this.y - camera.getY();
+
+        gc.setFill(Color.BLACK);
+        gc.setFont(new javafx.scene.text.Font("Arial", 12));
+
+        gc.fillText(String.format("Weapon \n %s \n %d \n\n HP\n %d",
+                        currentWeapon, currentWeapon.getAmmunitionNumber(), currentHp)
+                , screenX + 5, screenY + 35);
+        // ----------------
+
+    }
 }

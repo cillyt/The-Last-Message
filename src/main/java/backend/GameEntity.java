@@ -2,16 +2,21 @@ package backend;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public abstract class GameEntity {
     protected int x;
     protected int y;
     protected int width;
     protected int height;
     protected int zIndex;
+    protected boolean inCamera;
     protected boolean isActive = true;
+    protected Image image;
 
     protected boolean isWalkable;
 
@@ -44,9 +49,14 @@ public abstract class GameEntity {
         return new Rectangle2D(x, y, width, height);
     }
 
-    public void render(GraphicsContext gc) {
+    public double calcDistance(int targetX, int targetY) {
+        int a = x - targetX;
+        int b = y - targetY;
+        return Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+    }
 
-        if (isActive = false) return;
+    public void render(GraphicsContext gc) {
+        if(!isActive) return;
 
         CameraWindow camera = CameraWindow.getInstance();
 
@@ -55,14 +65,18 @@ public abstract class GameEntity {
                 (y + height > camera.getY()) &&
                 (y < camera.getY() + camera.getScreenHeight());
 
-        if (isVisible) {
+        inCamera = isVisible;
+
+        if (isVisible && image != null) {
             int screenX = this.x - camera.getX();
             int screenY = this.y - camera.getY();
 
-            // заглушка, поки немає спрайтів
-            gc.fillRect(screenX, screenY, width, height);
+            gc.drawImage(image, screenX, screenY, width, height);
         }
     }
 
-
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
 }

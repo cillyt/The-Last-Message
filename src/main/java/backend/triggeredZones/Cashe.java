@@ -6,16 +6,12 @@
 
 package backend.triggeredZones;
 
-import backend.CameraWindow;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 
 public class Cashe extends Detector {
-
-    private Image cachedTexture;
 
     public Cashe(int x, int y, int width, int height) {
         super(x, y, width, height);
@@ -38,23 +34,6 @@ public class Cashe extends Detector {
 
         SnapshotParameters params = new SnapshotParameters();
         params.setFill(Color.TRANSPARENT);
-        cachedTexture = canvas.snapshot(params, null);
-    }
-
-    @Override
-    public void render(GraphicsContext gc) {
-        CameraWindow camera = CameraWindow.getInstance();
-
-        boolean isVisible = (x + width > camera.getX()) &&
-                (x < camera.getX() + camera.getScreenWidth()) &&
-                (y + height > camera.getY()) &&
-                (y < camera.getY() + camera.getScreenHeight());
-
-        if (isVisible) {
-            int screenX = this.x - camera.getX();
-            int screenY = this.y - camera.getY();
-
-            gc.drawImage(cachedTexture, screenX, screenY);
-        }
+        image = canvas.snapshot(params, null);
     }
 }

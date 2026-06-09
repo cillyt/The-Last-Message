@@ -6,6 +6,11 @@ import backend.Level;
 import backend.GameEntity;
 import backend.monsters.Monster;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public abstract class Bullet extends MovingGameEntity {
     protected int damage;
@@ -18,20 +23,27 @@ public abstract class Bullet extends MovingGameEntity {
         super(0, 0);
         this.isFlying = false;
         zIndex = 7;
+
+        // --- ЗАГЛУШКА ---
+
+        // ----------------
     }
 
     public void shootOut(double angle) {
         Player player = Player.getInstance();
-        this.x = player.getX() + (player.getWidth() / 2);
-        this.y = player.getY() + (player.getHeight() / 2);
+        if (player.isFacingRight()) {
+            x = player.getX() + player.getWidth() + 1;
+        }
+        else x = player.getX() - width - 1;
+        y = player.getY() + 40;
 
-        this.isFlying = true;
+        this.width = (int) (Math.abs(baseWidth * Math.cos(angle)) + Math.abs(baseHeight * Math.sin(angle)));
+        this.height = (int) (Math.abs(baseWidth * Math.sin(angle)) + Math.abs(baseHeight * Math.cos(angle)));
 
         this.currentVelocityX = speedX * Math.cos(angle);
         this.currentVelocityY = speedX * Math.sin(angle);
 
-        this.width = (int) (Math.abs(baseWidth * Math.cos(angle)) + Math.abs(baseHeight * Math.sin(angle)));
-        this.height = (int) (Math.abs(baseWidth * Math.sin(angle)) + Math.abs(baseHeight * Math.cos(angle)));
+        this.isFlying = true;
     }
 
     public void deactivate() {

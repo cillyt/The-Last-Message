@@ -5,6 +5,11 @@
 package backend.triggeredZones;
 
 import backend.Player;
+import javafx.scene.SnapshotParameters;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 public class Medkit extends Detector {
 
@@ -15,6 +20,19 @@ public class Medkit extends Detector {
         height = 40;
 
         zIndex = 3;
+
+        // --- ЗАГЛУШКА ---
+        Canvas canvas = new Canvas(width, height);
+        GraphicsContext tempGc = canvas.getGraphicsContext2D();
+        tempGc.setFill(Color.web("#32CD32"));
+        tempGc.fillRect(0, 0, width, height);
+        tempGc.setFill(Color.BLACK);
+        tempGc.setFont(new Font("Arial", 10));
+        tempGc.fillText("HP", 5, 15);
+        SnapshotParameters params = new SnapshotParameters();
+        params.setFill(Color.TRANSPARENT);
+        this.image = canvas.snapshot(params, null);
+        // ----------------
     }
 
     public void executeTrigger() {
