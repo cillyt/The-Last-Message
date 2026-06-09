@@ -16,8 +16,8 @@ public class Trap1 extends Detector {
         super(x, y);
         zIndex = 6;
 
-        width = 10;
-        height = 100;
+        width = 100;
+        height = 10;
 
         // --- ЗАГЛУШКА ---
         Canvas canvas = new Canvas(width, height);

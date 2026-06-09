@@ -20,6 +20,7 @@ public class BigMonster extends Monster {
 
         speedX = 350;
 
+        maxHp = 250;
         currentHP = 250;
 
         targetJumpHeight = 120;
