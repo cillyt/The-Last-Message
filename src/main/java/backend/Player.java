@@ -48,6 +48,9 @@ public class Player extends MovingGameEntity{
 
     private final int eyeH = 15;
 
+    private boolean isDying = false;
+    private boolean isDead = false;
+
     // ----- АСЕТИ -----
 
     // для пістолета
@@ -106,11 +109,14 @@ public class Player extends MovingGameEntity{
 
     private double currentSpriteTime;
 
-    private final double timeAnimationMove = 1; // час прокручення всього масиву спрайтів бігу
+    private final double timeAnimationMove = 1; // час прокручення всього масиву спрайтів
     private final double periodAnimationMove; // час перемикання спрайтів
 
     private final double timeAnimationCrawl = 1;
     private final double periodAnimationCrawl;
+
+    private final double timeAnimationDying = 1.5;
+    private final double periodAnimationDying;
 
     private int currentSpriteIndex; // для бігу і повзання
 
@@ -144,6 +150,7 @@ public class Player extends MovingGameEntity{
 
         periodAnimationMove = timeAnimationMove / moveImgsP.length;
         periodAnimationCrawl = timeAnimationCrawl / crawlImgsP.length;
+        periodAnimationDying = timeAnimationDying / dyingImgs.length;
 
         // --- ЗАГЛУШКА ---
         Canvas canvas = new Canvas(width, height);
@@ -176,6 +183,9 @@ public class Player extends MovingGameEntity{
             if(currentWeaponIndex == 0) currentImage = standImgP;
             if(currentWeaponIndex == 1) currentImage = standImgAR;
         }
+
+        currentSpriteTime = 0;
+        currentSpriteIndex = 0;
     }
 
     private void go() {
@@ -197,6 +207,9 @@ public class Player extends MovingGameEntity{
 
         if (currentWeaponIndex == 0) currentImage = jumpImgP;
         if (currentWeaponIndex == 1) currentImage = jumpImgAR;
+
+        currentSpriteTime = 0;
+        currentSpriteIndex = 0;
     }
 
     private void crouch (){
@@ -207,6 +220,9 @@ public class Player extends MovingGameEntity{
 
         if (currentWeaponIndex == 0) currentImage = crouchImgP;
         if (currentWeaponIndex == 1) currentImage = crouchImgAR;
+
+        currentSpriteTime = 0;
+        currentSpriteIndex = 0;
     }
 
     private void standUp (){
@@ -217,6 +233,9 @@ public class Player extends MovingGameEntity{
 
         if (currentWeaponIndex == 0) currentImage = standImgP;
         if (currentWeaponIndex == 1) currentImage = standImgAR;
+
+        currentSpriteTime = 0;
+        currentSpriteIndex = 0;
     }
 
     // Методи прийому команд
@@ -376,6 +395,11 @@ public class Player extends MovingGameEntity{
 
     public void takeDamage(int damage){
         currentHp -= damage;
+        if(currentHp > 0) return;
+
+        stop();
+        currentWeapon.stopFire();
+        isDying = true;
     }
 
     public void unlockWeapon(int i) {
@@ -388,11 +412,24 @@ public class Player extends MovingGameEntity{
         super.update(deltaTime);
         currentWeapon.update(deltaTime);
 
+        if (isDying && !isDead){
+            currentSpriteTime += deltaTime;
+            if(currentSpriteTime >= periodAnimationDying){
+                currentSpriteTime -= periodAnimationDying;
+                currentImage = dyingImgs[currentSpriteIndex];
+                currentSpriteIndex++;
+                if(currentSpriteIndex >= dyingImgs.length){
+                    isDead = true;
+                }
+            }
+        }
+
         if (isCrouching && !wantToCrouch && canStand()) {
             wantToCrouch = false;
             standUp();
         }
 
+        // звуки
         if(currentState == State.GO){
             currentTime += deltaTime;
             if(currentTime >= soundPeriod){
@@ -401,6 +438,7 @@ public class Player extends MovingGameEntity{
             }
         }
 
+        // перемикання спрайтів
         if (currentState == State.GO) {
             currentSpriteTime += deltaTime;
 
