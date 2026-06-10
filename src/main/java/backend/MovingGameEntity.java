@@ -73,7 +73,7 @@ public abstract class MovingGameEntity extends GameEntity{
         if (deltaX > 0) sensorX = x + width;
         else sensorX = x + deltaX;
 
-        GameEntity collision = collision(sensorX, sensorY, sensorW, sensorH, Level.getCurrentLevel().getBlokingObjects());
+        GameEntity collision = collision(sensorX, sensorY, sensorW, sensorH, deltaX, 0, Level.getCurrentLevel().getBlokingObjects());
 
         if (collision == null || collision.isWalkable) x += deltaX;
         else {
@@ -108,7 +108,7 @@ public abstract class MovingGameEntity extends GameEntity{
             sensorH = -deltaY;
         }
 
-        GameEntity collision = collision(sensorX, sensorY, sensorW, sensorH, Level.getCurrentLevel().getBlokingObjects());
+        GameEntity collision = collision(sensorX, sensorY, sensorW, sensorH, 0, deltaY, Level.getCurrentLevel().getBlokingObjects());
 
         boolean wasInAir = !onGround;
 
@@ -131,6 +131,7 @@ public abstract class MovingGameEntity extends GameEntity{
 
     protected void onLand(){}
 
+    // звичайна перевірка
     public GameEntity collision(int qX, int qY, int qW, int qH, List<? extends GameEntity> objects) {
         for (GameEntity obj : objects) {
             if (qX < obj.getX() + obj.getWidth() &&
@@ -143,11 +144,40 @@ public abstract class MovingGameEntity extends GameEntity{
         return null;
     }
 
+    // проста поштучна перевірка
     public boolean collision(int qX, int qY, int qW, int qH,GameEntity obj) {
         return qX < obj.getX() + obj.getWidth() &&
                 qX + qW > obj.getX() &&
                 qY < obj.getY() + obj.getHeight() &&
                 qY + qH > obj.getY();
+    }
+
+    // перевірка з урахуванням напряму (для PartialBlock)
+    public GameEntity collision(int qX, int qY, int qW, int qH, int deltaX, int deltaY, List<? extends GameEntity> objects) {
+        for (GameEntity obj : objects) {
+            if (collision(qX, qY, qW, qH, obj)) {
+
+                if (obj instanceof PartialBlock pb) {
+                    if (pb.getBlockDirection() == PartialBlock.BlockDirection.TOP) {
+                        if (deltaY > 0 && y + height <= pb.getY()) return pb;
+                    }
+                    else if (pb.getBlockDirection() == PartialBlock.BlockDirection.BOTTOM) {
+                        if (deltaY < 0 && y >= pb.getY() + pb.getHeight()) return pb;
+                    }
+                    else if (pb.getBlockDirection() == PartialBlock.BlockDirection.LEFT) {
+                        if (deltaX > 0 && x + width <= pb.getX()) return pb;
+                    }
+                    else if (pb.getBlockDirection() == PartialBlock.BlockDirection.RIGHT) {
+                        if (deltaX < 0 && x <= pb.getX() + pb.getWidth()) return pb;
+                    }
+
+                    continue;
+                }
+
+                return obj;
+            }
+        }
+        return null;
     }
 
     public void update(double deltaTime) {

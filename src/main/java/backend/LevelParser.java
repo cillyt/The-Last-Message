@@ -76,6 +76,16 @@ public class LevelParser {
                     case "Trap2":
                         allObjects.add(new Trap2(x, y));
                         break;
+                    case "PartialBlock":
+                        PartialBlock.BlockDirection blockDir = PartialBlock.BlockDirection.TOP;
+                        if (obj.has("customFields")) {
+                            JSONObject custom = obj.getJSONObject("customFields");
+                            if (custom.has("blockDirection")) {
+                                blockDir = PartialBlock.BlockDirection.valueOf(custom.getString("blockDirection").toUpperCase());
+                            }
+                        }
+                        allObjects.add(new PartialBlock(x, y, w, h, blockDir));
+                        break;
                 }
             }
         }

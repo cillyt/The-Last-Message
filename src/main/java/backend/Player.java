@@ -322,7 +322,7 @@ public class Player extends MovingGameEntity{
         int heightDiff = defaultHeight - heightInCrouch;
         int testY = this.y - heightDiff;
 
-        GameEntity object = collision(this.x, testY, this.width, heightDiff, Level.getCurrentLevel().getBlokingObjects());
+        GameEntity object = collision(this.x, testY, this.width, heightDiff, 0, -1, Level.getCurrentLevel().getBlokingObjects());
 
         return object == null || object.isWalkable;
     }

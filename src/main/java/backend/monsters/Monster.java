@@ -176,9 +176,10 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
     protected PathCondition checkObstacle() {
         int colWidth = maxJumpDistance / 2;
         int colX = facingRight ? x + width : x - colWidth;
+        int moveDir = facingRight ? 1 : -1;
 
         // 1. Перевіряємо, чи є перешкода
-        boolean hasObstacle = collision(colX, y-1, colWidth, height, Level.getCurrentLevel().getBlocksOfGround()) != null;
+        boolean hasObstacle = collision(colX, y-1, colWidth, height, moveDir, 0, Level.getCurrentLevel().getBlocksOfGround()) != null;
 
         if (!hasObstacle) return PathCondition.CLEAR;
 
@@ -186,7 +187,7 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         int apexY = (y + height) - targetJumpHeight;
 
         // перевіряємо коридор над перешкодою
-        boolean canJumpOver = collision(colX, apexY, colWidth, height, Level.getCurrentLevel().getBlocksOfGround()) == null;
+        boolean canJumpOver = collision(colX, apexY, colWidth, height, moveDir, 0, Level.getCurrentLevel().getBlocksOfGround()) == null;
 
         return canJumpOver ? PathCondition.PASSABLE : PathCondition.IMPASSABLE;
     }
@@ -196,14 +197,14 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         int checkX = facingRight ? x + width + 10 : x - 10;
         int checkY = y + height + 5;
 
-        boolean hasGround = collision(checkX, checkY, 5, 5, Level.getCurrentLevel().getBlocksOfGround()) != null;
+        boolean hasGround = collision(checkX, checkY, 5, 5, 0, 1, Level.getCurrentLevel().getBlocksOfGround()) != null;
 
         if (hasGround) return PathCondition.CLEAR;
 
         // 2. Яма є. Перевіряємо землю на іншій стороні
         if (jumpOverHoles) {
             int landingX = facingRight ? x + maxJumpDistance : x - maxJumpDistance;
-            boolean hasLanding = collision(landingX, checkY, 5, 5, Level.getCurrentLevel().getBlocksOfGround()) != null;
+            boolean hasLanding = collision(landingX, checkY, 5, 5, 0, 1, Level.getCurrentLevel().getBlocksOfGround()) != null;
 
             if (hasLanding) return PathCondition.PASSABLE;
         }
