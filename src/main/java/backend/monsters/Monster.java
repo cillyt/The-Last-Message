@@ -95,10 +95,8 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
     // Методи переходів
 
     protected void toPatrol() {
+        moveToPoint(rightPatrolPoint);
         behState = BehavioralState.PATROL;
-        currentVelocityX = facingRight ? speedX : -speedX;
-        currentTime = 0;
-        currentState = State.GO;
     }
 
 
@@ -178,16 +176,25 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         int colX = facingRight ? x + width : x - colWidth;
         int moveDir = facingRight ? 1 : -1;
 
-        // 1. Перевіряємо, чи є перешкода
-        boolean hasObstacle = collision(colX, y-1, colWidth, height, moveDir, 0, Level.getCurrentLevel().getBlocksOfGround()) != null;
+        GameEntity obstacle = collision(colX, y-1, colWidth, height, moveDir, 0, Level.getCurrentLevel().getWallsAndPartBlocks());
 
-        if (!hasObstacle) return PathCondition.CLEAR;
+        if (obstacle == null) return PathCondition.CLEAR;
 
-        // 2. Перешкода є. Перевіряємо, чи вистачить висоти стрибка, щоб її подолати.
-        int apexY = (y + height) - targetJumpHeight;
+        // перевірка, чи не притиснутий герой до стіни
+        if (behState == BehavioralState.CHASE) {
+            Player player = Player.getInstance();
+            int pX = player.getX();
 
-        // перевіряємо коридор над перешкодою
-        boolean canJumpOver = collision(colX, apexY, colWidth, height, moveDir, 0, Level.getCurrentLevel().getBlocksOfGround()) == null;
+            if (facingRight && pX > this.x && pX < obstacle.getX()) {
+                return PathCondition.CLEAR;
+            }
+            if (!facingRight && pX < this.x && pX + player.getWidth() > obstacle.getX() + obstacle.getWidth()) {
+                return PathCondition.CLEAR;
+            }
+        }
+
+        int apexY = y - targetJumpHeight;
+        boolean canJumpOver = collision(colX, apexY, colWidth, height, moveDir, 0, Level.getCurrentLevel().getWallsAndPartBlocks()) == null;
 
         return canJumpOver ? PathCondition.PASSABLE : PathCondition.IMPASSABLE;
     }
@@ -197,14 +204,23 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         int checkX = facingRight ? x + width + 10 : x - 10;
         int checkY = y + height + 5;
 
-        boolean hasGround = collision(checkX, checkY, 5, 5, 0, 1, Level.getCurrentLevel().getBlocksOfGround()) != null;
+        boolean hasGround = collision(checkX, checkY, 5, 5, 0, 1, Level.getCurrentLevel().getWallsAndPartBlocks()) != null;
 
         if (hasGround) return PathCondition.CLEAR;
 
-        // 2. Яма є. Перевіряємо землю на іншій стороні
+        // стрибаємо в яму за гравцем, якщо треба
+        if (behState == BehavioralState.CHASE) {
+            Player player = Player.getInstance();
+            boolean playerInHole = facingRight ? player.getX() >= this.x : player.getX() <= this.x;
+
+            if (playerInHole && player.getY() > this.y) {
+                return PathCondition.CLEAR;
+            }
+        }
+
         if (jumpOverHoles) {
             int landingX = facingRight ? x + maxJumpDistance : x - maxJumpDistance;
-            boolean hasLanding = collision(landingX, checkY, 5, 5, 0, 1, Level.getCurrentLevel().getBlocksOfGround()) != null;
+            boolean hasLanding = collision(landingX, checkY, 5, 5, 0, 1, Level.getCurrentLevel().getWallsAndPartBlocks()) != null;
 
             if (hasLanding) return PathCondition.PASSABLE;
         }
@@ -215,6 +231,8 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
 
     // Загальний метод оцінки шляху перед рухом
     protected void checkPathAndMove() {
+        if (!onGround) return;
+
         PathCondition obstacle = checkObstacle();
         PathCondition hole = checkHole();
 
@@ -223,6 +241,7 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         } else if (obstacle == PathCondition.PASSABLE || hole == PathCondition.PASSABLE) {
             // стрибаємо
             if(onGround) {
+                currentVelocityX = facingRight ? speedX : -speedX;
                 currentVelocityY = startJumpSpeed;
                 currentState = State.IN_AIR;
                 onGround = false;
@@ -250,6 +269,9 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
                 this.rightPatrolPoint = this.x + patrolRadius;
                 this.leftPatrolPoint = this.x - patrolRadius;
                 toPatrol();
+                break;
+            case CHASE:
+                toLose();
                 break;
         }
     }
@@ -363,8 +385,9 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
                 break;
             case CHASE:
                 currentTime += deltaTime;
-                if (currentTime >= 0.5) {
+                if (currentTime >= 0.2) {
                     currentTime = 0;
+                    hearPlayer();
                     seePlayer();
                     moveToPoint(lastSeenPlayerX);
                 }
@@ -414,5 +437,21 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
                 }
                 break;
         }
+    }
+
+    @Override
+    public void render(javafx.scene.canvas.GraphicsContext gc) {
+        super.render(gc);
+
+        if (!isActive || !inCamera) return;
+
+        backend.CameraWindow camera = backend.CameraWindow.getInstance();
+        int screenX = this.x - camera.getX();
+        int screenY = this.y - camera.getY();
+
+        gc.setFill(javafx.scene.paint.Color.WHITE);
+        gc.setFont(new javafx.scene.text.Font("Arial", 12));
+
+        gc.fillText("behState:\n" + behState.name(), screenX + 5, screenY + 40);
     }
 }

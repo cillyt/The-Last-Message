@@ -29,6 +29,8 @@ public class SimpleMonster extends Monster {
         this.targetJumpHeight = 120;
         initialJumpParams();
 
+        toPatrol();
+
         // --- ЗАГЛУШКА ---
         Canvas canvas = new Canvas(width, height);
         GraphicsContext tempGc = canvas.getGraphicsContext2D();

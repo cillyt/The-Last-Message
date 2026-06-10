@@ -26,8 +26,7 @@ public class BigMonster extends Monster {
         targetJumpHeight = 120;
         initialJumpParams();
 
-        this.targetJumpHeight = 120;
-        this.startJumpSpeed = -Math.sqrt(2 * gravity * this.targetJumpHeight);
+        toPatrol();
 
         // --- ЗАГЛУШКА ---
         Canvas canvas = new Canvas(width, height);

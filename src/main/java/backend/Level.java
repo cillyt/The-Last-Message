@@ -23,6 +23,7 @@ public class Level {
     private List<GameEntity> bullets; // кулі всіх видів зброї
     private List<BlockOfGround> blocksOfGround;
     private List<SoundPrint> soundPrints = new ArrayList<>();
+    private List<GameEntity> wallsAndPartBlocks;
 
     List<List<? extends GameEntity>> lists = new ArrayList<>(); // список списків
 
@@ -48,6 +49,11 @@ public class Level {
                 .map(obj -> (BlockOfGround) obj)
                 .collect(Collectors.toList());
         lists.add(blocksOfGround);
+
+        wallsAndPartBlocks = blokingObjects.stream()
+                .filter(obj -> obj instanceof BlockOfGround || obj instanceof PartialBlock)
+                .collect(Collectors.toList());
+        lists.add(wallsAndPartBlocks);
 
         playerDetectors = allObjects.stream()
                 .filter(obj -> {

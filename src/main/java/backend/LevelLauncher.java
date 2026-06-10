@@ -88,7 +88,7 @@ public class LevelLauncher extends Application {
                     entity.render(gc);
                 }
 
-                LightingManager.getInstance().renderLighting(gc);
+                //LightingManager.getInstance().renderLighting(gc);
             }
         };
 

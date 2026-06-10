@@ -81,6 +81,7 @@ public abstract class MovingGameEntity extends GameEntity{
             else x = collision.getX() + collision.getWidth();
 
             subPixelX = 0;
+            currentVelocityY = 0;
             currentVelocityX = 0;
         }
     }
