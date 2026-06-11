@@ -408,6 +408,8 @@ public class Player extends MovingGameEntity{
         stop();
         currentWeapon.stopFire();
         isDying = true;
+
+        CameraWindow.getInstance().applyShake(20, 0.2);
     }
 
     public void unlockWeapon(int i) {

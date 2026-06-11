@@ -76,13 +76,13 @@ public class LevelLauncher extends Application {
                 for (List<? extends GameEntity> list : Level.getCurrentLevel().getLists()){
                     list.removeIf(obj -> !obj.isActive());
                 }
+
+                CameraWindow.getInstance().update(deltaTime);
             }
 
             private void render(GraphicsContext gc, int w, int h) {
                 gc.setFill(Color.web("#696A79"));
                 gc.fillRect(0, 0, w, h);
-
-                CameraWindow.getInstance().update();
 
                 for (GameEntity entity : Level.getCurrentLevel().getAllObjects()) {
                     entity.render(gc);
