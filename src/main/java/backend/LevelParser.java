@@ -16,6 +16,21 @@ public class LevelParser {
     public static Level loadLevel(File jsonFile) throws Exception {
         String content = new String(Files.readAllBytes(jsonFile.toPath()));
         JSONObject root = new JSONObject(content);
+
+        int levelX = root.optInt("x", 0);
+        int levelY = root.optInt("y", 0);
+        int levelWidth = root.optInt("width", 2000);
+        int levelHeight = root.optInt("height", 1000);
+
+        String identifier = root.optString("identifier", "Level_0");
+        int levelNumber = 0;
+        try {
+            // беремо цифру з назви (напр. "Level_0" -> 0)
+            levelNumber = Integer.parseInt(identifier.replace("Level_", ""));
+        } catch (NumberFormatException e) {
+            System.err.println("Не вдалося розпізнати номер рівня з: " + identifier);
+        }
+
         JSONObject entities = root.getJSONObject("entities");
 
         List<GameEntity> allObjects = new ArrayList<>();
@@ -104,6 +119,6 @@ public class LevelParser {
             }
         }
 
-        return new Level(allObjects);
+        return new Level(levelX, levelY, levelWidth, levelHeight, levelNumber, allObjects);
     }
 }

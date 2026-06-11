@@ -13,6 +13,15 @@ import java.util.stream.Collectors;
 @Getter
 public class Level {
 
+    private int x;
+    private int y;
+    private int width;
+    private int height;
+    private int levelNumber;
+
+    // Стан рівня
+    private boolean isFinished = false;
+
     @Getter
     private static Level currentLevel;
 
@@ -27,8 +36,14 @@ public class Level {
 
     List<List<? extends GameEntity>> lists = new ArrayList<>(); // список списків
 
-    public Level (List<GameEntity> allObjects){
+    public Level(int x, int y, int width, int height, int levelNumber, List<GameEntity> allObjects) {
         currentLevel = this;
+
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.levelNumber = levelNumber;
 
         this.allObjects = allObjects;
         lists.add(allObjects);
@@ -36,6 +51,19 @@ public class Level {
         this.allObjects.sort(Comparator.comparingInt(GameEntity::getZIndex));
 
         initialLists();
+    }
+
+    // Методи завершення рівня
+    public void win() {
+        if (isFinished) return;
+        isFinished = true;
+        // логіка виграшу рівня
+    }
+
+    public void lose() {
+        if (isFinished) return;
+        isFinished = true;
+        // логіка програшу
     }
 
     private void initialLists(){
