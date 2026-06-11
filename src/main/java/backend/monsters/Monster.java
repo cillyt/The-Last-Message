@@ -16,6 +16,7 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         CHASE, // йде за героєм
         INVESTIGATE, // пошук за звуком
         LOSE, // втратив героя з поля зору
+        STUCK, // бачить героя, але не може до нього дістатися
         ATTACK, // б'є героя
         COMEBACK, // повертається до патрулювання
         DYING // помирає
@@ -92,6 +93,11 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
 
     }
 
+    @Override
+    protected List<GameEntity> getCollisionObjects() {
+        return Level.getCurrentLevel().getWallsAndPartBlocks();
+    }
+
     // Методи переходів
 
     protected void toPatrol() {
@@ -134,6 +140,13 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         currentState = State.STAND;
 
         behState = BehavioralState.LOSE;
+    }
+
+    protected void toStuck() {
+        currentVelocityX = 0;
+        currentState = State.STAND;
+        currentTime = 0;
+        behState = BehavioralState.STUCK;
     }
 
     protected void toComeback() {
@@ -415,6 +428,22 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
                 if (currentTime > loseTime) toComeback();
                 if (hearPlayer()) toInvestigate();
                 if (seePlayer()) toChase();
+                break;
+            case STUCK:
+                currentTime += deltaTime;
+                if (currentTime >= 0.5) {
+                    currentTime = 0;
+
+                    if (!seePlayer()) {
+                        toLose();
+                    } else {
+                        facingRight = lastSeenPlayerX > x;
+
+                        if (checkObstacle() != PathCondition.IMPASSABLE && checkHole() != PathCondition.IMPASSABLE) {
+                            toChase();
+                        }
+                    }
+                }
                 break;
             case COMEBACK:
                 checkPathAndMove();

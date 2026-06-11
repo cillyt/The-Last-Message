@@ -65,10 +65,24 @@ public class LevelParser {
                         allObjects.add(new AR_Ammunition(x, y, ammo));
                         break;
                     case "SimpleMonster":
-                        allObjects.add(new SimpleMonster(x, y));
+                        int patrolRadius = 300;
+                        if (obj.has("customFields")) {
+                            JSONObject custom = obj.getJSONObject("customFields");
+                            if (custom.has("patrolRadius")) {
+                                patrolRadius = custom.getInt("patrolRadius");
+                            }
+                        }
+                        allObjects.add(new SimpleMonster(x, y, patrolRadius));
                         break;
                     case "BigMonster":
-                        allObjects.add(new BigMonster(x, y));
+                        patrolRadius = 300;
+                        if (obj.has("customFields")) {
+                            JSONObject custom = obj.getJSONObject("customFields");
+                            if (custom.has("patrolRadius")) {
+                                patrolRadius = custom.getInt("patrolRadius");
+                            }
+                        }
+                        allObjects.add(new BigMonster(x, y, patrolRadius));
                         break;
                     case "Trap1":
                         allObjects.add(new Trap1(x, y));

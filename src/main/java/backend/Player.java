@@ -218,6 +218,10 @@ public class Player extends MovingGameEntity{
         isCrouching = true;
         y += defaultHeight - heightInCrouch;
 
+        if (currentState == State.GO){
+            currentVelocityX = facingRight ? speedXinCrouch : -speedXinCrouch;
+        }
+
         if (currentWeaponIndex == 0) currentImage = crouchImgP;
         if (currentWeaponIndex == 1) currentImage = crouchImgAR;
 
@@ -230,6 +234,10 @@ public class Player extends MovingGameEntity{
         height = defaultHeight;
         y -= defaultHeight - heightInCrouch;
         isCrouching = false;
+
+        if(currentState == State.GO){
+            currentVelocityX = facingRight ? speedX : -speedX;
+        }
 
         if (currentWeaponIndex == 0) currentImage = standImgP;
         if (currentWeaponIndex == 1) currentImage = standImgAR;

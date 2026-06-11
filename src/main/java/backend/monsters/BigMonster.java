@@ -12,16 +12,16 @@ import javafx.scene.text.Font;
 
 public class BigMonster extends Monster {
 
-    public BigMonster(int x, int y) {
-        super(x, y);
+    public BigMonster(int x, int y, int patrolRadius) {
+        super(x, y, patrolRadius);
 
         height = 200;
         width = 150;
 
-        speedX = 350;
+        speedX = 150;
 
-        maxHp = 250;
-        currentHP = 250;
+        maxHp = 150;
+        currentHP = 150;
 
         targetJumpHeight = 120;
         initialJumpParams();

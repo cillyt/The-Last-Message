@@ -14,8 +14,8 @@ import javafx.scene.text.Font;
 
 public class SimpleMonster extends Monster {
 
-    public SimpleMonster(int x, int y) {
-        super(x, y);
+    public SimpleMonster(int x, int y, int patrolRadius) {
+        super(x, y, patrolRadius);
 
         height = 150;
         width = 50;

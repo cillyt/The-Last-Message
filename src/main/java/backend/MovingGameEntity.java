@@ -73,7 +73,7 @@ public abstract class MovingGameEntity extends GameEntity{
         if (deltaX > 0) sensorX = x + width;
         else sensorX = x + deltaX;
 
-        GameEntity collision = collision(sensorX, sensorY, sensorW, sensorH, deltaX, 0, Level.getCurrentLevel().getBlokingObjects());
+        GameEntity collision = collision(sensorX, sensorY, sensorW, sensorH, deltaX, 0, getCollisionObjects());
 
         if (collision == null || collision.isWalkable) x += deltaX;
         else {
@@ -109,7 +109,7 @@ public abstract class MovingGameEntity extends GameEntity{
             sensorH = -deltaY;
         }
 
-        GameEntity collision = collision(sensorX, sensorY, sensorW, sensorH, 0, deltaY, Level.getCurrentLevel().getBlokingObjects());
+        GameEntity collision = collision(sensorX, sensorY, sensorW, sensorH, 0, deltaY, getCollisionObjects());
 
         boolean wasInAir = !onGround;
 
@@ -179,6 +179,10 @@ public abstract class MovingGameEntity extends GameEntity{
             }
         }
         return null;
+    }
+
+    protected List<GameEntity> getCollisionObjects() {
+        return Level.getCurrentLevel().getBlokingObjects();
     }
 
     public void update(double deltaTime) {
