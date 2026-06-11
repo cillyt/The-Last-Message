@@ -13,6 +13,8 @@ public class LightingManager {
     @Getter
     public static LightingManager instance;
 
+    private final GaussianBlur blur = new GaussianBlur(15);
+
     public LightingManager() {
         instance = this;
     }
@@ -37,7 +39,7 @@ public class LightingManager {
         gc.setFillRule(FillRule.EVEN_ODD);
         gc.setFill(Color.rgb(0, 0, 0, DARKNESS_OPACITY));
 
-        gc.setEffect(new GaussianBlur(15));
+        gc.setEffect(blur);
 
         gc.beginPath();
 

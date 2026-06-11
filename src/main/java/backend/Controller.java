@@ -6,6 +6,9 @@ public class Controller {
 
     private Player player;
 
+    private CameraWindow camera = CameraWindow.getInstance();
+    private int cameraStep = 100;
+
     public Controller(Player player) {
         this.player = player;
     }
@@ -35,6 +38,22 @@ public class Controller {
             case DIGIT2:
                 player.commandEquipAR();
                 break;
+
+            // ----- ДЛЯ ТЕСТІВ -----
+            // перед використанням в LevelLauncher закоментувати LightingManager.getInstance().renderLighting(gc);
+            case RIGHT:
+                camera.internalX += cameraStep;
+                break;
+            case LEFT:
+                camera.internalX -= cameraStep;
+                break;
+            case UP:
+                camera.internalY -= cameraStep;
+                break;
+            case DOWN:
+                camera.internalY += cameraStep;
+                break;
+                //----------------------
         }
     }
 

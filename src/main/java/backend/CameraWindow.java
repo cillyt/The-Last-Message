@@ -1,11 +1,13 @@
 package backend;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class CameraWindow {
-    private double internalX;
-    private double internalY;
+    public double internalX;
+    public double internalY;
 
     private int screenWidth;
     private int screenHeight;
@@ -59,6 +61,7 @@ public class CameraWindow {
     }
 
     public void update(double deltaTime) {
+
         Player player = Player.getInstance();
         if (player == null) return;
 
@@ -95,7 +98,6 @@ public class CameraWindow {
 
             if (player.isFacingRight()) targetX += lookAheadDistance;
             else targetX -= lookAheadDistance;
-
 
             Level level = Level.getCurrentLevel();
             int minCamX = level.getX();
