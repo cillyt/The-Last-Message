@@ -69,13 +69,16 @@ public abstract class GameEntity {
         inCamera = isVisible;
 
         if (isVisible && image != null) {
-            int screenX = this.x - camera.getX();
-            int screenY = this.y - camera.getY();
+            double renderX = (this instanceof MovingGameEntity) ? ((MovingGameEntity) this).getExactX() : this.x;
+            double renderY = (this instanceof MovingGameEntity) ? ((MovingGameEntity) this).getExactY() : this.y;
+
+            double screenX = renderX - camera.getExactX();
+            double screenY = renderY - camera.getExactY();
 
             gc.drawImage(image, screenX, screenY, width, height);
 
             if (currentImage != null) {
-                if (this instanceof MovingGameEntity && !((MovingGameEntity) this).isFacingRight()) { // перевіряємо чи обернений об'єкт ліворуч
+                if (this instanceof MovingGameEntity && !((MovingGameEntity) this).isFacingRight()) {
                     gc.save();
 
                     gc.translate(screenX + width, screenY);

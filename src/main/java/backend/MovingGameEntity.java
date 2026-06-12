@@ -87,7 +87,26 @@ public abstract class MovingGameEntity extends GameEntity{
     }
 
     public void moveVertically(double deltaTime) {
-        currentVelocityY += gravity * deltaTime;
+        if (onGround) {
+            int sensorX = x + 5;
+            int sensorY = y + height;
+            int sensorW = width - 10;
+            int sensorH = 1;
+
+            GameEntity groundCheck = collision(sensorX, sensorY, sensorW, sensorH, 0, 1, getCollisionObjects());
+
+            if (groundCheck == null) {
+                onGround = false;
+            } else {
+                currentVelocityY = 0;
+                subPixelY = 0;
+            }
+        }
+
+        if (!onGround) {
+            currentVelocityY += gravity * deltaTime;
+        }
+
         subPixelY += currentVelocityY * deltaTime;
 
         int deltaY = (int) subPixelY;
@@ -206,5 +225,13 @@ public abstract class MovingGameEntity extends GameEntity{
                 currentVelocityX = 0;
                 break;
         }
+    }
+
+    public double getExactX() {
+        return x + subPixelX;
+    }
+
+    public double getExactY() {
+        return y + subPixelY;
     }
 }

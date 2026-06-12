@@ -17,11 +17,15 @@ public class CameraWindow {
 
     // Параметри дедзони
     private final int deadZoneWidth = 150;
-    private final int deadZoneHeight = 140;
+    private final int deadZoneHeight = 3000;
     private int deadZoneBoxX;
     private int deadZoneBoxY;
 
     private final int lookAheadDistance = 180;
+    private double smoothLookAhead = 160;
+
+    private double lastPlayerExactX;
+    private double lastPlayerExactY;
 
     private double shakeIntensity = 0;
     private double shakeDuration = 0;
@@ -48,11 +52,11 @@ public class CameraWindow {
     }
 
     public int getX() {
-        return (int) (internalX + shakeOffsetX);
+        return (int) Math.round(internalX + shakeOffsetX);
     }
 
     public int getY() {
-        return (int) (internalY + shakeOffsetY);
+        return (int) Math.round(internalY + shakeOffsetY);
     }
 
     public void applyShake(double intensity, double duration) {
@@ -61,9 +65,19 @@ public class CameraWindow {
     }
 
     public void update(double deltaTime) {
-
         Player player = Player.getInstance();
         if (player == null) return;
+
+        double currentExactPx = player.getExactX();
+        double currentExactPy = player.getExactY();
+
+        double playerDx = currentExactPx - lastPlayerExactX;
+        double playerDy = currentExactPy - lastPlayerExactY;
+
+        lastPlayerExactX = currentExactPx;
+        lastPlayerExactY = currentExactPy;
+
+
 
         // тряска
         if (shakeDuration > 0) {
@@ -75,10 +89,12 @@ public class CameraWindow {
             shakeOffsetY = 0;
         }
 
+
+
         // перевіряємо, чи вийшов гравець за коробку
         if (!followPlayer) {
-            double playerCenterX = player.getX() + (player.getWidth() / 2.0);
-            double playerCenterY = player.getY() + (player.getHeight() / 2.0);
+            int playerCenterX = player.getX() + (player.getWidth() / 2);
+            int playerCenterY = player.getY() + (player.getHeight() / 2);
 
             boolean isOutsideX = playerCenterX < deadZoneBoxX ||
                     playerCenterX > deadZoneBoxX + deadZoneWidth;
@@ -91,13 +107,16 @@ public class CameraWindow {
             }
         }
 
-        // якщо камера прокинулась - вона летить до targetX
         if (followPlayer) {
-            double targetX = player.getX() - (screenWidth / 2.0);
-            double targetY = player.getY() - (screenHeight / 2.0);
+            internalX += playerDx;
+            internalY += playerDy;
 
-            if (player.isFacingRight()) targetX += lookAheadDistance;
-            else targetX -= lookAheadDistance;
+            double targetX = currentExactPx - (screenWidth / 2.0);
+            double targetY = currentExactPy - (screenHeight / 2.0);
+
+            double desiredLookAhead = player.isFacingRight() ? lookAheadDistance : -lookAheadDistance;
+            smoothLookAhead += (desiredLookAhead - smoothLookAhead) * Math.min(3.0 * deltaTime, 1.0);
+            targetX += smoothLookAhead;
 
             Level level = Level.getCurrentLevel();
             int minCamX = level.getX();
@@ -110,29 +129,15 @@ public class CameraWindow {
             if (targetY < minCamY) targetY = minCamY;
             if (targetY > maxCamY) targetY = maxCamY;
 
-            double deltaX = targetX - internalX;
-            double deltaY = targetY - internalY;
-            double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+            double diffX = targetX - internalX;
+            double diffY = targetY - internalY;
 
-            if (distance > 1.0) {
-                double moveStep = cameraSpeed * deltaTime;
-
-                if (distance > screenWidth / 2.0) moveStep = 1500 * deltaTime;
-
-                if (moveStep >= distance) {
-                    internalX = targetX;
-                    internalY = targetY;
-                } else {
-                    internalX += (deltaX / distance) * moveStep;
-                    internalY += (deltaY / distance) * moveStep;
-                }
-            } else {
-                internalX = targetX;
-                internalY = targetY;
-            }
+            double t = Math.min(2.5 * deltaTime, 1.0);
+            internalX += diffX * t;
+            internalY += diffY * t;
 
             // оновлення дедзони
-            boolean isCameraArrived = Math.abs(targetX - internalX) <= 1.0 && Math.abs(targetY - internalY) <= 1.0;
+            boolean isCameraArrived = Math.abs(diffX) <= 2.0 && Math.abs(diffY) <= 2.0;
             boolean isPlayerStopped = player.getCurrentState() == backend.MovingGameEntity.State.STAND;
 
             if (isCameraArrived && isPlayerStopped) {
@@ -144,5 +149,14 @@ public class CameraWindow {
                 }
             }
         }
+    }
+
+
+    public double getExactX() {
+        return internalX + shakeOffsetX;
+    }
+
+    public double getExactY() {
+        return internalY + shakeOffsetY;
     }
 }

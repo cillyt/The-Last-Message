@@ -23,8 +23,8 @@ public class BlockOfGround extends GameEntity {
         this.inCamera = isVisible;
 
         if (isVisible) {
-            int screenX = this.x - camera.getX();
-            int screenY = this.y - camera.getY();
+            double screenX = this.x - camera.getExactX();
+            double screenY = this.y - camera.getExactY();
 
             gc.setFill(Color.web("#6b7785"));
             gc.fillRect(screenX, screenY, width, height);
