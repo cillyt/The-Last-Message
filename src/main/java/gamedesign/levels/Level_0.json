@@ -396,38 +396,12 @@
     "PartialBlock": [
       {
         "id": "PartialBlock",
-        "iid": "12fc7130-48b0-11f1-b01b-6398ca386d56",
-        "layer": "Entities",
-        "x": 2392,
-        "y": 365,
-        "width": 162,
-        "height": 69,
-        "color": 9149364,
-        "customFields": {
-          "blockDirection": "TOP"
-        }
-      },
-      {
-        "id": "PartialBlock",
         "iid": "35592250-48b0-11f1-b01b-dddf26ccc036",
         "layer": "Entities",
         "x": 2554,
         "y": 303,
         "width": 206,
         "height": 131,
-        "color": 9149364,
-        "customFields": {
-          "blockDirection": "TOP"
-        }
-      },
-      {
-        "id": "PartialBlock",
-        "iid": "7334b490-48b0-11f1-b01b-814686a7c41e",
-        "layer": "Entities",
-        "x": 8923,
-        "y": 299,
-        "width": 155,
-        "height": 69,
         "color": 9149364,
         "customFields": {
           "blockDirection": "TOP"

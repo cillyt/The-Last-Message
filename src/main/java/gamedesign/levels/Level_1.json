@@ -274,9 +274,31 @@
         "iid": "3dc6bd40-48b0-11f1-b01b-2b276b8c9990",
         "layer": "Entities",
         "x": 11938,
-        "y": 112,
+        "y": 8,
         "width": 66,
-        "height": 718,
+        "height": 822,
+        "color": 4073265,
+        "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "af42d460-48b0-11f1-b494-694a7abff1a2",
+        "layer": "Entities",
+        "x": 10540,
+        "y": 609,
+        "width": 1100,
+        "height": 66,
+        "color": 4073265,
+        "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "bc63bb00-48b0-11f1-b494-fd7b95325b39",
+        "layer": "Entities",
+        "x": 11188,
+        "y": 675,
+        "width": 754,
+        "height": 66,
         "color": 4073265,
         "customFields" : {}
       }
@@ -345,6 +367,17 @@
         "layer": "Entities",
         "x": 7881,
         "y": 193,
+        "width": 50,
+        "height": 150,
+        "color": 10078003,
+        "customFields" : {}
+      },
+      {
+        "id": "SimpleMonster",
+        "iid": "c88707c0-48b0-11f1-b494-25d25c214a3a",
+        "layer": "Entities",
+        "x": 11458,
+        "y": 459,
         "width": 50,
         "height": 150,
         "color": 10078003,
