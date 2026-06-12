@@ -1,8 +1,8 @@
 {
   "identifier": "Level_0",
   "uniqueIdentifer": "fbdaed80-48b0-11f1-a911-ebb2713f54f8",
-  "x": -13904,
-  "y": -208,
+  "x": -17152,
+  "y": -176,
   "width": 10000,
   "height": 503,
   "bgColor": "#696A79",
@@ -419,6 +419,19 @@
         "customFields": {
           "blockDirection": "TOP"
         }
+      }
+    ],
+    "LevelEndTrigger": [
+      {
+        "id": "LevelEndTrigger",
+        "iid": "c82f1660-48b0-11f1-80a0-7700b7323f16",
+        "layer": "Entities",
+        "x": 9923,
+        "y": 58,
+        "width": 16,
+        "height": 176,
+        "color": 16773813,
+        "customFields" : {}
       }
     ]
   }

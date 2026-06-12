@@ -1,8 +1,8 @@
 {
   "identifier": "Level_1",
   "uniqueIdentifer": "e017dfa0-48b0-11f1-b868-695114947ad3",
-  "x": -3904,
-  "y": -590,
+  "x": -7152,
+  "y": -558,
   "width": 12004,
   "height": 885,
   "bgColor": "#696A79",
@@ -10,6 +10,10 @@
     {
       "levelIid": "fbdaed80-48b0-11f1-a911-ebb2713f54f8",
       "dir": "w"
+    },
+    {
+      "levelIid": "dcabae30-48b0-11f1-80a0-35bb17dacfc0",
+      "dir": "e"
     }
   ],
   "customFields" : {},
@@ -84,23 +88,12 @@
       },
       {
         "id": "BlockOfGround",
-        "iid": "af00d9d0-48b0-11f1-b868-374eaa96b30a",
-        "layer": "Entities",
-        "x": 7379,
-        "y": 343,
-        "width": 62,
-        "height": 538,
-        "color": 4073265,
-        "customFields" : {}
-      },
-      {
-        "id": "BlockOfGround",
         "iid": "af70b2a0-48b0-11f1-b868-6d5c25b4d7f8",
         "layer": "Entities",
-        "x": 7441,
+        "x": 7378,
         "y": 343,
-        "width": 1608,
-        "height": 66,
+        "width": 1671,
+        "height": 510,
         "color": 4073265,
         "customFields" : {}
       },
@@ -227,17 +220,6 @@
       },
       {
         "id": "BlockOfGround",
-        "iid": "b9321da0-48b0-11f1-b01b-070e18849f56",
-        "layer": "Entities",
-        "x": 8983,
-        "y": 409,
-        "width": 66,
-        "height": 200,
-        "color": 4073265,
-        "customFields" : {}
-      },
-      {
-        "id": "BlockOfGround",
         "iid": "e35acf50-48b0-11f1-b01b-89baede47e84",
         "layer": "Entities",
         "x": 9249,
@@ -254,7 +236,7 @@
         "x": 8987,
         "y": 543,
         "width": 1940,
-        "height": 66,
+        "height": 307,
         "color": 4073265,
         "customFields" : {}
       },
@@ -284,10 +266,10 @@
         "id": "BlockOfGround",
         "iid": "af42d460-48b0-11f1-b494-694a7abff1a2",
         "layer": "Entities",
-        "x": 10540,
+        "x": 10911,
         "y": 609,
-        "width": 1100,
-        "height": 66,
+        "width": 729,
+        "height": 252,
         "color": 4073265,
         "customFields" : {}
       },
@@ -295,10 +277,10 @@
         "id": "BlockOfGround",
         "iid": "bc63bb00-48b0-11f1-b494-fd7b95325b39",
         "layer": "Entities",
-        "x": 11188,
+        "x": 11616,
         "y": 675,
-        "width": 754,
-        "height": 66,
+        "width": 326,
+        "height": 183,
         "color": 4073265,
         "customFields" : {}
       }
@@ -583,6 +565,19 @@
         "width": 150,
         "height": 200,
         "color": 1149216,
+        "customFields" : {}
+      }
+    ],
+    "LevelEndTrigger": [
+      {
+        "id": "LevelEndTrigger",
+        "iid": "ac4cb880-48b0-11f1-80a0-83bc58f03dd7",
+        "layer": "Entities",
+        "x": 11921,
+        "y": 392,
+        "width": 16,
+        "height": 281,
+        "color": 16773813,
         "customFields" : {}
       }
     ]
