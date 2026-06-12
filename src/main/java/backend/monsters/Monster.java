@@ -328,7 +328,7 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
     }
 
     // Реакція на глухий кут
-    private void handleImpassable() {
+    protected void handleImpassable() {
         currentVelocityX = 0;
         currentState = State.STAND;
 

@@ -1,5 +1,5 @@
 /*
-  Великий монстр, багато здоров'я і шкоди
+  Дрібний монстр, який пересувається стрибками і персувається групами
  */
 
 package backend.monsters;
@@ -11,24 +11,24 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class BigMonster extends Monster {
+public class LeapingMonster extends Monster {
 
-    public BigMonster(int x, int y, int patrolRadius) {
+    public LeapingMonster(int x, int y, int patrolRadius) {
         super(x, y, patrolRadius);
 
-        height = 200;
-        width = 150;
+        width = 50;
+        height = 40;
 
-        speedX = 150;
+        speedX = 320;
 
-        maxHp = 100;
+        maxHp = 5;
         currentHP = maxHp;
 
-        damage = 25;
-        cooldown = 1.5;
-
-        targetJumpHeight = 120;
+        targetJumpHeight = 75;
         initialJumpParams();
+
+        damage = 5;
+        cooldown = 0.5;
 
         toPatrol();
 
@@ -39,7 +39,7 @@ public class BigMonster extends Monster {
         tempGc.fillRect(0, 0, width, height);
         tempGc.setFill(Color.WHITE);
         tempGc.setFont(new Font("Arial", 12));
-        tempGc.fillText("BIG_MONST", 5, 15);
+        tempGc.fillText("LEAP_MONST", 5, 15);
         SnapshotParameters params = new SnapshotParameters();
         params.setFill(Color.TRANSPARENT);
         this.image = canvas.snapshot(params, null);
@@ -71,7 +71,25 @@ public class BigMonster extends Monster {
                 // ...
         };
         // -----------------
-
         initialTimePeriods();
+    }
+
+    @Override
+    protected void checkPathAndMove() {
+        if (!onGround) return;
+
+        PathCondition obstacle = checkObstacle();
+        PathCondition hole = checkHole();
+
+        if (obstacle == PathCondition.IMPASSABLE || hole == PathCondition.IMPASSABLE) {
+            handleImpassable();
+        } else {
+            currentVelocityX = facingRight ? speedX : -speedX;
+            currentVelocityY = startJumpSpeed;
+            currentState = State.IN_AIR;
+            onGround = false;
+
+            currentImage = jumpImg;
+        }
     }
 }

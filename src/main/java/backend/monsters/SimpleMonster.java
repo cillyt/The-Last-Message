@@ -4,8 +4,6 @@
 
 package backend.monsters;
 
-import backend.MovingGameEntity;
-
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -26,9 +24,11 @@ public class SimpleMonster extends Monster {
         maxHp = 10;
         currentHP = maxHp;
 
-
         this.targetJumpHeight = 120;
         initialJumpParams();
+
+        damage = 10;
+        cooldown = 1;
 
         toPatrol();
 

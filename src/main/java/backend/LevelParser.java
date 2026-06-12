@@ -1,6 +1,7 @@
 package backend;
 
 import backend.monsters.BigMonster;
+import backend.monsters.LeapingMonster;
 import backend.monsters.SimpleMonster;
 import backend.triggeredZones.*;
 import org.json.JSONArray;
@@ -98,6 +99,16 @@ public class LevelParser {
                             }
                         }
                         allObjects.add(new BigMonster(x, y, patrolRadius));
+                        break;
+                    case "LeapingMonster":
+                        patrolRadius = 300;
+                        if (obj.has("customFields")) {
+                            JSONObject custom = obj.getJSONObject("customFields");
+                            if (custom.has("patrolRadius")) {
+                                patrolRadius = custom.getInt("patrolRadius");
+                            }
+                        }
+                        allObjects.add(new LeapingMonster(x, y, patrolRadius));
                         break;
                     case "Trap1":
                         allObjects.add(new Trap1(x, y));
