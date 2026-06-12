@@ -1,10 +1,12 @@
 package backend;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 @Getter
+@Setter
 public abstract class MovingGameEntity extends GameEntity{
 
     protected enum State {
@@ -21,6 +23,8 @@ public abstract class MovingGameEntity extends GameEntity{
     protected double startJumpSpeed;
     protected double currentVelocityY;
     protected double currentVelocityX;
+
+    protected double speedModifier = 1.0;
 
     protected int targetJumpHeight;
     protected int maxJumpDistance; // максимальна дальність стрибка
@@ -87,26 +91,7 @@ public abstract class MovingGameEntity extends GameEntity{
     }
 
     public void moveVertically(double deltaTime) {
-        if (onGround) {
-            int sensorX = x + 5;
-            int sensorY = y + height;
-            int sensorW = width - 10;
-            int sensorH = 1;
-
-            GameEntity groundCheck = collision(sensorX, sensorY, sensorW, sensorH, 0, 1, getCollisionObjects());
-
-            if (groundCheck == null) {
-                onGround = false;
-            } else {
-                currentVelocityY = 0;
-                subPixelY = 0;
-            }
-        }
-
-        if (!onGround) {
-            currentVelocityY += gravity * deltaTime;
-        }
-
+        currentVelocityY += gravity * deltaTime;
         subPixelY += currentVelocityY * deltaTime;
 
         int deltaY = (int) subPixelY;
@@ -227,11 +212,12 @@ public abstract class MovingGameEntity extends GameEntity{
         }
     }
 
-    public double getExactX() {
-        return x + subPixelX;
-    }
+    public void setSpeedModifier(double modifier) {
+        this.speedModifier = modifier;
 
-    public double getExactY() {
-        return y + subPixelY;
+        if (currentState == State.GO) {
+            currentVelocityX = speedX * speedModifier;
+            if (!facingRight) currentVelocityX *= -1;
+        }
     }
 }

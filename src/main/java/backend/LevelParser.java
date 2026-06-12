@@ -103,7 +103,18 @@ public class LevelParser {
                         allObjects.add(new Trap1(x, y));
                         break;
                     case "Trap2":
-                        allObjects.add(new Trap2(x, y));
+                        double fireTime = 8;
+                        double breakTime = 5;
+                        if (obj.has("customFields")) {
+                            JSONObject custom = obj.getJSONObject("customFields");
+                            if (custom.has("fireTime")) {
+                                fireTime = custom.getDouble("fireTime");
+                            }
+                            if (custom.has("breakTime")) {
+                                breakTime = custom.getDouble("breakTime");
+                            }
+                        }
+                        allObjects.add(new Trap2(x, y, fireTime, breakTime));
                         break;
                     case "PartialBlock":
                         PartialBlock.BlockDirection blockDir = PartialBlock.BlockDirection.TOP;

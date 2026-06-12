@@ -69,11 +69,8 @@ public abstract class GameEntity {
         inCamera = isVisible;
 
         if (isVisible && image != null) {
-            double renderX = (this instanceof MovingGameEntity) ? ((MovingGameEntity) this).getExactX() : this.x;
-            double renderY = (this instanceof MovingGameEntity) ? ((MovingGameEntity) this).getExactY() : this.y;
-
-            double screenX = renderX - camera.getExactX();
-            double screenY = renderY - camera.getExactY();
+            int screenX = this.x - camera.getX();
+            int screenY = this.y - camera.getY();
 
             gc.drawImage(image, screenX, screenY, width, height);
 

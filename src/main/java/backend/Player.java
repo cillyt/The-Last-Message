@@ -17,8 +17,10 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class Player extends MovingGameEntity{
 
     @Getter
@@ -191,6 +193,8 @@ public class Player extends MovingGameEntity{
     private void go() {
         if (isCrouching) currentVelocityX = speedXinCrouch;
         else currentVelocityX = speedX;
+
+        currentVelocityX *= speedModifier;
 
         if (!facingRight) currentVelocityX *= -1;
 
@@ -403,13 +407,13 @@ public class Player extends MovingGameEntity{
 
     public void takeDamage(int damage){
         currentHp -= damage;
+        CameraWindow.getInstance().applyShake(15, 0.2);
+
         if(currentHp > 0) return;
 
         stop();
         currentWeapon.stopFire();
         isDying = true;
-
-        CameraWindow.getInstance().applyShake(20, 0.2);
     }
 
     public void unlockWeapon(int i) {
@@ -476,11 +480,6 @@ public class Player extends MovingGameEntity{
                 }
             }
         }
-        GameEntity detector = collision(x, y, width, height, Level.getCurrentLevel().getPlayerDetectors());
-        if (detector != null){
-            Detector det = (Detector) detector;
-            det.executeTrigger();
-        }
     }
 
     @Override
@@ -500,5 +499,15 @@ public class Player extends MovingGameEntity{
                 , screenX + 5, screenY + 35);
         // ----------------
 
+    }
+
+    @Override
+    public void setSpeedModifier(double modifier) {
+        this.speedModifier = modifier;
+        if (currentState == State.GO) {
+            currentVelocityX = isCrouching ? speedXinCrouch : speedX;
+            currentVelocityX *= speedModifier;
+            if (!facingRight) currentVelocityX *= -1;
+        }
     }
 }

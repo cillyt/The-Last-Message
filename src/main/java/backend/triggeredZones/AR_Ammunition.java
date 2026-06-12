@@ -4,6 +4,7 @@
 
 package backend.triggeredZones;
 
+import backend.GameEntity;
 import backend.Player;
 import backend.weapon.AR;
 import backend.weapon.Weapon;
@@ -11,6 +12,7 @@ import backend.weapon.Weapon;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
@@ -26,6 +28,8 @@ public class AR_Ammunition extends Detector {
 
         zIndex = 3;
 
+        currentImage = new Image("file:assets/detectors/назва.png");
+
         // --- ЗАГЛУШКА ---
         Canvas canvas = new Canvas(width, height);
         GraphicsContext tempGc = canvas.getGraphicsContext2D();
@@ -40,9 +44,8 @@ public class AR_Ammunition extends Detector {
         // ----------------
     }
 
-    public void executeTrigger() {
-        if (!isActive) return;
-
+    @Override
+    protected void onEnter(GameEntity entity) {
         isTriggered = true;
 
         Weapon[] weapons = Player.getInstance().getWeapons();

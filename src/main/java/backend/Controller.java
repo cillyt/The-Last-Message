@@ -42,16 +42,16 @@ public class Controller {
             // ----- ДЛЯ ТЕСТІВ -----
             // перед використанням в LevelLauncher закоментувати LightingManager.getInstance().renderLighting(gc);
             case RIGHT:
-                camera.internalX += cameraStep;
+                camera.x += cameraStep;
                 break;
             case LEFT:
-                camera.internalX -= cameraStep;
+                camera.x -= cameraStep;
                 break;
             case UP:
-                camera.internalY -= cameraStep;
+                camera.y -= cameraStep;
                 break;
             case DOWN:
-                camera.internalY += cameraStep;
+                camera.y += cameraStep;
                 break;
                 //----------------------
         }
