@@ -1,6 +1,7 @@
 package backend.monsters;
 
 import backend.*;
+import javafx.scene.image.Image;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -10,7 +11,7 @@ import java.util.List;
 public abstract class Monster extends MovingGameEntity implements Raycaster {
 
     protected enum BehavioralState {
-        PATROL, // патруляє
+        PATROL, // патрулює
         SCANE, // оглядається на при кінці патрулювання
         ESPY, // стан для затримки перед переслідуванням
         CHASE, // йде за героєм
@@ -43,18 +44,18 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
 
     protected double scaneTime = 0.5; // час одного озирання
     protected double loseTime = 5; // час, який монстр буде стояти на місці при втраті гравця
-    protected double dyingTime = 0.5; // час для анімації смероі
+    protected double dyingTime = 0.5; // час для анімації смерті
 
     protected double cooldown = 0.5; // час перед атакою
 
     protected boolean jumpOverHoles; // чи вміє перестрибувати ями
 
-    protected double delayBefAgro = 1; // затримка, після якої монстр починає переслідувати гравця
+    protected double delayBefAgro = 0.5; // затримка, після якої монстр починає переслідувати гравця
 
     // Останні побачені координати гравця
     protected int lastSeenPlayerX;
 
-    protected int hearingPower = 1000; // дистанція, на яку монстр чує звук з intencity = 1.0
+    protected int hearingPower = 1500; // дистанція, на яку монстр чує звук з intencity = 1.0
 
     protected int damage = 10;
 
@@ -68,6 +69,27 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
 
     protected int maxHp = 100;
     protected int currentHP;
+
+    // ----- АСЕТИ -----
+    protected Image standImg;
+    protected Image jumpImg;
+
+    protected Image [] moveImgs = new Image[6];
+    protected Image [] attackImgs = new Image[4];
+    protected Image [] dyingImgs = new Image[4];
+    // -----------------
+
+    protected double currentSpriteTime;
+    protected int currentSpriteIndex;
+
+    private final double moveAnimTime = 1; // час прокручення всього масиву спрайтів
+    private double moveAnimPeriod; // час перемикання спрайтів
+
+    private double attackAnimTime;
+    private double attackAnimPeriod;
+
+    private final double dyingAnimTime = 1;
+    private double dyingAnimPeriod;
 
     public Monster(int x, int y) {
         super(x, y);
@@ -90,13 +112,21 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         this.patrolRadius = patrolRadius;
         leftPatrolPoint = x - patrolRadius;
         rightPatrolPoint = x + patrolRadius;
-
     }
 
     @Override
     protected List<GameEntity> getCollisionObjects() {
         return Level.getCurrentLevel().getWallsAndPartBlocks();
     }
+
+    // викликати в нащадках
+    protected void initialTimePeriods(){
+        attackAnimTime = cooldown;
+        moveAnimPeriod = moveAnimTime / moveImgs.length;
+        attackAnimPeriod = attackAnimTime / attackImgs.length;
+        dyingAnimPeriod = dyingAnimTime / dyingImgs.length;
+    }
+
 
     // Методи переходів
 
@@ -112,6 +142,11 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         currentTime = 0;
 
         behState = BehavioralState.SCANE;
+
+        currentImage = standImg;
+        currentSpriteTime = 0;
+        currentSpriteIndex = 0;
+
     }
 
     protected void toEspy(){
@@ -121,6 +156,10 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         currentTime = 0;
 
         behState = BehavioralState.ESPY;
+
+        currentImage = standImg;
+        currentSpriteTime = 0;
+        currentSpriteIndex = 0;
     }
 
     protected void toChase() {
@@ -140,6 +179,10 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         currentState = State.STAND;
 
         behState = BehavioralState.LOSE;
+
+        currentImage = standImg;
+        currentSpriteTime = 0;
+        currentSpriteIndex = 0;
     }
 
     protected void toStuck() {
@@ -147,6 +190,10 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         currentState = State.STAND;
         currentTime = 0;
         behState = BehavioralState.STUCK;
+
+        currentImage = standImg;
+        currentSpriteTime = 0;
+        currentSpriteIndex = 0;
     }
 
     protected void toComeback() {
@@ -161,6 +208,10 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         currentTime = 0;
 
         behState = BehavioralState.ATTACK;
+
+        currentSpriteTime = 0;
+        currentSpriteIndex = 1;
+        currentImage = attackImgs[0];
     }
 
     protected void toDying() {
@@ -169,6 +220,10 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         currentTime = 0;
 
         behState = BehavioralState.DYING;
+
+        currentSpriteTime = 0;
+        currentSpriteIndex = 0;
+        currentImage = dyingImgs[0];
     }
 
     // Допоміжні методи
@@ -181,6 +236,12 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
             facingRight = false;
             currentVelocityX = -speedX;
         }
+
+        if(currentState != State.GO){
+            currentSpriteIndex = 1;
+            currentImage = moveImgs[0];
+        }
+
         currentState = State.GO;
     }
 
@@ -258,6 +319,10 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
                 currentVelocityY = startJumpSpeed;
                 currentState = State.IN_AIR;
                 onGround = false;
+
+                currentImage = jumpImg;
+                currentSpriteTime = 0;
+                currentSpriteIndex = 0;
             }
         }
     }
@@ -284,7 +349,7 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
                 toPatrol();
                 break;
             case CHASE:
-                toLose();
+                toStuck();
                 break;
         }
     }
@@ -292,7 +357,7 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
     protected boolean checkAttack(){
         int attackX = facingRight ? x + width : x - attackWidth;
 
-        return collision(attackX, y, attackWidth, height, Player.getInstance());
+        return collision(attackX, y, attackWidth/2, height, Player.getInstance());
     }
 
     // Методи помічання гравця
@@ -359,6 +424,15 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
     @Override
     public void update(double deltaTime) {
         super.update(deltaTime);
+
+        if(currentState == State.GO){
+            currentSpriteTime += deltaTime;
+            if(currentSpriteTime >= moveAnimPeriod){
+                currentSpriteTime -= moveAnimPeriod;
+                currentImage = moveImgs[currentSpriteIndex];
+                currentSpriteIndex = (currentSpriteIndex + 1) % moveImgs.length;
+            }
+        }
 
         switch (behState) {
             case PATROL:
@@ -458,12 +532,30 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
                     Player.getInstance().takeDamage(damage);
                 }
                 if (!checkAttack()) toChase();
+
+                currentSpriteTime += deltaTime;
+                if(currentSpriteTime >= attackAnimPeriod){
+                    currentSpriteTime -= attackAnimPeriod;
+                    currentImage = attackImgs[currentSpriteIndex];
+                    currentSpriteIndex = (currentSpriteIndex + 1) % attackImgs.length;
+                }
+
                 break;
             case DYING:
                 currentTime += deltaTime;
                 if (currentTime >= dyingTime) {
                     isActive = false;
                 }
+
+                currentSpriteTime += deltaTime;
+                if(currentSpriteTime >= dyingAnimPeriod){
+                    currentSpriteTime -= dyingAnimPeriod;
+                    if (currentSpriteIndex < dyingImgs.length - 1) {
+                        currentSpriteIndex++;
+                        currentImage = dyingImgs[currentSpriteIndex];
+                    }
+                }
+
                 break;
         }
     }

@@ -9,6 +9,7 @@ import backend.MovingGameEntity;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
@@ -43,5 +44,34 @@ public class SimpleMonster extends Monster {
         params.setFill(Color.TRANSPARENT);
         this.image = canvas.snapshot(params, null);
         // ----------------
+        
+        // ----- АСЕТИ -----
+        standImg = new Image("file:assets/monsters/simp_monster/назва.png");
+        jumpImg = new Image("file:assets/monsters/simp_monster/назва.png");
+
+        moveImgs = new Image[]{
+                new Image("file:assets/monsters/simp_monster/move/назва.png"),
+                new Image("file:assets/monsters/simp_monster/move/назва.png"),
+                new Image("file:assets/monsters/simp_monster/move/назва.png"),
+                new Image("file:assets/monsters/simp_monster/move/назва.png"),
+                // ...
+        };
+        attackImgs = new Image[]{
+                new Image("file:assets/monsters/simp_monster/attack/назва.png"),
+                new Image("file:assets/monsters/simp_monster/attack/назва.png"),
+                new Image("file:assets/monsters/simp_monster/attack/назва.png"),
+                new Image("file:assets/monsters/simp_monster/attack/назва.png"),
+                // ...
+        };
+        dyingImgs = new Image[]{
+                new Image("file:assets/monsters/simp_monster/dying/назва.png"),
+                new Image("file:assets/monsters/simp_monster/dying/назва.png"),
+                new Image("file:assets/monsters/simp_monster/dying/назва.png"),
+                new Image("file:assets/monsters/simp_monster/dying/назва.png"),
+                // ...
+        };
+        // -----------------
+
+        initialTimePeriods();
     }
 }
