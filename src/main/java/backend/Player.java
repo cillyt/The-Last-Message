@@ -403,13 +403,13 @@ public class Player extends MovingGameEntity{
 
     public void takeDamage(int damage){
         currentHp -= damage;
+        CameraWindow.getInstance().applyShake(15, 0.2);
+
         if(currentHp > 0) return;
 
         stop();
         currentWeapon.stopFire();
         isDying = true;
-
-        CameraWindow.getInstance().applyShake(20, 0.2);
     }
 
     public void unlockWeapon(int i) {
