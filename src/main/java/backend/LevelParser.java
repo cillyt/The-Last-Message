@@ -137,6 +137,21 @@ public class LevelParser {
                         }
                         allObjects.add(new PartialBlock(x, y, w, h, blockDir));
                         break;
+                    case "DeadZone":
+                        allObjects.add(new DeadZone(x, y, w, h));
+                    case "PopupMessageTrigger":
+                        boolean triggerOnce = true;
+                        String message = "";
+                        if (obj.has("customFields")) {
+                            JSONObject custom = obj.getJSONObject("customFields");
+                            if (custom.has("triggerOnce")) {
+                                triggerOnce = custom.optBoolean("triggerOnce", true);
+                            }
+                            if(custom.has("message")){
+                                message = custom.getString("message");
+                            }
+                        }
+                        allObjects.add(new PopupMessageTrigger(x, y, w, h, triggerOnce, message));
                 }
             }
         }
