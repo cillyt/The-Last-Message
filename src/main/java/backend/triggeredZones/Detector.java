@@ -117,7 +117,7 @@ public class Detector extends GameEntity {
             }
         }
 
-        if (targetPlayer != null) {
+        if (targetPlayer != null && targetObjects == null) {
             processEntity(targetPlayer, deltaTime);
         }
 
