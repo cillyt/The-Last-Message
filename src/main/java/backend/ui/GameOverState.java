@@ -25,8 +25,8 @@ public class GameOverState implements GameState {
 
         double btnWidth = 320;
         double btnHeight = 52;
-        String btnStyle = "-fx-background-color: #1a5276; -fx-text-fill: white; " + UIResources.getFontCSS() + " -fx-font-size: 20px; -fx-padding: 8 20 8 20; -fx-background-radius: 18; -fx-cursor: hand;";
-        String btnHoverStyle = "-fx-background-color: #0d2847; -fx-text-fill: white; " + UIResources.getFontCSS() + " -fx-font-size: 20px; -fx-padding: 8 20 8 20; -fx-background-radius: 18; -fx-cursor: hand;";
+        String btnStyle = "-fx-background-color: #ffffff; -fx-text-fill: black; " + UIResources.getFontCSS() + " -fx-font-size: 24px; -fx-padding: 10 30 10 30; -fx-background-radius: 18; -fx-cursor: hand;";
+        String btnHoverStyle = "-fx-background-color: #ffffff; -fx-text-fill: #4d79ff; " + UIResources.getFontCSS() + " -fx-font-size: 24px; -fx-padding: 10 30 10 30; -fx-background-radius: 18; -fx-cursor: hand; -fx-effect: dropshadow(Gaussian, #4d79ff, 20, 0.5, 0, 0);;";
 
         retry.setStyle(btnStyle);
         toMenu.setStyle(btnStyle);
