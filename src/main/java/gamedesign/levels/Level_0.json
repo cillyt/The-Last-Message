@@ -1,8 +1,8 @@
 {
   "identifier": "Level_0",
   "uniqueIdentifer": "fbdaed80-48b0-11f1-a911-ebb2713f54f8",
-  "x": -17152,
-  "y": -176,
+  "x": -16820,
+  "y": -496,
   "width": 10000,
   "height": 503,
   "bgColor": "#696A79",
@@ -168,7 +168,7 @@
         "id": "Player",
         "iid": "9fd1a8a0-48b0-11f1-a911-0f96f6b3b45e",
         "layer": "Entities",
-        "x": 211,
+        "x": 437,
         "y": 246,
         "width": 50,
         "height": 170,
@@ -186,7 +186,9 @@
         "width": 150,
         "height": 200,
         "color": 1149216,
-        "customFields" : {}
+        "customFields": {
+          "patrolRadius": 350
+        }
       }
     ],
     "Medkit": [
@@ -258,7 +260,10 @@
         "width": 30,
         "height": 131,
         "color": 16733696,
-        "customFields" : {}
+        "customFields": {
+          "fireTime": 8,
+          "breakTime": 5
+        }
       },
       {
         "id": "Trap2",
@@ -269,7 +274,10 @@
         "width": 30,
         "height": 131,
         "color": 16733696,
-        "customFields" : {}
+        "customFields": {
+          "fireTime": 8,
+          "breakTime": 5
+        }
       }
     ],
     "SimpleMonster": [
@@ -277,34 +285,14 @@
         "id": "SimpleMonster",
         "iid": "8ceb15a0-48b0-11f1-a911-eb7b6a3dce20",
         "layer": "Entities",
-        "x": 1260,
-        "y": 266,
+        "x": 1318,
+        "y": 268,
         "width": 50,
         "height": 150,
         "color": 10078003,
-        "customFields" : {}
-      },
-      {
-        "id": "SimpleMonster",
-        "iid": "a0bf60e0-48b0-11f1-a911-551a303abfcb",
-        "layer": "Entities",
-        "x": 5613,
-        "y": 138,
-        "width": 50,
-        "height": 150,
-        "color": 10078003,
-        "customFields" : {}
-      },
-      {
-        "id": "SimpleMonster",
-        "iid": "a2c988c0-48b0-11f1-a911-573285cc0c38",
-        "layer": "Entities",
-        "x": 5802,
-        "y": 138,
-        "width": 50,
-        "height": 150,
-        "color": 10078003,
-        "customFields" : {}
+        "customFields": {
+          "patrolRadius": 225
+        }
       },
       {
         "id": "SimpleMonster",
@@ -315,7 +303,9 @@
         "width": 50,
         "height": 150,
         "color": 10078003,
-        "customFields" : {}
+        "customFields": {
+          "patrolRadius": 225
+        }
       }
     ],
     "Cashe": [
@@ -435,6 +425,160 @@
         "height": 169,
         "color": 16773813,
         "customFields" : {}
+      }
+    ],
+    "PopupMessageTrigger": [
+      {
+        "id": "PopupMessageTrigger",
+        "iid": "e31be700-48b0-11f1-9b05-2b69e76f4976",
+        "layer": "Entities",
+        "x": 1003,
+        "y": 64,
+        "width": 16,
+        "height": 349,
+        "color": 14984818,
+        "customFields": {
+          "triggerOnce": true,
+          "message": "Щоб завдати шкоди ворогу, натисніть клавішу ENTER"
+        }
+      },
+      {
+        "id": "PopupMessageTrigger",
+        "iid": "eebe43f0-48b0-11f1-9b05-6d51f7762e67",
+        "layer": "Entities",
+        "x": 1509,
+        "y": 65,
+        "width": 16,
+        "height": 348,
+        "color": 14984818,
+        "customFields": {
+          "triggerOnce": true,
+          "message": "Натисніть клавішу W щоб здійснити стрибок"
+        }
+      },
+      {
+        "id": "PopupMessageTrigger",
+        "iid": "f577ea20-48b0-11f1-9b05-e35f615d0c2e",
+        "layer": "Entities",
+        "x": 2560,
+        "y": 288,
+        "width": 16,
+        "height": 137,
+        "color": 14984818,
+        "customFields": {
+          "triggerOnce": true,
+          "message": "Протягом свого шляху Вам будуть траплятись схованки - заховані від очей місця, в яких знаходяться ресурси. Варто не пропускати, ресурси зайвими не бувають!"
+        }
+      },
+      {
+        "id": "PopupMessageTrigger",
+        "iid": "fefb5eb0-48b0-11f1-9b05-0573fc40409c",
+        "layer": "Entities",
+        "x": 3167,
+        "y": 66,
+        "width": 16,
+        "height": 222,
+        "color": 14984818,
+        "customFields": {
+          "triggerOnce": false,
+          "message": "Натисніть S щоб пригнутись"
+        }
+      },
+      {
+        "id": "PopupMessageTrigger",
+        "iid": "14a0c070-48b0-11f1-9b05-45929d489cdb",
+        "layer": "Entities",
+        "x": 5104,
+        "y": 62,
+        "width": 16,
+        "height": 226,
+        "color": 14984818,
+        "customFields": {
+          "triggerOnce": true,
+          "message": "Аптечка відновлює частинку Вашого здоров'я, збільшуючи шанси дожити до кінця"
+        }
+      },
+      {
+        "id": "PopupMessageTrigger",
+        "iid": "1adf1c20-48b0-11f1-9b05-d3ef5732ff9b",
+        "layer": "Entities",
+        "x": 6250,
+        "y": 66,
+        "width": 16,
+        "height": 223,
+        "color": 14984818,
+        "customFields": {
+          "triggerOnce": true,
+          "message": "Вітаю, Ви отримали нову зброю! На відміну від пістолета, AR завдає більшої шкоди, але також має обмежену кількість набоїв. Їх Ви зможете знайти під час свого подальшого просування. Не витрачайте їх задарма, вони справді можуть знадобитись у критичний момент!"
+        }
+      },
+      {
+        "id": "PopupMessageTrigger",
+        "iid": "3f193fd0-48b0-11f1-9b05-e791402709b8",
+        "layer": "Entities",
+        "x": 447,
+        "y": 66,
+        "width": 16,
+        "height": 350,
+        "color": 14984818,
+        "customFields": {
+          "triggerOnce": true,
+          "message": "Для руху вліво та вправо використовуйте клавіші A та D відповідно"
+        }
+      }
+    ],
+    "LeapingMonster": [
+      {
+        "id": "LeapingMonster",
+        "iid": "9b676c30-48b0-11f1-9b05-4bd3b73f3c8c",
+        "layer": "Entities",
+        "x": 5712,
+        "y": 238,
+        "width": 40,
+        "height": 50,
+        "color": 1653822,
+        "customFields": {
+          "patrolRadius": 150
+        }
+      },
+      {
+        "id": "LeapingMonster",
+        "iid": "9c46cfb0-48b0-11f1-9b05-317803ad8d9d",
+        "layer": "Entities",
+        "x": 5571,
+        "y": 238,
+        "width": 40,
+        "height": 50,
+        "color": 1653822,
+        "customFields": {
+          "patrolRadius": 150
+        }
+      },
+      {
+        "id": "LeapingMonster",
+        "iid": "9e63e350-48b0-11f1-9b05-033ba575b7f7",
+        "layer": "Entities",
+        "x": 5912,
+        "y": 237,
+        "width": 40,
+        "height": 50,
+        "color": 1653822,
+        "customFields": {
+          "patrolRadius": 150
+        }
+      },
+      {
+        "id": "LeapingMonster",
+        "iid": "a0f319b0-48b0-11f1-9b05-59379da29e59",
+        "layer": "Entities",
+        "x": 5835,
+        "y": 237,
+        "width": 40,
+        "height": 50,
+        "color": 1653822,
+        "customFields": {
+          "patrolRadius": 150
+        }
       }
     ]
   }
