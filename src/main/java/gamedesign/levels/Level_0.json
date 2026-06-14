@@ -36,7 +36,7 @@
         "layer": "Entities",
         "x": 2752,
         "y": 353,
-        "width": 4951,
+        "width": 4960,
         "height": 66,
         "color": 4073265,
         "customFields" : {}
@@ -78,10 +78,10 @@
         "id": "BlockOfGround",
         "iid": "b2d14d90-48b0-11f1-a911-2de876da5890",
         "layer": "Entities",
-        "x": 3304,
+        "x": 3298,
         "y": 0,
-        "width": 1167,
-        "height": 143,
+        "width": 1179,
+        "height": 157,
         "color": 4073265,
         "customFields" : {}
       },
@@ -168,8 +168,8 @@
         "id": "Player",
         "iid": "9fd1a8a0-48b0-11f1-a911-0f96f6b3b45e",
         "layer": "Entities",
-        "x": 437,
-        "y": 246,
+        "x": 479,
+        "y": 245,
         "width": 50,
         "height": 170,
         "color": 16777215,
@@ -516,7 +516,7 @@
         "id": "PopupMessageTrigger",
         "iid": "3f193fd0-48b0-11f1-9b05-e791402709b8",
         "layer": "Entities",
-        "x": 447,
+        "x": 485,
         "y": 66,
         "width": 16,
         "height": 350,
@@ -536,7 +536,7 @@
         "y": 238,
         "width": 40,
         "height": 50,
-        "color": 1653822,
+        "color": 3903894,
         "customFields": {
           "patrolRadius": 150
         }
@@ -549,7 +549,7 @@
         "y": 238,
         "width": 40,
         "height": 50,
-        "color": 1653822,
+        "color": 3903894,
         "customFields": {
           "patrolRadius": 150
         }
@@ -562,7 +562,7 @@
         "y": 237,
         "width": 40,
         "height": 50,
-        "color": 1653822,
+        "color": 3903894,
         "customFields": {
           "patrolRadius": 150
         }
@@ -575,7 +575,7 @@
         "y": 237,
         "width": 40,
         "height": 50,
-        "color": 1653822,
+        "color": 3903894,
         "customFields": {
           "patrolRadius": 150
         }
