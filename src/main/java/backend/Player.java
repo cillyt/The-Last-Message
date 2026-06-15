@@ -135,7 +135,7 @@ public class Player extends MovingGameEntity{
         zIndex = 4;
 
         speedX = 300;
-        this.targetJumpHeight = 120;
+        this.targetJumpHeight = 150;
         this.startJumpSpeed = -Math.sqrt(2 * gravity * this.targetJumpHeight);
 
         currentVelocityX = 0;
@@ -166,6 +166,26 @@ public class Player extends MovingGameEntity{
         params.setFill(Color.TRANSPARENT);
         this.image = canvas.snapshot(params, null);
         // ----------------
+    }
+
+    public void reset() {
+        currentHp = maxHp;
+        isDying = false;
+        isDead = false;
+        wantToMoveRight = false;
+        wantToMoveLeft = false;
+        wantToCrouch = false;
+
+        if (isCrouching) {
+            y -= defaultHeight - heightInCrouch;
+        }
+        isCrouching = false;
+        height = defaultHeight;
+
+        currentWeapon = weapons[0];
+        currentWeaponIndex = 0;
+
+        stop();
     }
 
     // Методи переходу в різні стани

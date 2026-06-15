@@ -1,13 +1,15 @@
 package backend.ui;
 
+import backend.GameProgress;
+import backend.LevelLauncher;
+import javafx.application.Platform;
+import javafx.geometry.Pos;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.geometry.Pos;
-import javafx.scene.text.Font;
 import javafx.scene.paint.Color;
-import javafx.application.Platform;
+import javafx.scene.text.TextAlignment;
 
 public class MainMenuState implements GameState {
     private final StateManager manager;
@@ -50,7 +52,13 @@ public class MainMenuState implements GameState {
         exit.setOnMouseEntered(e -> exit.setStyle(btnHoverStyle));
         exit.setOnMouseExited(e -> exit.setStyle(btnStyle));
 
-        start.setOnAction(e -> manager.changeState(new PlayingState(manager)));
+        start.setOnAction(e -> {
+            if (GameProgress.maxLevelReached > 1) {
+                manager.changeState(new LevelSelectState(manager));
+            } else {
+                LevelLauncher.loadAndPlayLevel(1, manager);
+            }
+        });
         settings.setOnAction(e -> { /* TODO: show settings */ });
         exit.setOnAction(e -> Platform.exit());
 
@@ -78,7 +86,8 @@ public class MainMenuState implements GameState {
 
         gc.setFill(Color.web("#ffffff"));
         gc.setFont(UIResources.getFont(64));
-        gc.fillText("THE LAST MESSAGE", width / 2.0 - 305, height / 4.0);
+        gc.setTextAlign(TextAlignment.CENTER);
+        gc.fillText("THE LAST MESSAGE", width / 2.0, height / 4.0);
     }
 
     @Override

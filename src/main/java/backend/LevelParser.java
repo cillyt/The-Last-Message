@@ -4,6 +4,7 @@ import backend.monsters.BigMonster;
 import backend.monsters.LeapingMonster;
 import backend.monsters.SimpleMonster;
 import backend.triggeredZones.*;
+import backend.ui.StateManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -14,7 +15,7 @@ import java.io.File;
 
 public class LevelParser {
 
-    public static Level loadLevel(File jsonFile) throws Exception {
+    public static Level loadLevel(StateManager manager, File jsonFile) throws Exception {
         String content = new String(Files.readAllBytes(jsonFile.toPath()));
         JSONObject root = new JSONObject(content);
 
@@ -156,6 +157,6 @@ public class LevelParser {
             }
         }
 
-        return new Level(levelX, levelY, levelWidth, levelHeight, levelNumber, allObjects);
+        return new Level(manager, levelX, levelY, levelWidth, levelHeight, levelNumber, allObjects);
     }
 }
