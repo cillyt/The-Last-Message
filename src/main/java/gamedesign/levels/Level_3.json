@@ -15,7 +15,11 @@
   "customFields" : {},
   "layers": [
     "Tiles2.png",
-    "Tiles.png"
+    "Tiles.png",
+    "Blood.png",
+    "Bodies.png",
+    "Bodies2.png",
+    "Doors.png"
   ],
   "entities": {
     "BlockOfGround": [
@@ -359,6 +363,17 @@
         "height": 66,
         "color": 4073265,
         "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "29512380-48b0-11f1-a735-bf43bd9c1b20",
+        "layer": "Entities",
+        "x": 57,
+        "y": 543,
+        "width": 229,
+        "height": 142,
+        "color": 4073265,
+        "customFields" : {}
       }
     ],
     "Player": [
@@ -366,8 +381,8 @@
         "id": "Player",
         "iid": "93f28d70-48b0-11f1-80a0-6f875f46ed29",
         "layer": "Entities",
-        "x": 149,
-        "y": 503,
+        "x": 138,
+        "y": 372,
         "width": 50,
         "height": 170,
         "color": 16777215,

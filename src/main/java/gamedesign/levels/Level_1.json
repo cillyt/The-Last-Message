@@ -15,7 +15,11 @@
   "customFields" : {},
   "layers": [
     "Tiles2.png",
-    "Tiles.png"
+    "Tiles.png",
+    "Blood.png",
+    "Bodies.png",
+    "Bodies2.png",
+    "Doors.png"
   ],
   "entities": {
     "BlockOfGround": [
@@ -102,7 +106,7 @@
         "layer": "Entities",
         "x": 0,
         "y": 1,
-        "width": 55,
+        "width": 94,
         "height": 502,
         "color": 4073265,
         "customFields" : {}
@@ -159,6 +163,17 @@
         "y": 288,
         "width": 160,
         "height": 69,
+        "color": 4073265,
+        "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "c4b99d50-48b0-11f1-b2f3-515d9b657f44",
+        "layer": "Entities",
+        "x": 1088,
+        "y": 52,
+        "width": 62,
+        "height": 139,
         "color": 4073265,
         "customFields" : {}
       }
@@ -285,13 +300,13 @@
         "id": "SimpleMonster",
         "iid": "8ceb15a0-48b0-11f1-a911-eb7b6a3dce20",
         "layer": "Entities",
-        "x": 1318,
-        "y": 268,
+        "x": 2302,
+        "y": 266,
         "width": 50,
         "height": 150,
         "color": 10078003,
         "customFields": {
-          "patrolRadius": 225
+          "patrolRadius": 0
         }
       },
       {
@@ -432,8 +447,8 @@
         "id": "PopupMessageTrigger",
         "iid": "e31be700-48b0-11f1-9b05-2b69e76f4976",
         "layer": "Entities",
-        "x": 1003,
-        "y": 64,
+        "x": 1931,
+        "y": 66,
         "width": 16,
         "height": 349,
         "color": 14984818,
@@ -446,8 +461,8 @@
         "id": "PopupMessageTrigger",
         "iid": "eebe43f0-48b0-11f1-9b05-6d51f7762e67",
         "layer": "Entities",
-        "x": 1509,
-        "y": 65,
+        "x": 1455,
+        "y": 69,
         "width": 16,
         "height": 348,
         "color": 14984818,
