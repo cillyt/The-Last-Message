@@ -18,7 +18,7 @@ public class BigMonster extends Monster {
     public BigMonster(int x, int y, int patrolRadius) {
         super(x, y, patrolRadius);
 
-        height = 200;
+        height = 170;
         width = 150;
 
         speedX = 150;

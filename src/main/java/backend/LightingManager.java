@@ -85,7 +85,7 @@ public class LightingManager {
         int screenWidth = camera.getScreenWidth();
         int screenHeight = camera.getScreenHeight();
 
-        List<BlockOfGround> blocks = Level.getCurrentLevel().getBlocksOfGround().stream()
+        List<GameEntity> blocks = Level.getCurrentLevel().getBlocksAndCashes().stream()
                 .filter(block -> block.inCamera).toList();
 
         List<Point> targetPoints = new ArrayList<>();
@@ -110,7 +110,7 @@ public class LightingManager {
         segments.add(new LineSegment(maxX, maxY, minX, maxY));
         segments.add(new LineSegment(minX, maxY, minX, minY));
 
-        for (BlockOfGround block : blocks) {
+        for (GameEntity block : blocks) {
             int blockX = block.getX() - cameraX;
             int blockY = block.getY() - cameraY;
             int blockWidth = block.getWidth();

@@ -3,6 +3,7 @@ package backend.ui;
 import backend.GameProgress;
 import backend.Level;
 import backend.LevelLauncher;
+import backend.SaveManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
@@ -29,6 +30,9 @@ public class LevelCompleteState implements GameState {
         if (nextLevel > GameProgress.maxLevelReached) {
             GameProgress.maxLevelReached = nextLevel;
         }
+
+        // зберігаємо гру
+        SaveManager.saveGame();
 
         Button next = new Button("НАСТУПНИЙ РІВЕНЬ");
         Button toMenu = new Button("В МЕНЮ");

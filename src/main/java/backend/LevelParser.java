@@ -17,6 +17,8 @@ import java.io.File;
 
 public class LevelParser {
 
+    private static int casheCounter = 0;
+
     public static Level loadLevel(StateManager manager, File jsonFile) throws Exception {
         String content = new String(Files.readAllBytes(jsonFile.toPath()));
         JSONObject root = new JSONObject(content);
@@ -81,7 +83,8 @@ public class LevelParser {
                         allObjects.add(new BlockOfGround(x, y, w, h));
                         break;
                     case "Cashe":
-                        allObjects.add(new Cashe(x, y, w, h));
+                        casheCounter++;
+                        allObjects.add(new Cashe(x, y, w, h, casheCounter));
                         break;
                     case "LevelEndTrigger":
                         allObjects.add(new LevelEndTrigger(x, y, w, h));

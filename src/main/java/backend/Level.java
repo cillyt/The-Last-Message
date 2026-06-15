@@ -1,6 +1,7 @@
 package backend;
 
 import backend.monsters.Monster;
+import backend.triggeredZones.Cashe;
 import backend.triggeredZones.Detector;
 import backend.ui.GameOverState;
 import backend.ui.LevelCompleteState;
@@ -35,6 +36,7 @@ public class Level {
     private List<GameEntity> livingEntitties; // тільки гравець і монстри
     private List<GameEntity> wallsAndPartBlocks; // блоки землі і часткові блоки
     private List<BlockOfGround> blocksOfGround; // суто блоки землі
+    private List<GameEntity> blocksAndCashes; // блоки землі і схованки
 
     private List<GameEntity> detectors; // детектори, які перевіряє гравець
 
@@ -92,6 +94,14 @@ public class Level {
                 .map(obj -> (BlockOfGround) obj)
                 .collect(Collectors.toList());
         lists.add(blocksOfGround);
+
+        blocksAndCashes = new ArrayList<>();
+        blocksAndCashes.addAll(blocksOfGround);
+        for (GameEntity obj : allObjects){
+            if(obj instanceof Cashe){
+                blocksAndCashes.add(obj);
+            }
+        }
 
         livingEntitties = blokingObjects.stream()
                 .filter(obj -> obj instanceof Player || obj instanceof Monster)

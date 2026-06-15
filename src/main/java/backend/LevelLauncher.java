@@ -36,6 +36,7 @@ public class LevelLauncher extends Application {
         Scene scene = new Scene(root, width, height);
 
         new Player(0, 0);
+        SaveManager.loadGame();
         new CameraWindow(width, height);
         new LightingManager();
 
@@ -88,6 +89,7 @@ public class LevelLauncher extends Application {
      * Перезапускає поточний рівень.
      */
     public static void restartLevel(StateManager manager) {
+        SaveManager.loadGame();
         loadAndPlayLevel(currentLevelNumber, manager);
     }
 

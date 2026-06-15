@@ -68,7 +68,7 @@ public class PlayingState implements GameState {
 
         // check player death
         Player p = Player.getInstance();
-        if (p != null && p.getCurrentHp() <= 0) {
+        if (p.isDead()) {
             Level.getCurrentLevel().lose();
         }
     }
