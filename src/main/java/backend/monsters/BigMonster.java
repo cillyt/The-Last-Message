@@ -11,6 +11,8 @@ import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import java.nio.file.Paths;
+
 public class BigMonster extends Monster {
 
     public BigMonster(int x, int y, int patrolRadius) {
@@ -50,13 +52,26 @@ public class BigMonster extends Monster {
         jumpImg = new Image("file:assets/monsters/big_monster/назва.png");
 
         moveImgs = new Image[]{
-                new Image("file:assets/monsters/big_monster/move/назва.png"),
-                new Image("file:assets/monsters/big_monster/move/назва.png"),
-                new Image("file:assets/monsters/big_monster/move/назва.png"),
-                new Image("file:assets/monsters/big_monster/move/назва.png"),
+//                new Image("file:assets/monsters/big_monster/move/WALK_02.png"),
+//                new Image("file:assets/monsters/big_monster/move/WALK_03.png"),
+//                new Image("file:assets/monsters/big_monster/move/WALK_04.png"),
+//                new Image("file:assets/monsters/big_monster/move/WALK_05.png"),
+//                new Image("file:assets/monsters/big_monster/move/WALK_06.png"),
+//                new Image("file:assets/monsters/big_monster/move/WALK_07.png"),
+//                new Image("file:assets/monsters/big_monster/move/WALK_08.png"),
+
+                new Image(Paths.get("assets/monsters/big_monster/move/WALK_02.png").toUri().toString()),
+                new Image(Paths.get("assets/monsters/big_monster/move/WALK_03.png").toUri().toString()),
+                new Image(Paths.get("assets/monsters/big_monster/move/WALK_04.png").toUri().toString()),
+                new Image(Paths.get("assets/monsters/big_monster/move/WALK_05.png").toUri().toString()),
+                new Image(Paths.get("assets/monsters/big_monster/move/WALK_06.png").toUri().toString()),
+                new Image(Paths.get("assets/monsters/big_monster/move/WALK_07.png").toUri().toString()),
+                new Image(Paths.get("assets/monsters/big_monster/move/WALK_08.png").toUri().toString()),
                 // ...
+
         };
-        attackImgs = new Image[]{
+
+                attackImgs = new Image[]{
                 new Image("file:assets/monsters/big_monster/attack/назва.png"),
                 new Image("file:assets/monsters/big_monster/attack/назва.png"),
                 new Image("file:assets/monsters/big_monster/attack/назва.png"),
