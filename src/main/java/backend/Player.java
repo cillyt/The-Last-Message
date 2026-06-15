@@ -171,7 +171,6 @@ public class Player extends MovingGameEntity{
     }
 
     public void reset() {
-        currentHp = maxHp;
         isDying = false;
         isDead = false;
         wantToMoveRight = false;
@@ -183,9 +182,6 @@ public class Player extends MovingGameEntity{
         }
         isCrouching = false;
         height = defaultHeight;
-
-        currentWeapon = weapons[0];
-        currentWeaponIndex = 0;
 
         stop();
     }
