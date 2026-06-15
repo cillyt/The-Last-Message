@@ -10,4 +10,9 @@ public class GameProgress {
      * Починається з 1, оскільки перший рівень доступний завжди.
      */
     public static int maxLevelReached = 1;
+
+    /**
+     * Показує, чи була вже відтворена вступна кат-сцена.
+     */
+    public static boolean introCutscenePlayed = false;
 }

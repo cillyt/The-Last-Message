@@ -3,6 +3,7 @@ package backend;
 import backend.monsters.Monster;
 import backend.triggeredZones.Cashe;
 import backend.triggeredZones.Detector;
+import backend.ui.FinalCutsceneState;
 import backend.ui.GameOverState;
 import backend.ui.LevelCompleteState;
 import backend.ui.StateManager;
@@ -69,13 +70,18 @@ public class Level {
     public void win() {
         if (isFinished) return;
         isFinished = true;
-        LevelLauncher.stateManager.changeState(new LevelCompleteState(LevelLauncher.stateManager));
+
+        if (levelNumber == 3) {
+            manager.changeState(new FinalCutsceneState(manager));
+        } else {
+            manager.changeState(new LevelCompleteState(manager));
+        }
     }
 
     public void lose() {
         if (isFinished) return;
         isFinished = true;
-        LevelLauncher.stateManager.changeState(new GameOverState(LevelLauncher.stateManager));
+        manager.changeState(new GameOverState(manager));
     }
 
     private void initialLists(){
