@@ -12,10 +12,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.layout.StackPane;
 import javafx.geometry.Pos;
-import javafx.scene.text.Font;
 import javafx.scene.image.Image;
 import backend.weapon.Pistol;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 
 import java.util.List;
 
@@ -23,13 +23,21 @@ public class PlayingState implements GameState {
     private final StateManager manager;
     private Button pauseButton;
 
+    // Для ефекту просвітління
+    private double fadeTimer = 0.0;
+    private static final double FADE_DURATION = 1.5;
+    private boolean isFirstFrame = true;
+
     public PlayingState(StateManager manager) {
         this.manager = manager;
     }
 
     @Override
     public void enter() {
-        // pause button in top-right
+        // Скидаємо таймер при вході в стан
+        fadeTimer = 0.0;
+        isFirstFrame = true;
+
         pauseButton = new Button("||");
         String pauseBtnStyle = "-fx-background-color: #ffffff; -fx-text-fill: black; " + UIResources.getFontCSS() + " -fx-font-size: 32px; -fx-padding: 6 16 6 16; -fx-background-radius: 18; -fx-cursor: hand;";
         String pauseBtnHoverStyle = "-fx-background-color: #ffffff; -fx-text-fill: #4d79ff; " + UIResources.getFontCSS() + " -fx-font-size: 32px; -fx-padding: 6 16 6 16; -fx-background-radius: 18; -fx-cursor: hand; -fx-effect: dropshadow(Gaussian, #4d79ff, 20, 0.5, 0, 0);;";
@@ -42,12 +50,19 @@ public class PlayingState implements GameState {
         StackPane.setMargin(pauseButton, new Insets(10, 10, 0, 0));
         manager.getRootPane().getChildren().add(pauseButton);
 
-        // ensure canvas has focus for keyboard
         manager.getCanvas().requestFocus();
     }
 
     @Override
     public void update(double deltaTime) {
+        if (isFirstFrame) {
+            isFirstFrame = false;
+            // Примусово оновлюємо камеру на першому кадрі
+            CameraWindow.getInstance().update(0);
+        }
+
+        fadeTimer += deltaTime;
+
         Level current = Level.getCurrentLevel();
         if (current == null) return;
 
@@ -66,16 +81,14 @@ public class PlayingState implements GameState {
         CameraWindow.getInstance().update(deltaTime);
         current.update(deltaTime);
 
-        // check player death
         Player p = Player.getInstance();
-        if (p.isDead()) {
+        if (p != null && p.isDead()) {
             Level.getCurrentLevel().lose();
         }
     }
 
     @Override
     public void render(GraphicsContext gc, int width, int height) {
-        // draw level (similar to previous launcher logic)
         gc.setFill(Color.web("#696A79"));
         gc.fillRect(0, 0, width, height);
 
@@ -98,54 +111,71 @@ public class PlayingState implements GameState {
             }
         }
 
-        // HUD: draw HP bar (red)
-        Player p = Player.getInstance();
-        if (p != null) {
-            int hp = p.getCurrentHp();
-            int maxHp = p.getMaxHp();
-            double hpPct = Math.max(0.0, Math.min(1.0, (double) hp / (double) maxHp));
+        // --- HUD ---
+        gc.save();
+        try {
+            // Встановлюємо правильне вирівнювання для HUD
+            gc.setTextAlign(TextAlignment.LEFT);
 
-            int barWidth = 220;
-            int barHeight = 18;
-            int x = 20;
-            int y = 20;
+            Player p = Player.getInstance();
+            if (p != null) {
+                int hp = p.getCurrentHp();
+                int maxHp = p.getMaxHp();
+                double hpPct = Math.max(0.0, Math.min(1.0, (double) hp / (double) maxHp));
 
-            // background bar
-            gc.setFill(Color.web("#333333"));
-            gc.fillRect(x, y, barWidth, barHeight);
+                int barWidth = 220;
+                int barHeight = 18;
+                int x = 20;
+                int y = 20;
 
-            // hp fill (red)
-            gc.setFill(Color.web("#D32F2F"));
-            gc.fillRect(x, y, barWidth * hpPct, barHeight);
+                // background bar
+                gc.setFill(Color.web("#333333"));
+                gc.fillRect(x, y, barWidth, barHeight);
 
-            gc.setFill(Color.WHITE);
-            gc.setFont(UIResources.getFont(14));
-            gc.fillText(String.format("HP: %d/%d", hp, maxHp), x + 6, y + barHeight - 2);
+                // hp fill (red)
+                gc.setFill(Color.web("#D32F2F"));
+                gc.fillRect(x, y, barWidth * hpPct, barHeight);
 
-            // weapon icon and ammo below HP bar (moved from top-right to avoid pause button)
-            int weaponX = x;
-            int weaponY = y + barHeight + 12;
-            int iconSize = 40;
+                gc.setFill(Color.WHITE);
+                gc.setFont(UIResources.getFont(14));
+                gc.fillText(String.format("HP: %d/%d", hp, maxHp), x + 6, y + barHeight - 2);
 
-            String weaponKey = p.getCurrentWeapon() != null ? p.getCurrentWeapon().toString() : "none";
-            Image icon = UIResources.loadWeaponIcon(weaponKey, iconSize);
-            if (icon != null) {
-                gc.drawImage(icon, weaponX, weaponY, iconSize, iconSize);
-            }
+                // weapon icon and ammo below HP bar
+                int weaponX = x;
+                int weaponY = y + barHeight + 12;
+                int iconSize = 40;
 
-            // ammo text next to icon
-            gc.setFill(Color.WHITE);
-            gc.setFont(UIResources.getFont(14));
-            String ammoDisplay = "";
-            if (p.getCurrentWeapon() != null) {
-                if (p.getCurrentWeapon() instanceof Pistol) {
-                    ammoDisplay = "∞";
-                } else {
-                    ammoDisplay = String.valueOf(p.getCurrentWeapon().getAmmunitionNumber());
+                String weaponKey = p.getCurrentWeapon() != null ? p.getCurrentWeapon().toString() : "none";
+                Image icon = UIResources.loadWeaponIcon(weaponKey, iconSize);
+                if (icon != null) {
+                    gc.drawImage(icon, weaponX, weaponY, iconSize, iconSize);
                 }
-            } else ammoDisplay = "-";
 
-            gc.fillText(ammoDisplay, weaponX + iconSize + 8, weaponY + iconSize / 2 + 5);
+                // ammo text next to icon
+                gc.setFill(Color.WHITE);
+                gc.setFont(UIResources.getFont(14));
+                String ammoDisplay = "";
+                if (p.getCurrentWeapon() != null) {
+                    if (p.getCurrentWeapon() instanceof Pistol) {
+                        ammoDisplay = "∞";
+                    } else {
+                        ammoDisplay = String.valueOf(p.getCurrentWeapon().getAmmunitionNumber());
+                    }
+                } else ammoDisplay = "-";
+
+                gc.fillText(ammoDisplay, weaponX + iconSize + 8, weaponY + iconSize / 2 + 5);
+            }
+        } finally {
+            gc.restore();
+        }
+        // --- Кінець HUD ---
+
+
+        // Ефект просвітління
+        if (fadeTimer < FADE_DURATION) {
+            double alpha = 1.0 - (fadeTimer / FADE_DURATION);
+            gc.setFill(new Color(0, 0, 0, alpha));
+            gc.fillRect(0, 0, width, height);
         }
     }
 
