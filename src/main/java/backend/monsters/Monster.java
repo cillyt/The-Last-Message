@@ -1,7 +1,9 @@
 package backend.monsters;
 
 import backend.*;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.text.TextAlignment;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -561,7 +563,7 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
     }
 
     @Override
-    public void render(javafx.scene.canvas.GraphicsContext gc) {
+    public void render(GraphicsContext gc) {
         super.render(gc);
 
         if (!isActive || !inCamera) return;
@@ -570,9 +572,12 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         int screenX = this.x - camera.getX();
         int screenY = this.y - camera.getY();
 
+        gc.save();
+        gc.setTextAlign(TextAlignment.LEFT);
         gc.setFill(javafx.scene.paint.Color.WHITE);
         gc.setFont(new javafx.scene.text.Font("Arial", 12));
 
         gc.fillText("behState:\n" + behState.name(), screenX + 5, screenY + 40);
+        gc.restore();
     }
 }

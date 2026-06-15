@@ -17,6 +17,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import lombok.Setter;
 
 @Getter
@@ -511,12 +512,15 @@ public class Player extends MovingGameEntity{
         int screenX = this.x - camera.getX();
         int screenY = this.y - camera.getY();
 
+        gc.save();
+        gc.setTextAlign(TextAlignment.LEFT);
         gc.setFill(Color.BLACK);
         gc.setFont(new javafx.scene.text.Font("Arial", 12));
 
         gc.fillText(String.format("Weapon \n %s \n %d \n\n HP\n %d",
                         currentWeapon, currentWeapon.getAmmunitionNumber(), currentHp)
                 , screenX + 5, screenY + 35);
+        gc.restore();
         // ----------------
 
     }

@@ -1,5 +1,7 @@
 package backend;
 
+import backend.ui.CutsceneState;
+import backend.ui.FinalCutsceneState;
 import backend.ui.MainMenuState;
 import backend.ui.PlayingState;
 import backend.ui.StateManager;
@@ -45,10 +47,13 @@ public class LevelLauncher extends Application {
 
         stateManager = new StateManager(root, canvas, width, height);
 
-        // Завантажуємо перший рівень при старті, але не переходимо в PlayingState
-        loadLevel(1, stateManager);
+        // --- ТИМЧАСОВИЙ КОД ДЛЯ ТЕСТУВАННЯ (ЗАКОМЕНТОВАНО) ---
+        // stateManager.changeState(new FinalCutsceneState(stateManager));
+        // ----------------------------------------------------
 
+        // --- СТАНДАРТНИЙ ЗАПУСК ---
         stateManager.changeState(new MainMenuState(stateManager));
+        // -------------------------
 
         AnimationTimer gameLoop = new AnimationTimer() {
             private long lastTime = 0;
@@ -76,41 +81,33 @@ public class LevelLauncher extends Application {
         primaryStage.show();
     }
 
-    /**
-     * Завантажує та запускає вказаний рівень.
-     */
     public static void loadAndPlayLevel(int levelNumber, StateManager manager) {
-        loadLevel(levelNumber, manager);
-        manager.changeState(new PlayingState(manager));
+        if (levelNumber == 1 && !GameProgress.introCutscenePlayed) {
+            manager.changeState(new CutsceneState(manager));
+        } else {
+            loadLevel(levelNumber, manager);
+            manager.changeState(new PlayingState(manager));
+        }
     }
 
-    /**
-     * Перезапускає поточний рівень.
-     */
     public static void restartLevel(StateManager manager) {
         loadAndPlayLevel(currentLevelNumber, manager);
     }
 
-    /**
-     * Завантажує дані рівня, але не переходить у стан гри.
-     */
     private static void loadLevel(int levelNumber, StateManager manager) {
         Player.getInstance().reset();
         currentLevelNumber = levelNumber;
         try {
-            // Перевіряємо, чи існує файл рівня
             String levelFileName = "src/main/java/gamedesign/levels/Level_" + levelNumber + ".json";
             File levelFile = new File(levelFileName);
             if (!levelFile.exists()) {
                 System.err.println("Помилка: Файл рівня не знайдено: " + levelFileName);
-                // Можна повернутися в головне меню або показати повідомлення про помилку
                 manager.changeState(new MainMenuState(manager));
                 return;
             }
             LevelParser.loadLevel(manager, levelFile);
         } catch (Exception e) {
             e.printStackTrace();
-            // У випадку помилки парсингу, також можна повернутися в меню
             manager.changeState(new MainMenuState(manager));
         }
     }
