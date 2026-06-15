@@ -1,11 +1,12 @@
 package backend.ui;
 
+import backend.LevelLauncher;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
-import javafx.scene.text.Font;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 
 public class GameOverState implements GameState {
     private final StateManager manager;
@@ -42,7 +43,7 @@ public class GameOverState implements GameState {
         toMenu.setOnMouseEntered(e -> toMenu.setStyle(btnHoverStyle));
         toMenu.setOnMouseExited(e -> toMenu.setStyle(btnStyle));
 
-        retry.setOnAction(e -> manager.changeState(new PlayingState(manager)));
+        retry.setOnAction(e -> LevelLauncher.restartLevel(manager));
         toMenu.setOnAction(e -> manager.changeState(new MainMenuState(manager)));
 
         menuBox.getChildren().addAll(retry, toMenu);
@@ -60,7 +61,8 @@ public class GameOverState implements GameState {
 
         gc.setFill(Color.WHITE);
         gc.setFont(UIResources.getFont(48));
-        gc.fillText("YOU DIED", width / 2.0 - 120, height / 3.0);
+        gc.setTextAlign(TextAlignment.CENTER);
+        gc.fillText("YOU DIED", width / 2.0, height / 3.0);
     }
 
     @Override

@@ -2,6 +2,9 @@ package backend;
 
 import backend.monsters.Monster;
 import backend.triggeredZones.Detector;
+import backend.ui.GameOverState;
+import backend.ui.LevelCompleteState;
+import backend.ui.StateManager;
 import backend.weapon.Bullet;
 import backend.weapon.Weapon;
 import lombok.Getter;
@@ -13,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Getter
 public class Level {
+    private final StateManager manager;
 
     private int x;
     private int y;
@@ -40,7 +44,8 @@ public class Level {
 
     List<List<? extends GameEntity>> lists = new ArrayList<>(); // список списків
 
-    public Level(int x, int y, int width, int height, int levelNumber, List<GameEntity> allObjects) {
+    public Level(StateManager manager, int x, int y, int width, int height, int levelNumber, List<GameEntity> allObjects) {
+        this.manager = manager;
         currentLevel = this;
 
         this.x = x;
@@ -62,13 +67,13 @@ public class Level {
     public void win() {
         if (isFinished) return;
         isFinished = true;
-        // логіка виграшу рівня
+        LevelLauncher.stateManager.changeState(new LevelCompleteState(LevelLauncher.stateManager));
     }
 
     public void lose() {
         if (isFinished) return;
         isFinished = true;
-        // логіка програшу
+        LevelLauncher.stateManager.changeState(new GameOverState(LevelLauncher.stateManager));
     }
 
     private void initialLists(){

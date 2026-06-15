@@ -1,11 +1,14 @@
 package backend.ui;
 
+import backend.GameProgress;
+import backend.Level;
+import backend.LevelLauncher;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
-import javafx.scene.text.Font;
 import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
 
 public class LevelCompleteState implements GameState {
     private final StateManager manager;
@@ -19,6 +22,13 @@ public class LevelCompleteState implements GameState {
     public void enter() {
         menuBox = new VBox(24);
         menuBox.setAlignment(Pos.CENTER);
+
+        // Оновлюємо прогрес
+        int completedLevel = Level.getCurrentLevel().getLevelNumber();
+        int nextLevel = completedLevel + 1;
+        if (nextLevel > GameProgress.maxLevelReached) {
+            GameProgress.maxLevelReached = nextLevel;
+        }
 
         Button next = new Button("НАСТУПНИЙ РІВЕНЬ");
         Button toMenu = new Button("В МЕНЮ");
@@ -42,7 +52,7 @@ public class LevelCompleteState implements GameState {
         toMenu.setOnMouseEntered(e -> toMenu.setStyle(btnHoverStyle));
         toMenu.setOnMouseExited(e -> toMenu.setStyle(btnStyle));
 
-        next.setOnAction(e -> { /* TODO: load next level */ });
+        next.setOnAction(e -> LevelLauncher.loadAndPlayLevel(nextLevel, manager));
         toMenu.setOnAction(e -> manager.changeState(new MainMenuState(manager)));
 
         menuBox.getChildren().addAll(next, toMenu);
@@ -59,7 +69,8 @@ public class LevelCompleteState implements GameState {
 
         gc.setFill(Color.WHITE);
         gc.setFont(UIResources.getFont(48));
-        gc.fillText("LEVEL COMPLETE", width / 2.0 - 200, height / 3.0);
+        gc.setTextAlign(TextAlignment.CENTER);
+        gc.fillText("LEVEL COMPLETE", width / 2.0, height / 3.0);
     }
 
     @Override
