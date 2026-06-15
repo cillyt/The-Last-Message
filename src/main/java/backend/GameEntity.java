@@ -94,4 +94,9 @@ public abstract class GameEntity {
     public String toString() {
         return this.getClass().getSimpleName();
     }
+
+
+    public static String getAssetPath(String relativePath) {
+        return java.nio.file.Paths.get(relativePath).toUri().toString();
+    }
 }
