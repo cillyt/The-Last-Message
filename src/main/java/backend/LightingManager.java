@@ -13,7 +13,7 @@ public class LightingManager {
     @Getter
     public static LightingManager instance;
 
-    private final GaussianBlur blur = new GaussianBlur(15);
+    private final GaussianBlur blur = new GaussianBlur(0);
 
     public LightingManager() {
         instance = this;

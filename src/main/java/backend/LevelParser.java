@@ -44,8 +44,8 @@ public class LevelParser {
 
             for (int i = 0; i < items.length(); i++) {
                 JSONObject obj = items.getJSONObject(i);
-                int x = obj.getInt("x");
-                int y = obj.getInt("y");
+                int x = obj.getInt("x")+levelX;
+                int y = obj.getInt("y")+levelY;
 
                 int w = obj.has("width") ? obj.getInt("width") : 0;
                 int h = obj.has("height") ? obj.getInt("height") : 0;
