@@ -4,6 +4,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.FillRule;
+import javafx.scene.shape.StrokeLineJoin;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -12,8 +13,6 @@ import java.util.List;
 public class LightingManager {
     @Getter
     public static LightingManager instance;
-
-    private final GaussianBlur blur = new GaussianBlur(0);
 
     public LightingManager() {
         instance = this;
@@ -39,8 +38,6 @@ public class LightingManager {
         gc.setFillRule(FillRule.EVEN_ODD);
         gc.setFill(Color.rgb(0, 0, 0, DARKNESS_OPACITY));
 
-        gc.setEffect(blur);
-
         gc.beginPath();
 
         // Обводимо екран
@@ -63,7 +60,22 @@ public class LightingManager {
         gc.fill();
         gc.closePath();
 
-        gc.setEffect(null);
+        // кастомний блюр
+        gc.setLineJoin(StrokeLineJoin.ROUND);
+
+        gc.setStroke(Color.rgb(0, 0, 0, DARKNESS_OPACITY * 0.4));
+        gc.setLineWidth(15);
+        gc.stroke();
+
+        gc.setStroke(Color.rgb(0, 0, 0, DARKNESS_OPACITY * 0.15));
+        gc.setLineWidth(35);
+        gc.stroke();
+
+        gc.setStroke(Color.rgb(0, 0, 0, DARKNESS_OPACITY * 0.05));
+        gc.setLineWidth(60);
+        gc.stroke();
+
+        gc.closePath();
     }
 
     private List<Point> calculateVisibilityPolygon(double sourceX, double sourceY) {
