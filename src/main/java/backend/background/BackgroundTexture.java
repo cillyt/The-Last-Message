@@ -8,7 +8,6 @@ import backend.GameEntity;
 import javafx.scene.image.Image;
 
 public class BackgroundTexture extends GameEntity {
-    protected Image image;
 
     public BackgroundTexture(int x, int y){
         super(x, y);
@@ -18,6 +17,9 @@ public class BackgroundTexture extends GameEntity {
 
     public BackgroundTexture(int x, int y, int width, int height, Image image) {
         super(x, y, width, height);
+        isWalkable = true;
+        zIndex = 0;
+
         this.image = image;
     }
 }

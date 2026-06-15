@@ -42,7 +42,7 @@ public class AR_Item extends Detector {
     }
 
     @Override
-    protected void onExit(GameEntity entity) {
+    protected void onEnter(GameEntity entity) {
         isTriggered = true;
 
         Player.getInstance().unlockWeapon(1);

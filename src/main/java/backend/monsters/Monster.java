@@ -57,7 +57,7 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
     // Останні побачені координати гравця
     protected int lastSeenPlayerX;
 
-    protected int hearingPower = 1500; // дистанція, на яку монстр чує звук з intencity = 1.0
+    protected int hearingPower = 1000; // дистанція, на яку монстр чує звук з intencity = 1.0
 
     protected int damage = 10;
 
@@ -65,7 +65,7 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
     protected int attackWidth = 75;
 
     // зона бачення
-    protected int frontVisionDistance = 1000;
+    protected int frontVisionDistance = 600;
 
     protected int eyeH; // відстань від верхівки лоба до очей
 
