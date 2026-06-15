@@ -78,20 +78,20 @@ public class Player extends MovingGameEntity{
     };
 
     // для автомата
-    private final Image standImgAR = new Image("file:assets/player/ar/stand.png");
-    private final Image jumpImgAR = new Image("file:assets/player/ar/jump.png");
-    private final Image crouchImgAR = new Image("file:assets/player/ar/crouch.png");
+    private final Image standImgAR = new Image(getAssetPath("assets/player/ar/stand.png"));
+    private final Image jumpImgAR = new Image(getAssetPath("assets/player/ar/jump.png"));
+    private final Image crouchImgAR = new Image(getAssetPath("assets/player/ar/crouch.png"));
 
-    private final Image[] moveImgsAR = { new Image("file:assets/player/ar/назва.png"),
-            new Image("file:assets/player/ar/move/arun0.png"),
-            new Image("file:assets/player/ar/move/arun1.png"),
-            new Image("file:assets/player/ar/move/arun2.png"),
-            new Image("file:assets/player/ar/move/arun3.png"),
-            new Image("file:assets/player/ar/move/arun4.png"),
-            new Image("file:assets/player/ar/move/arun5.png"),
-            new Image("file:assets/player/ar/move/arun6.png"),
-            new Image("file:assets/player/ar/move/arun7.png"),
-            new Image("file:assets/player/ar/move/arun8.png")
+    private final Image[] moveImgsAR = {
+            new Image(getAssetPath("assets/player/ar/move/arun0.png")),
+            new Image(getAssetPath("assets/player/ar/move/arun1.png")),
+            new Image(getAssetPath("assets/player/ar/move/arun2.png")),
+            new Image(getAssetPath("assets/player/ar/move/arun3.png")),
+            new Image(getAssetPath("assets/player/ar/move/arun4.png")),
+            new Image(getAssetPath("assets/player/ar/move/arun5.png")),
+            new Image(getAssetPath("assets/player/ar/move/arun6.png")),
+            new Image(getAssetPath("assets/player/ar/move/arun7.png")),
+            new Image(getAssetPath("assets/player/ar/move/arun8.png")),
             // ...
     };
     private final Image[] crawlImgsAR = { new Image("file:assets/player/ar/crawl/назва.png"),

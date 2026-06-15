@@ -176,6 +176,17 @@
         "height": 139,
         "color": 4073265,
         "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "2fd5ced0-48b0-11f1-b2f3-d5a1e0cd4e0a",
+        "layer": "Entities",
+        "x": 1675,
+        "y": 477,
+        "width": 203,
+        "height": 24,
+        "color": 4073265,
+        "customFields" : {}
       }
     ],
     "Player": [
@@ -300,8 +311,8 @@
         "id": "SimpleMonster",
         "iid": "8ceb15a0-48b0-11f1-a911-eb7b6a3dce20",
         "layer": "Entities",
-        "x": 2299,
-        "y": 266,
+        "x": 2216,
+        "y": 264,
         "width": 50,
         "height": 150,
         "color": 10078003,
@@ -394,7 +405,7 @@
         "iid": "6c05c940-48b0-11f1-b01b-972e470a8623",
         "layer": "Entities",
         "x": 1696,
-        "y": 494,
+        "y": 466,
         "width": 159,
         "height": 9,
         "color": 0,
@@ -427,6 +438,19 @@
         "customFields": {
           "blockDirection": "TOP"
         }
+      },
+      {
+        "id": "PartialBlock",
+        "iid": "c5cb8b40-48b0-11f1-af01-996f45abbf69",
+        "layer": "Entities",
+        "x": 2053,
+        "y": 292,
+        "width": 49,
+        "height": 123,
+        "color": 9149364,
+        "customFields": {
+          "blockDirection": "RIGHT"
+        }
       }
     ],
     "LevelEndTrigger": [
@@ -447,10 +471,10 @@
         "id": "PopupMessageTrigger",
         "iid": "e31be700-48b0-11f1-9b05-2b69e76f4976",
         "layer": "Entities",
-        "x": 1931,
-        "y": 66,
+        "x": 1936,
+        "y": 69,
         "width": 16,
-        "height": 349,
+        "height": 348,
         "color": 14984818,
         "customFields": {
           "triggerOnce": true,
@@ -489,8 +513,8 @@
         "id": "PopupMessageTrigger",
         "iid": "fefb5eb0-48b0-11f1-9b05-0573fc40409c",
         "layer": "Entities",
-        "x": 3167,
-        "y": 66,
+        "x": 3134,
+        "y": 65,
         "width": 16,
         "height": 222,
         "color": 14984818,
