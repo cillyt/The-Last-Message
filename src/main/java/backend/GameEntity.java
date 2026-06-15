@@ -16,7 +16,8 @@ public abstract class GameEntity {
     protected int zIndex;
     protected boolean inCamera;
     protected boolean isActive = true;
-    protected Image image;
+    protected Image image; // заглушка
+    protected Image currentImage; // справжній спрайт
 
     protected boolean isWalkable;
 
@@ -72,6 +73,20 @@ public abstract class GameEntity {
             int screenY = this.y - camera.getY();
 
             gc.drawImage(image, screenX, screenY, width, height);
+
+            if (currentImage != null) {
+                if (this instanceof MovingGameEntity && !((MovingGameEntity) this).isFacingRight()) {
+                    gc.save();
+
+                    gc.translate(screenX + width, screenY);
+                    gc.scale(-1, 1);
+
+                    gc.drawImage(currentImage, 0, 0, width, height);
+
+                    gc.restore();
+                } else gc.drawImage(currentImage, screenX, screenY, width, height);
+
+            }
         }
     }
 

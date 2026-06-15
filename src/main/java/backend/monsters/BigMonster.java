@@ -7,27 +7,30 @@ package backend.monsters;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
 public class BigMonster extends Monster {
 
-    public BigMonster(int x, int y) {
-        super(x, y);
+    public BigMonster(int x, int y, int patrolRadius) {
+        super(x, y, patrolRadius);
 
         height = 200;
         width = 150;
 
-        speedX = 350;
+        speedX = 150;
 
-        maxHp = 250;
-        currentHP = 250;
+        maxHp = 100;
+        currentHP = maxHp;
+
+        damage = 25;
+        cooldown = 1.5;
 
         targetJumpHeight = 120;
         initialJumpParams();
 
-        this.targetJumpHeight = 120;
-        this.startJumpSpeed = -Math.sqrt(2 * gravity * this.targetJumpHeight);
+        toPatrol();
 
         // --- ЗАГЛУШКА ---
         Canvas canvas = new Canvas(width, height);
@@ -41,5 +44,34 @@ public class BigMonster extends Monster {
         params.setFill(Color.TRANSPARENT);
         this.image = canvas.snapshot(params, null);
         // ----------------
+
+        // ----- АСЕТИ -----
+        standImg = new Image("file:assets/monsters/big_monster/назва.png");
+        jumpImg = new Image("file:assets/monsters/big_monster/назва.png");
+
+        moveImgs = new Image[]{
+                new Image("file:assets/monsters/big_monster/move/назва.png"),
+                new Image("file:assets/monsters/big_monster/move/назва.png"),
+                new Image("file:assets/monsters/big_monster/move/назва.png"),
+                new Image("file:assets/monsters/big_monster/move/назва.png"),
+                // ...
+        };
+        attackImgs = new Image[]{
+                new Image("file:assets/monsters/big_monster/attack/назва.png"),
+                new Image("file:assets/monsters/big_monster/attack/назва.png"),
+                new Image("file:assets/monsters/big_monster/attack/назва.png"),
+                new Image("file:assets/monsters/big_monster/attack/назва.png"),
+                // ...
+        };
+        dyingImgs = new Image[]{
+                new Image("file:assets/monsters/big_monster/dying/назва.png"),
+                new Image("file:assets/monsters/big_monster/dying/назва.png"),
+                new Image("file:assets/monsters/big_monster/dying/назва.png"),
+                new Image("file:assets/monsters/big_monster/dying/назва.png"),
+                // ...
+        };
+        // -----------------
+
+        initialTimePeriods();
     }
 }

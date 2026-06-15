@@ -73,7 +73,7 @@ public abstract class Bullet extends MovingGameEntity {
         int sweepW = this.width + Math.abs(deltaX);
         int sweepH = this.height + Math.abs(deltaY);
 
-        GameEntity hitObject = collision(sweepX, sweepY, sweepW, sweepH, Level.getCurrentLevel().getBlokingObjects());
+        GameEntity hitObject = collision(sweepX, sweepY, sweepW, sweepH, deltaX, deltaY, Level.getCurrentLevel().getBlokingObjects());
 
 
         if (hitObject != null) {

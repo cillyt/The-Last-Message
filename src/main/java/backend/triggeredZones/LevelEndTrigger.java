@@ -4,8 +4,9 @@
 
 package backend.triggeredZones;
 
-import backend.Player;
+import backend.GameEntity;
 
+import backend.Level;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -28,5 +29,10 @@ public class LevelEndTrigger extends Detector {
         params.setFill(Color.TRANSPARENT);
         this.image = canvas.snapshot(params, null);
         // ----------------
+    }
+
+    @Override
+    protected void onEnter(GameEntity entity) {
+        Level.getCurrentLevel().win();
     }
 }

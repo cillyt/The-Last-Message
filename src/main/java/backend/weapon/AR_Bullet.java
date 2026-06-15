@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
 public class AR_Bullet extends Bullet{
     public AR_Bullet() {
         super();
-        damage = 10;
+        damage = 5;
         speedX = 1500;
 
         baseWidth = 15;

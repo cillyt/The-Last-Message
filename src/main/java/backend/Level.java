@@ -1,5 +1,6 @@
 package backend;
 
+import backend.monsters.Monster;
 import backend.triggeredZones.Detector;
 import backend.weapon.Bullet;
 import backend.weapon.Weapon;
@@ -13,21 +14,40 @@ import java.util.stream.Collectors;
 @Getter
 public class Level {
 
+    private int x;
+    private int y;
+    private int width;
+    private int height;
+    private int levelNumber;
+
+    // Стан рівня
+    private boolean isFinished = false;
+
     @Getter
     private static Level currentLevel;
 
     private List<GameEntity> allObjects;
-    private List<GameEntity> blokingObjects; // об'єкти з !isWalkable
-    private List<GameEntity> playerDetectors; // детектори, які перевіряє гравець
-    private List<GameEntity> independDetectors; // детектори, які самі себе перевіряють
+    private List<GameEntity> blokingObjects; // об'єкти з !isWalkable: гравець, монстри, блоки, часткові блоки
+    private List<GameEntity> livingEntitties; // тільки гравець і монстри
+    private List<GameEntity> wallsAndPartBlocks; // блоки землі і часткові блоки
+    private List<BlockOfGround> blocksOfGround; // суто блоки землі
+
+    private List<GameEntity> detectors; // детектори, які перевіряє гравець
+
     private List<GameEntity> bullets; // кулі всіх видів зброї
-    private List<BlockOfGround> blocksOfGround;
-    private List<SoundPrint> soundPrints = new ArrayList<>();
+
+    private List<SoundPrint> soundPrints = new ArrayList<>(); // звуки
 
     List<List<? extends GameEntity>> lists = new ArrayList<>(); // список списків
 
-    public Level (List<GameEntity> allObjects){
+    public Level(int x, int y, int width, int height, int levelNumber, List<GameEntity> allObjects) {
         currentLevel = this;
+
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.levelNumber = levelNumber;
 
         this.allObjects = allObjects;
         lists.add(allObjects);
@@ -35,6 +55,20 @@ public class Level {
         this.allObjects.sort(Comparator.comparingInt(GameEntity::getZIndex));
 
         initialLists();
+        initialDetectors();
+    }
+
+    // Методи завершення рівня
+    public void win() {
+        if (isFinished) return;
+        isFinished = true;
+        // логіка виграшу рівня
+    }
+
+    public void lose() {
+        if (isFinished) return;
+        isFinished = true;
+        // логіка програшу
     }
 
     private void initialLists(){
@@ -43,13 +77,24 @@ public class Level {
                 .collect(Collectors.toList());
         lists.add(blokingObjects);
 
-        blocksOfGround = blokingObjects.stream()
+        wallsAndPartBlocks = blokingObjects.stream()
+                .filter(obj -> obj instanceof BlockOfGround || obj instanceof PartialBlock)
+                .collect(Collectors.toList());
+        lists.add(wallsAndPartBlocks);
+
+        blocksOfGround = wallsAndPartBlocks.stream()
                 .filter(obj -> obj instanceof BlockOfGround)
                 .map(obj -> (BlockOfGround) obj)
                 .collect(Collectors.toList());
         lists.add(blocksOfGround);
 
-        playerDetectors = allObjects.stream()
+        livingEntitties = blokingObjects.stream()
+                .filter(obj -> obj instanceof Player || obj instanceof Monster)
+                .collect(Collectors.toList());
+        lists.add(livingEntitties);
+
+
+        detectors = allObjects.stream()
                 .filter(obj -> {
                     if(obj instanceof Detector){
                         Detector det = (Detector) obj;
@@ -58,18 +103,7 @@ public class Level {
                     return false;
                 })
                 .collect(Collectors.toList());
-        lists.add(playerDetectors);
-
-        independDetectors = allObjects.stream()
-                .filter(obj -> {
-                    if(obj instanceof Detector){
-                        Detector det = (Detector) obj;
-                        return det.getTargetObjects() != null;
-                    }
-                    return false;
-                })
-                .collect(Collectors.toList());
-        lists.add(independDetectors);
+        lists.add(detectors);
 
         bullets = new ArrayList<>();
         for (Weapon weapon : Player.getInstance().getWeapons()) {
@@ -89,6 +123,13 @@ public class Level {
             sound.intensity -= 0.1 * deltaTime;
         }
         soundPrints.removeIf(sound -> sound.intensity <= 0);
+    }
+
+    private void initialDetectors() {
+        for (GameEntity obj : detectors){
+            Detector det = (Detector) obj;
+            det.initialTargetList();
+        }
     }
 
 }

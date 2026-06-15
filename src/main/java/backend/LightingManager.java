@@ -1,6 +1,7 @@
 package backend;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.FillRule;
 import lombok.Getter;
@@ -11,6 +12,8 @@ import java.util.List;
 public class LightingManager {
     @Getter
     public static LightingManager instance;
+
+    private final GaussianBlur blur = new GaussianBlur(0);
 
     public LightingManager() {
         instance = this;
@@ -28,21 +31,25 @@ public class LightingManager {
 
         if (!player.isActive()) return;
 
-        double sourceX = (player.isFacingRight() ? player.getX() + player.getWidth() - 2 : player.getX()) - camera.getX() + 2;
-        double sourceY = player.getY() + player.getEyeH() / 2.0 - camera.getY();
+        int sourceX = player.getX() + player.getWidth() / 2 - camera.getX();
+        int sourceY = player.getY() + player.getEyeH() - camera.getY();
 
         List<Point> polygonPoints = calculateVisibilityPolygon(sourceX, sourceY);
 
         gc.setFillRule(FillRule.EVEN_ODD);
         gc.setFill(Color.rgb(0, 0, 0, DARKNESS_OPACITY));
+
+        gc.setEffect(blur);
+
         gc.beginPath();
 
         // Обводимо екран
-        gc.moveTo(0, 0);
-        gc.lineTo(camera.getScreenWidth(), 0);
-        gc.lineTo(camera.getScreenWidth(), camera.getScreenHeight());
-        gc.lineTo(0, camera.getScreenHeight());
-        gc.lineTo(0, 0);
+        double pad = 100;
+        gc.moveTo(-pad, -pad);
+        gc.lineTo(camera.getScreenWidth() + pad, -pad);
+        gc.lineTo(camera.getScreenWidth() + pad, camera.getScreenHeight() + pad);
+        gc.lineTo(-pad, camera.getScreenHeight() + pad);
+        gc.lineTo(-pad, -pad);
 
         // Вирізаємо світло
         if (!polygonPoints.isEmpty()) {
@@ -55,6 +62,8 @@ public class LightingManager {
 
         gc.fill();
         gc.closePath();
+
+        gc.setEffect(null);
     }
 
     private List<Point> calculateVisibilityPolygon(double sourceX, double sourceY) {
@@ -70,15 +79,24 @@ public class LightingManager {
         List<Point> targetPoints = new ArrayList<>();
         List<LineSegment> segments = new ArrayList<>();
 
-        targetPoints.add(new Point(0, 0));
-        targetPoints.add(new Point(screenWidth, 0));
-        targetPoints.add(new Point(screenWidth, screenHeight));
-        targetPoints.add(new Point(0, screenHeight));
+        // обмеження огляду
+        double marginX = screenWidth * 0.05;
+        double marginY = screenHeight * 0.05;
 
-        segments.add(new LineSegment(0, 0, screenWidth, 0));
-        segments.add(new LineSegment(screenWidth, 0, screenWidth, screenHeight));
-        segments.add(new LineSegment(screenWidth, screenHeight, 0, screenHeight));
-        segments.add(new LineSegment(0, screenHeight, 0, 0));
+        double minX = marginX;
+        double minY = marginY;
+        double maxX = screenWidth - marginX;
+        double maxY = screenHeight - marginY;
+
+        targetPoints.add(new Point(minX, minY));
+        targetPoints.add(new Point(maxX, minY));
+        targetPoints.add(new Point(maxX, maxY));
+        targetPoints.add(new Point(minX, maxY));
+
+        segments.add(new LineSegment(minX, minY, maxX, minY));
+        segments.add(new LineSegment(maxX, minY, maxX, maxY));
+        segments.add(new LineSegment(maxX, maxY, minX, maxY));
+        segments.add(new LineSegment(minX, maxY, minX, minY));
 
         for (BlockOfGround block : blocks) {
             int blockX = block.getX() - cameraX;
