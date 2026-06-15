@@ -6,6 +6,7 @@ import backend.Level;
 import backend.LightingManager;
 import backend.MovingGameEntity;
 import backend.Player;
+import backend.triggeredZones.PopupMessageTrigger;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -68,7 +69,7 @@ public class PlayingState implements GameState {
         // check player death
         Player p = Player.getInstance();
         if (p != null && p.getCurrentHp() <= 0) {
-            manager.changeState(new GameOverState(manager));
+            Level.getCurrentLevel().lose();
         }
     }
 
@@ -81,11 +82,21 @@ public class PlayingState implements GameState {
         Level current = Level.getCurrentLevel();
         if (current != null) {
             for (GameEntity entity : current.getAllObjects()) {
-                entity.render(gc);
+                if (!(entity instanceof PopupMessageTrigger)) {
+                    entity.render(gc);
+                }
             }
         }
 
         LightingManager.getInstance().renderLighting(gc);
+
+        if (current != null) {
+            for (GameEntity entity : current.getAllObjects()) {
+                if (entity instanceof PopupMessageTrigger) {
+                    entity.render(gc);
+                }
+            }
+        }
 
         // HUD: draw HP bar (red)
         Player p = Player.getInstance();

@@ -1,6 +1,7 @@
 package backend;
 
 import backend.ui.MainMenuState;
+import backend.ui.PlayingState;
 import backend.ui.StateManager;
 import javafx.application.Application;
 import javafx.animation.AnimationTimer;
@@ -8,13 +9,15 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.geometry.Rectangle2D;
 import java.io.File;
 
 public class LevelLauncher extends Application {
+
+    public static StateManager stateManager;
+    private static int currentLevelNumber = 1;
 
     public static void main(String[] args) {
         launch(args);
@@ -40,14 +43,11 @@ public class LevelLauncher extends Application {
         scene.setOnKeyPressed(controller::handleKeyPressed);
         scene.setOnKeyReleased(controller::handleKeyReleased);
 
-        try {
-            File levelFile = new File("src/main/java/gamedesign/levels/Level_1.json");
-            LevelParser.loadLevel(levelFile);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        stateManager = new StateManager(root, canvas, width, height);
 
-        StateManager stateManager = new StateManager(root, canvas, width, height);
+        // Завантажуємо перший рівень при старті, але не переходимо в PlayingState
+        loadLevel(1, stateManager);
+
         stateManager.changeState(new MainMenuState(stateManager));
 
         AnimationTimer gameLoop = new AnimationTimer() {
@@ -74,5 +74,44 @@ public class LevelLauncher extends Application {
         primaryStage.setFullScreen(true);
         primaryStage.setFullScreenExitHint("");
         primaryStage.show();
+    }
+
+    /**
+     * Завантажує та запускає вказаний рівень.
+     */
+    public static void loadAndPlayLevel(int levelNumber, StateManager manager) {
+        loadLevel(levelNumber, manager);
+        manager.changeState(new PlayingState(manager));
+    }
+
+    /**
+     * Перезапускає поточний рівень.
+     */
+    public static void restartLevel(StateManager manager) {
+        loadAndPlayLevel(currentLevelNumber, manager);
+    }
+
+    /**
+     * Завантажує дані рівня, але не переходить у стан гри.
+     */
+    private static void loadLevel(int levelNumber, StateManager manager) {
+        Player.getInstance().reset();
+        currentLevelNumber = levelNumber;
+        try {
+            // Перевіряємо, чи існує файл рівня
+            String levelFileName = "src/main/java/gamedesign/levels/Level_" + levelNumber + ".json";
+            File levelFile = new File(levelFileName);
+            if (!levelFile.exists()) {
+                System.err.println("Помилка: Файл рівня не знайдено: " + levelFileName);
+                // Можна повернутися в головне меню або показати повідомлення про помилку
+                manager.changeState(new MainMenuState(manager));
+                return;
+            }
+            LevelParser.loadLevel(manager, levelFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // У випадку помилки парсингу, також можна повернутися в меню
+            manager.changeState(new MainMenuState(manager));
+        }
     }
 }
