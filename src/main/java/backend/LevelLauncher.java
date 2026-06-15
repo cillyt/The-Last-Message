@@ -41,7 +41,7 @@ public class LevelLauncher extends Application {
         scene.setOnKeyReleased(controller::handleKeyReleased);
 
         try {
-            File levelFile = new File("src/main/java/gamedesign/levels/Level_0.json");
+            File levelFile = new File("src/main/java/gamedesign/levels/Level_1.json");
             LevelParser.loadLevel(levelFile);
         } catch (Exception e) {
             e.printStackTrace();
