@@ -66,6 +66,22 @@ public class Level {
         initialDetectors();
     }
 
+    /**
+     * Повністю очищує всі списки об'єктів рівня.
+     */
+    public static void clearLevel() {
+        if (currentLevel == null) return;
+
+        for (List<? extends GameEntity> list : currentLevel.lists) {
+            if (list != null) {
+                list.clear();
+            }
+        }
+        currentLevel.soundPrints.clear();
+        currentLevel = null;
+    }
+
+
     // Методи завершення рівня
     public void win() {
         if (isFinished) return;

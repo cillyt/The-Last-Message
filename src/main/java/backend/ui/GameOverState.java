@@ -3,6 +3,7 @@ package backend.ui;
 import backend.LevelLauncher;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
 import javafx.scene.paint.Color;
@@ -49,6 +50,9 @@ public class GameOverState implements GameState {
         menuBox.getChildren().addAll(retry, toMenu);
         manager.getRootPane().getChildren().add(menuBox);
     }
+
+    @Override
+    public void onKeyPressed(KeyEvent event) {}
 
     @Override
     public void update(double deltaTime) {

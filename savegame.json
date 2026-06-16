@@ -1,7 +1,5 @@
 {
     "arUnlocked": true,
-    "arAmmo": 10,
-    "hp": 100,
-    "pistolUnlocked": true,
-    "maxLevelReached": 2
+    "arAmmo": 15,
+    "maxLevelReached": 3
 }

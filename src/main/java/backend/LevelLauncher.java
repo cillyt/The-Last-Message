@@ -43,18 +43,15 @@ public class LevelLauncher extends Application {
         new LightingManager();
 
         Controller controller = new Controller(Player.getInstance());
-        scene.setOnKeyPressed(controller::handleKeyPressed);
-        scene.setOnKeyReleased(controller::handleKeyReleased);
-
         stateManager = new StateManager(root, canvas, width, height);
 
-        // --- ТИМЧАСОВИЙ КОД ДЛЯ ТЕСТУВАННЯ (ЗАКОМЕНТОВАНО) ---
-        // stateManager.changeState(new FinalCutsceneState(stateManager));
-        // ----------------------------------------------------
+        scene.setOnKeyPressed(event -> {
+            stateManager.onKeyPressed(event);
+            controller.handleKeyPressed(event);
+        });
+        scene.setOnKeyReleased(controller::handleKeyReleased);
 
-        // --- СТАНДАРТНИЙ ЗАПУСК ---
         stateManager.changeState(new MainMenuState(stateManager));
-        // -------------------------
 
         AnimationTimer gameLoop = new AnimationTimer() {
             private long lastTime = 0;
@@ -92,12 +89,11 @@ public class LevelLauncher extends Application {
     }
 
     public static void restartLevel(StateManager manager) {
-        SaveManager.loadGame();
         loadAndPlayLevel(currentLevelNumber, manager);
     }
 
     private static void loadLevel(int levelNumber, StateManager manager) {
-        Player.getInstance().reset();
+        Player.getInstance().reset(); // Звичайний reset для HP і стану
         currentLevelNumber = levelNumber;
         try {
             String levelFileName = "src/main/java/gamedesign/levels/Level_" + levelNumber + ".json";

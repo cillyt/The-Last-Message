@@ -171,7 +171,11 @@ public class Player extends MovingGameEntity{
         // ----------------
     }
 
+    /**
+     * Скидає стан гравця для початку рівня (здоров'я, позиція), але не чіпає інвентар.
+     */
     public void reset() {
+        currentHp = maxHp;
         isDying = false;
         isDead = false;
         wantToMoveRight = false;
@@ -186,6 +190,21 @@ public class Player extends MovingGameEntity{
 
         stop();
     }
+
+    /**
+     * Повністю скидає гравця до початкового стану, як на початку нової гри.
+     */
+    public void fullReset() {
+        reset(); // Викликаємо звичайний reset
+
+        // Додатково скидаємо зброю та патрони
+        weaponUnlocked[0] = true; // Пістолет завжди доступний
+        weaponUnlocked[1] = false; // Блокуємо автомат
+        currentWeapon = weapons[0];
+        currentWeaponIndex = 0;
+        weapons[1].setAmmunitionNumber(0);
+    }
+
 
     // Методи переходу в різні стани
 
