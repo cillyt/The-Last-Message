@@ -565,27 +565,7 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
                         currentImage = dyingImgs[currentSpriteIndex];
                     }
                 }
-
                 break;
         }
-    }
-
-    @Override
-    public void render(GraphicsContext gc) {
-        super.render(gc);
-
-        if (!isActive || !inCamera) return;
-
-        backend.CameraWindow camera = backend.CameraWindow.getInstance();
-        int screenX = this.x - camera.getX();
-        int screenY = this.y - camera.getY();
-
-        gc.save();
-        gc.setTextAlign(TextAlignment.LEFT);
-        gc.setFill(javafx.scene.paint.Color.WHITE);
-        gc.setFont(new javafx.scene.text.Font("Arial", 12));
-
-        gc.fillText("behState:\n" + behState.name(), screenX + 5, screenY + 40);
-        gc.restore();
     }
 }

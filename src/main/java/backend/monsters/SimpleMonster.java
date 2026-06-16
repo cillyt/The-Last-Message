@@ -40,7 +40,7 @@ public class SimpleMonster extends Monster {
         //tempGc.fillRect(0, 0, width, height);
         //tempGc.setFill(Color.BLACK);
         tempGc.setFont(new Font("Arial", 10));
-        tempGc.fillText("SIMP_Monst", 2, 15);
+        //tempGc.fillText("SIMP_Monst", 2, 15);
         SnapshotParameters params = new SnapshotParameters();
         params.setFill(Color.TRANSPARENT);
         this.image = canvas.snapshot(params, null);
