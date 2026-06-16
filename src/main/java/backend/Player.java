@@ -447,8 +447,10 @@ public class Player extends MovingGameEntity{
     }
 
     public void takeDamage(int damage){
+        if (isDying || isDead) return;
+
         currentHp -= damage;
-        CameraWindow.getInstance().applyShake(15, 0.2);
+        CameraWindow.getInstance().applyShake(5, 0.2);
 
         if(currentHp > 0) return;
 
@@ -526,28 +528,6 @@ public class Player extends MovingGameEntity{
                 }
             }
         }
-    }
-
-    @Override
-    public void render(GraphicsContext gc) {
-        super.render(gc);
-
-        // --- ЗАГЛУШКА ---
-        backend.CameraWindow camera = backend.CameraWindow.getInstance();
-        int screenX = this.x - camera.getX();
-        int screenY = this.y - camera.getY();
-
-        gc.save();
-        gc.setTextAlign(TextAlignment.LEFT);
-        gc.setFill(Color.BLACK);
-        gc.setFont(new javafx.scene.text.Font("Arial", 12));
-
-        gc.fillText(String.format("Weapon \n %s \n %d \n\n HP\n %d",
-                        currentWeapon, currentWeapon.getAmmunitionNumber(), currentHp)
-                , screenX + 5, screenY + 35);
-        gc.restore();
-        // ----------------
-
     }
 
     @Override

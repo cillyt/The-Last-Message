@@ -149,6 +149,10 @@ public abstract class MovingGameEntity extends GameEntity{
         return null;
     }
 
+    public boolean collision(GameEntity obj){
+        return collision(x, y, width, height, obj);
+    }
+
     // проста поштучна перевірка
     public boolean collision(int qX, int qY, int qW, int qH,GameEntity obj) {
         return qX < obj.getX() + obj.getWidth() &&

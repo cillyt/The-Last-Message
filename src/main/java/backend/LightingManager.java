@@ -1,5 +1,6 @@
 package backend;
 
+import backend.triggeredZones.Cashe;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.paint.Color;
@@ -85,8 +86,11 @@ public class LightingManager {
         int screenWidth = camera.getScreenWidth();
         int screenHeight = camera.getScreenHeight();
 
+        Player player = Player.getInstance();
         List<GameEntity> blocks = Level.getCurrentLevel().getBlocksAndCashes().stream()
-                .filter(block -> block.inCamera).toList();
+                .filter(block -> block.inCamera)
+                .filter(block -> !(block instanceof Cashe && player.collision(block)))
+                .toList();
 
         List<Point> targetPoints = new ArrayList<>();
         List<LineSegment> segments = new ArrayList<>();
