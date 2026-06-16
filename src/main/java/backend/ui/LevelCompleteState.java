@@ -6,6 +6,7 @@ import backend.LevelLauncher;
 import backend.SaveManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.geometry.Pos;
 import javafx.scene.paint.Color;
@@ -62,6 +63,9 @@ public class LevelCompleteState implements GameState {
         menuBox.getChildren().addAll(next, toMenu);
         manager.getRootPane().getChildren().add(menuBox);
     }
+
+    @Override
+    public void onKeyPressed(KeyEvent event) {}
 
     @Override
     public void update(double deltaTime) {}

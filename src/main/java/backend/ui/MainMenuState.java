@@ -2,10 +2,12 @@ package backend.ui;
 
 import backend.GameProgress;
 import backend.LevelLauncher;
+import backend.SaveManager;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -21,62 +23,63 @@ public class MainMenuState implements GameState {
 
     @Override
     public void enter() {
-        menuBox = new VBox(24); // larger spacing
+        menuBox = new VBox(24);
         menuBox.setAlignment(Pos.CENTER);
 
-        Button start = new Button("СТАРТ");
-        Button settings = new Button("НАЛАШТУВАННЯ");
-        Button exit = new Button("ВИХІД");
+        Button continueButton = new Button("ПРОДОВЖИТИ");
+        Button newGameButton = new Button("НОВА ГРА");
+        Button exitButton = new Button("ВИХІД");
 
+        // Стилі
         double btnWidth = 360;
         double btnHeight = 56;
         String btnStyle = "-fx-background-color: #ffffff; -fx-text-fill: black; " + UIResources.getFontCSS() + " -fx-font-size: 24px; -fx-padding: 10 30 10 30; -fx-background-radius: 18; -fx-cursor: hand;";
         String btnHoverStyle = "-fx-background-color: #ffffff; -fx-text-fill: #ff0000; " + UIResources.getFontCSS() + " -fx-font-size: 24px; -fx-padding: 10 30 10 30; -fx-background-radius: 18; -fx-cursor: hand; -fx-effect: dropshadow(Gaussian, #ff0000, 20, 0.5, 0, 0);;";
 
-        start.setStyle(btnStyle);
-        settings.setStyle(btnStyle);
-        exit.setStyle(btnStyle);
+        continueButton.setStyle(btnStyle);
+        newGameButton.setStyle(btnStyle);
+        exitButton.setStyle(btnStyle);
 
-        start.setPrefSize(btnWidth, btnHeight);
-        settings.setPrefSize(btnWidth, btnHeight);
-        exit.setPrefSize(btnWidth, btnHeight);
+        continueButton.setPrefSize(btnWidth, btnHeight);
+        newGameButton.setPrefSize(btnWidth, btnHeight);
+        exitButton.setPrefSize(btnWidth, btnHeight);
 
-        start.setFont(UIResources.getFont(22));
-        settings.setFont(UIResources.getFont(22));
-        exit.setFont(UIResources.getFont(22));
+        continueButton.setOnMouseEntered(e -> continueButton.setStyle(btnHoverStyle));
+        continueButton.setOnMouseExited(e -> continueButton.setStyle(btnStyle));
+        newGameButton.setOnMouseEntered(e -> newGameButton.setStyle(btnHoverStyle));
+        newGameButton.setOnMouseExited(e -> newGameButton.setStyle(btnStyle));
+        exitButton.setOnMouseEntered(e -> exitButton.setStyle(btnHoverStyle));
+        exitButton.setOnMouseExited(e -> exitButton.setStyle(btnStyle));
 
-        start.setOnMouseEntered(e -> start.setStyle(btnHoverStyle));
-        start.setOnMouseExited(e -> start.setStyle(btnStyle));
-        settings.setOnMouseEntered(e -> settings.setStyle(btnHoverStyle));
-        settings.setOnMouseExited(e -> settings.setStyle(btnStyle));
-        exit.setOnMouseEntered(e -> exit.setStyle(btnHoverStyle));
-        exit.setOnMouseExited(e -> exit.setStyle(btnStyle));
-
-        start.setOnAction(e -> {
+        // Логіка кнопок
+        continueButton.setOnAction(e -> {
             if (GameProgress.maxLevelReached > 1) {
                 manager.changeState(new LevelSelectState(manager));
             } else {
+                // Якщо прогресу немає, "Продовжити" запускає перший рівень
                 LevelLauncher.loadAndPlayLevel(1, manager);
             }
         });
-        settings.setOnAction(e -> { /* TODO: show settings */ });
-        exit.setOnAction(e -> Platform.exit());
 
-        menuBox.getChildren().addAll(start, settings, exit);
+        newGameButton.setOnAction(e -> {
+            SaveManager.resetProgress();
+            LevelLauncher.loadAndPlayLevel(1, manager);
+        });
 
-        // add centered menu on top of canvas
-        StackPane.setAlignment(menuBox, Pos.CENTER);
+        exitButton.setOnAction(e -> Platform.exit());
+
+        menuBox.getChildren().addAll(continueButton, newGameButton, exitButton);
         manager.getRootPane().getChildren().add(menuBox);
     }
 
     @Override
-    public void update(double deltaTime) {
-        // menu doesn't update game logic
-    }
+    public void onKeyPressed(KeyEvent event) {}
+
+    @Override
+    public void update(double deltaTime) {}
 
     @Override
     public void render(GraphicsContext gc, int width, int height) {
-        // draw background image if available
         if (UIResources.getBackground() != null) {
             gc.drawImage(UIResources.getBackground(), 0, 0, width, height);
         } else {

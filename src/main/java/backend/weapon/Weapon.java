@@ -5,6 +5,7 @@ import backend.Player;
 import backend.SoundManager;
 import backend.SoundPrint;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public abstract class Weapon {
@@ -27,6 +28,10 @@ public abstract class Weapon {
 
     public void stopFire() {
         isShooting = false;
+    }
+
+    public void setAmmunitionNumber(int ammunitionNumber) {
+        this.ammunitionNumber = ammunitionNumber;
     }
 
     protected void fire() {

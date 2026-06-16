@@ -5,6 +5,7 @@ import backend.LevelLauncher;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
@@ -50,6 +51,9 @@ public class LevelSelectState implements GameState {
 
         manager.getRootPane().getChildren().add(menuBox);
     }
+
+    @Override
+    public void onKeyPressed(KeyEvent event) {}
 
     @Override
     public void update(double deltaTime) {
