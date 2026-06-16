@@ -552,7 +552,58 @@
       }
     ],
     "LeapingMonster": [
-
+      {
+        "id": "LeapingMonster",
+        "iid": "9b676c30-48b0-11f1-9b05-4bd3b73f3c8c",
+        "layer": "Entities",
+        "x": 5712,
+        "y": 238,
+        "width": 40,
+        "height": 50,
+        "color": 3903894,
+        "customFields": {
+          "patrolRadius": 150
+        }
+      },
+      {
+        "id": "LeapingMonster",
+        "iid": "9c46cfb0-48b0-11f1-9b05-317803ad8d9d",
+        "layer": "Entities",
+        "x": 5571,
+        "y": 238,
+        "width": 40,
+        "height": 50,
+        "color": 3903894,
+        "customFields": {
+          "patrolRadius": 150
+        }
+      },
+      {
+        "id": "LeapingMonster",
+        "iid": "9e63e350-48b0-11f1-9b05-033ba575b7f7",
+        "layer": "Entities",
+        "x": 5912,
+        "y": 237,
+        "width": 40,
+        "height": 50,
+        "color": 3903894,
+        "customFields": {
+          "patrolRadius": 150
+        }
+      },
+      {
+        "id": "LeapingMonster",
+        "iid": "a0f319b0-48b0-11f1-9b05-59379da29e59",
+        "layer": "Entities",
+        "x": 5835,
+        "y": 237,
+        "width": 40,
+        "height": 50,
+        "color": 3903894,
+        "customFields": {
+          "patrolRadius": 150
+        }
+      }
     ]
   }
 }
