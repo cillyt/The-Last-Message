@@ -54,6 +54,8 @@ public class Trap2 extends Detector {
 
     private boolean isMainPhase = false;
 
+    private Image stubImage; // зберігач заглушки
+
     public Trap2 (int x, int y, double fireTime, double breakTime) {
         super(x, y);
         zIndex = 6;
@@ -82,6 +84,7 @@ public class Trap2 extends Detector {
         SnapshotParameters params = new SnapshotParameters();
         params.setFill(Color.TRANSPARENT);
         this.image = canvas.snapshot(params, null);
+        stubImage = image;
         // ----------------
     }
 
@@ -108,6 +111,9 @@ public class Trap2 extends Detector {
         sumTime += deltaTime;
 
         if (sumTime <= spreadingTime) {
+            // ЗАГЛУШКА
+            image = stubImage;
+
             isMainPhase = false;
             if (currentSpriteTime >= spreadingPeriod) {
                 currentSpriteTime -= spreadingPeriod;
@@ -128,6 +134,9 @@ public class Trap2 extends Detector {
             if(isMainPhase) {
                 currentImage = null;
                 isMainPhase = false;
+                // ЗАГЛУШКА
+                image = null;
+
             }
         } else {
             sumTime = 0;

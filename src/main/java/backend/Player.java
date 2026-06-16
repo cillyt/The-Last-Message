@@ -4,7 +4,7 @@
 
 package backend;
 
-import backend.triggeredZones.Detector;
+import backend.SoundManager.SoundType;
 import backend.weapon.AR;
 import backend.weapon.Pistol;
 import backend.weapon.Weapon;
@@ -46,8 +46,8 @@ public class Player extends MovingGameEntity{
     private Weapon currentWeapon;
     private int currentWeaponIndex;
 
-    private double currentTime;
-    private final double soundPeriod = 5.0; // час між записами звуків при ходьбі
+    private double currentStepTime = 0.599;
+    private final double soundPeriod = 0.6; // час між записами звуків при ходьбі
 
     private final int eyeH = 15;
 
@@ -125,6 +125,16 @@ public class Player extends MovingGameEntity{
 
     private int currentSpriteIndex; // для бігу і повзання
 
+    // масив звуків кроків
+    private SoundManager.SoundType[] stepsSounds = new SoundType[] {
+            SoundManager.SoundType.footstep1,
+            SoundManager.SoundType.footstep2,
+            SoundManager.SoundType.footstep3,
+            SoundManager.SoundType.footstep4,
+            SoundManager.SoundType.footstep5
+    };
+    int currentStepNumber = 0; // поточний крок
+
 
     public Player(int x, int y) {
         super(x, y);
@@ -171,7 +181,11 @@ public class Player extends MovingGameEntity{
         // ----------------
     }
 
+    /**
+     * Скидає стан гравця для початку рівня (здоров'я, позиція), але не чіпає інвентар.
+     */
     public void reset() {
+        currentHp = maxHp;
         isDying = false;
         isDead = false;
         wantToMoveRight = false;
@@ -187,10 +201,24 @@ public class Player extends MovingGameEntity{
         stop();
     }
 
+    /**
+     * Повністю скидає гравця до початкового стану, як на початку нової гри.
+     */
+    public void fullReset() {
+        reset(); // Викликаємо звичайний reset
+
+        // Додатково скидаємо зброю та патрони
+        weaponUnlocked[0] = true; // Пістолет завжди доступний
+        weaponUnlocked[1] = false; // Блокуємо автомат
+        currentWeapon = weapons[0];
+        currentWeaponIndex = 0;
+        weapons[1].setAmmunitionNumber(0);
+    }
+
+
     // Методи переходу в різні стани
 
     private void stop() {
-        currentTime = 0;
 
         currentVelocityX = 0;
         currentState = State.STAND;
@@ -207,6 +235,9 @@ public class Player extends MovingGameEntity{
 
         currentSpriteTime = 0;
         currentSpriteIndex = 0;
+
+        currentStepTime = 0.599;
+        currentStepNumber = 0;
     }
 
     private void go() {
@@ -233,6 +264,9 @@ public class Player extends MovingGameEntity{
 
         currentSpriteTime = 0;
         currentSpriteIndex = 0;
+
+        currentStepTime = 0.599;
+        currentStepNumber = 0;
     }
 
     private void crouch (){
@@ -250,6 +284,9 @@ public class Player extends MovingGameEntity{
 
         currentSpriteTime = 0;
         currentSpriteIndex = 0;
+
+        currentStepTime = 0.599;
+        currentStepNumber = 0;
     }
 
     private void standUp (){
@@ -267,6 +304,9 @@ public class Player extends MovingGameEntity{
 
         currentSpriteTime = 0;
         currentSpriteIndex = 0;
+
+        currentStepTime = 0.599;
+        currentStepNumber = 0;
     }
 
     // Методи прийому команд
@@ -335,23 +375,24 @@ public class Player extends MovingGameEntity{
     }
 
     public void commandEquipPistol() {
-        if (weaponUnlocked[0]) {
-            currentWeapon.stopFire();
-            currentWeapon = weapons[0];
-            currentWeaponIndex = 0;
+        if (!weaponUnlocked[0]) return;
 
-            changeWeaponSprite();
-        }
+        currentWeapon.stopFire();
+        currentWeapon = weapons[0];
+        currentWeaponIndex = 0;
+
+        changeWeaponSprite();
+        SoundManager.getInstance().playSound(SoundType.gunChange);
     }
 
     public void commandEquipAR() {
-        if (weaponUnlocked[1]) {
-            currentWeapon.stopFire();
-            currentWeapon = weapons[1];
-            currentWeaponIndex = 1;
+        if (!weaponUnlocked[1]) return;
+        currentWeapon.stopFire();
+        currentWeapon = weapons[1];
+        currentWeaponIndex = 1;
 
-            changeWeaponSprite();
-        }
+        changeWeaponSprite();
+        SoundManager.getInstance().playSound(SoundType.gunChange);
     }
 
     // Допоміжні методи
@@ -425,8 +466,10 @@ public class Player extends MovingGameEntity{
     }
 
     public void takeDamage(int damage){
+        if (isDying || isDead) return;
+
         currentHp -= damage;
-        CameraWindow.getInstance().applyShake(15, 0.2);
+        CameraWindow.getInstance().applyShake(5, 0.2);
 
         if(currentHp > 0) return;
 
@@ -464,10 +507,15 @@ public class Player extends MovingGameEntity{
 
         // звуки
         if(currentState == State.GO){
-            currentTime += deltaTime;
-            if(currentTime >= soundPeriod){
-                currentTime -= soundPeriod;
-                if(!isCrouching) Level.getCurrentLevel().getSoundPrints().add(new SoundPrint(x, y, 0.3));
+            currentStepTime += deltaTime;
+            if(currentStepTime >= soundPeriod){
+                currentStepTime -= soundPeriod;
+                if(!isCrouching){
+                    Level.getCurrentLevel().getSoundPrints().add(new SoundPrint(x, y, 0.3));
+                    SoundManager.getInstance().playSound(stepsSounds[currentStepNumber]);
+                    currentStepNumber++;
+                    if(currentStepNumber == stepsSounds.length) currentStepNumber = 0;
+                }
             }
         }
 
@@ -499,28 +547,6 @@ public class Player extends MovingGameEntity{
                 }
             }
         }
-    }
-
-    @Override
-    public void render(GraphicsContext gc) {
-        super.render(gc);
-
-        // --- ЗАГЛУШКА ---
-        backend.CameraWindow camera = backend.CameraWindow.getInstance();
-        int screenX = this.x - camera.getX();
-        int screenY = this.y - camera.getY();
-
-        gc.save();
-        gc.setTextAlign(TextAlignment.LEFT);
-        gc.setFill(Color.BLACK);
-        gc.setFont(new javafx.scene.text.Font("Arial", 12));
-
-        gc.fillText(String.format("Weapon \n %s \n %d \n\n HP\n %d",
-                        currentWeapon, currentWeapon.getAmmunitionNumber(), currentHp)
-                , screenX + 5, screenY + 35);
-        gc.restore();
-        // ----------------
-
     }
 
     @Override

@@ -10,6 +10,7 @@ import backend.triggeredZones.PopupMessageTrigger;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
@@ -54,6 +55,11 @@ public class PlayingState implements GameState {
     }
 
     @Override
+    public void onKeyPressed(KeyEvent event) {
+        // Ігровий процес керується Controller, тому тут нічого не робимо
+    }
+
+    @Override
     public void update(double deltaTime) {
         if (isFirstFrame) {
             isFirstFrame = false;
@@ -82,13 +88,16 @@ public class PlayingState implements GameState {
         current.update(deltaTime);
 
         Player p = Player.getInstance();
-        if (p != null && p.isDead()) {
+        if (p != null && (p.isDying() || p.isDead())) {
             Level.getCurrentLevel().lose();
         }
     }
 
     @Override
     public void render(GraphicsContext gc, int width, int height) {
+        // Скидаємо вирівнювання до стандартного, щоб уникнути проблем з іншими станами
+        gc.setTextAlign(TextAlignment.LEFT);
+
         gc.setFill(Color.web("#696A79"));
         gc.fillRect(0, 0, width, height);
 

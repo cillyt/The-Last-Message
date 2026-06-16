@@ -4,26 +4,25 @@ import backend.GameProgress;
 import backend.LevelLauncher;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
 public class CutsceneState implements GameState {
 
     private final StateManager manager;
-    private double timer;
+    private int dialogueStep = 0;
 
-    // --- Асети для анімації ---
+    // --- Асети ---
     private final Image background = new Image("file:assets_new/cutscene_LVL1_BACKGROUND.png");
-    // Лікар
     private final Image docTalk = new Image("file:assets_new/doc_cutscene/doc_talk.png");
     private final Image docCalm = new Image("file:assets_new/doc_cutscene/doc_calm.png");
     private final Image docSadOpen = new Image("file:assets_new/doc_cutscene/doc_sad_eyesopen.png");
     private final Image docSadClosed = new Image("file:assets_new/doc_cutscene/doc_sad_eyesclosed.png");
-    // Солдат
     private final Image soldierTalk = new Image("file:assets_new/soldier_cutscene/soldier_talk.png");
     private final Image soldierSad = new Image("file:assets_new/soldier_cutscene/soldier_sad.png");
 
-    // Поточний стан діалогу
+    // --- Поточний стан ---
     private String currentText;
     private Image docCurrentAvatar;
     private Image soldierCurrentAvatar;
@@ -32,20 +31,65 @@ public class CutsceneState implements GameState {
     private double fadeTimer = 0.0;
     private static final double FADE_DURATION = 1.5;
 
-    // Таймінги
-    private static final double TIME_1 = 2.0;  // Солдат: Док!
-    private static final double TIME_2 = TIME_1 + 4.0;  // Наш герой: Ще поранений?
-    private static final double TIME_3 = TIME_2 + 12.0; // Солдат: Стій...
-    private static final double TIME_4 = TIME_3 + 2.0;  // Наш герой: ЩО!?
-    private static final double TIME_5 = TIME_4 + 15.0; // Солдат: Я теж довго не протримаюсь...
-
     public CutsceneState(StateManager manager) {
         this.manager = manager;
     }
 
     @Override
     public void enter() {
-        timer = 0;
+        updateDialogue();
+    }
+
+    @Override
+    public void onKeyPressed(KeyEvent event) {
+        if (isFadingOut) return; // Ігноруємо натискання під час затемнення
+
+        dialogueStep++;
+        if (dialogueStep < 6) {
+            updateDialogue();
+        } else {
+            isFadingOut = true;
+        }
+    }
+
+    private void updateDialogue() {
+        switch (dialogueStep) {
+            case 0:
+                isDocSpeaking = false;
+                currentText = "Док!";
+                docCurrentAvatar = docCalm;
+                soldierCurrentAvatar = soldierTalk;
+                break;
+            case 1:
+                isDocSpeaking = true;
+                currentText = "Ще поранений? Не рухайся, я допоможу...";
+                docCurrentAvatar = docTalk;
+                soldierCurrentAvatar = soldierSad;
+                break;
+            case 2:
+                isDocSpeaking = false;
+                currentText = "Стій... Часу мало... Слухай уважно! На нашому кораблі сталось вороже вторгнення.\nЇх... Їх набагато більше ніж ми могли б очікувити...\nбільшість особовогу складу вже загинули, а іншим залишилось не довго.";
+                soldierCurrentAvatar = soldierTalk;
+                docCurrentAvatar = docSadOpen; // Реакція
+                break;
+            case 3:
+                // Та сама репліка, але лікар заплющує очі
+                isDocSpeaking = false;
+                docCurrentAvatar = docSadClosed;
+                break;
+            case 4:
+                isDocSpeaking = true;
+                currentText = "ЩО!?";
+                docCurrentAvatar = docTalk;
+                soldierCurrentAvatar = soldierSad;
+                break;
+            case 5:
+                isDocSpeaking = false;
+                currentText = "Я теж довго не протримаюсь. У мене флешка з важливою... стратегічною інформацією,\nяка допоможе нам перемогти у війні з цими потворами. Її потрібно доставити в пункт управління,\nта передати інформацію з неї на базу. Мене уже не врятувати... Йди! Ти наша остання... надія... *Помирає*";
+                docCurrentAvatar = docSadClosed;
+                soldierCurrentAvatar = soldierTalk;
+                break;
+        }
     }
 
     @Override
@@ -56,43 +100,6 @@ public class CutsceneState implements GameState {
                 GameProgress.introCutscenePlayed = true;
                 LevelLauncher.loadAndPlayLevel(1, manager);
             }
-            return;
-        }
-
-        timer += deltaTime;
-
-        if (timer <= TIME_1) {
-            isDocSpeaking = false;
-            currentText = "Док!";
-            docCurrentAvatar = docCalm;
-            soldierCurrentAvatar = soldierTalk;
-        } else if (timer <= TIME_2) {
-            isDocSpeaking = true;
-            currentText = "Ще поранений? Не рухайся, я допоможу...";
-            docCurrentAvatar = docTalk;
-            soldierCurrentAvatar = soldierSad;
-        } else if (timer <= TIME_3) {
-            isDocSpeaking = false;
-            currentText = "Стій... Часу мало... Слухай уважно! На нашому кораблі сталось вороже вторгнення.\nЇх... Їх набагато більше ніж ми могли б очікувити...\nбільшість особовогу складу вже загинули, а іншим залишилось не довго.";
-            soldierCurrentAvatar = soldierTalk;
-            // Анімація реакції лікаря
-            if (timer <= TIME_2 + 2.0) { // Перші 2 секунди довгої репліки - шок
-                docCurrentAvatar = docSadOpen;
-            } else { // Потім - сум
-                docCurrentAvatar = docSadClosed;
-            }
-        } else if (timer <= TIME_4) {
-            isDocSpeaking = true;
-            currentText = "ЩО!?";
-            docCurrentAvatar = docTalk;
-            soldierCurrentAvatar = soldierSad;
-        } else if (timer <= TIME_5) {
-            isDocSpeaking = false;
-            currentText = "Я теж довго не протримаюсь. У мене флешка з важливою... стратегічною інформацією,\nяка допоможе нам перемогти у війні з цими потворами. Її потрібно доставити в пункт управління,\nта передати інформацію з неї на базу. Мене уже не врятувати... Йди! Ти наша остання... надія... *Помирає*";
-            docCurrentAvatar = docSadClosed; // Залишається сумним
-            soldierCurrentAvatar = soldierTalk;
-        } else {
-            isFadingOut = true;
         }
     }
 

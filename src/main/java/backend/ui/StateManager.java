@@ -2,6 +2,7 @@ package backend.ui;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 
 public class StateManager {
@@ -16,6 +17,12 @@ public class StateManager {
         this.canvas = canvas;
         this.width = width;
         this.height = height;
+    }
+
+    public void onKeyPressed(KeyEvent event) {
+        if (currentState != null) {
+            currentState.onKeyPressed(event);
+        }
     }
 
     public void changeState(GameState newState) {
@@ -45,4 +52,3 @@ public class StateManager {
     public int getWidth() { return width; }
     public int getHeight() { return height; }
 }
-

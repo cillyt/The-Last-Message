@@ -1,8 +1,8 @@
 package backend.ui;
 
-import javafx.application.Platform;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -11,7 +11,7 @@ import javafx.scene.text.TextAlignment;
 public class FinalCutsceneState implements GameState {
 
     private final StateManager manager;
-    private double timer;
+    private int dialogueStep = 0;
 
     // Ресурси
     private final Image background = new Image("file:assets_new/ControlPanelk.png");
@@ -22,15 +22,6 @@ public class FinalCutsceneState implements GameState {
     private String currentText;
     private boolean isDocSpeaking;
     private boolean showFinalMessage = false;
-    private double finalMessageTimer = 0.0;
-
-    // Таймінги
-    private static final double TIME_1 = 5.0;  // Думки лікаря
-    private static final double TIME_2 = TIME_1 + 5.0;  // База: Дані отримано...
-    private static final double TIME_3 = TIME_2 + 7.0;  // База: За вашу відвагу...
-    private static final double TIME_4 = TIME_3 + 6.0;  // База: Очікуйте...
-    private static final double TIME_5 = TIME_4 + 5.0;  // Початок фінального екрану
-    private static final double TIME_TO_MENU = 10.0; // Час до повернення в меню
 
     public FinalCutsceneState(StateManager manager) {
         this.manager = manager;
@@ -38,40 +29,47 @@ public class FinalCutsceneState implements GameState {
 
     @Override
     public void enter() {
-        timer = 0;
-        currentText = "Надіюся що це все було не дарма і я встиг.";
-        isDocSpeaking = true;
+        updateDialogue();
+    }
+
+    @Override
+    public void onKeyPressed(KeyEvent event) {
+        dialogueStep++;
+        if (dialogueStep <= 4) {
+            updateDialogue();
+        } else if (dialogueStep == 5) {
+            manager.changeState(new CreditsState(manager));
+        }
+    }
+
+    private void updateDialogue() {
+        switch (dialogueStep) {
+            case 0:
+                isDocSpeaking = true;
+                currentText = "Надіюся що це все було не дарма і я встиг.";
+                break;
+            case 1:
+                isDocSpeaking = false;
+                currentText = "Дані отримано, людство буде врятовано.";
+                break;
+            case 2:
+                isDocSpeaking = false;
+                currentText = "За вашу відвагу одразу по вашому поверненні вас буде нагороджено медаллю за героїзм\nвищого ступеню і забезпечено всім найкращим до кінця життя.";
+                break;
+            case 3:
+                isDocSpeaking = false;
+                currentText = "Очікуйте на підкріплення, яке зачистить корабель і доставить вас додому.";
+                break;
+            case 4:
+                showFinalMessage = true;
+                currentText = "Так могло б бути, але людство вже програло, відповідь так і не надійшла,\nа це були всього лише його галюцинації.";
+                break;
+        }
     }
 
     @Override
     public void update(double deltaTime) {
-        if (showFinalMessage) {
-            finalMessageTimer += deltaTime;
-            if (finalMessageTimer >= TIME_TO_MENU) {
-                manager.changeState(new MainMenuState(manager));
-            }
-            return;
-        }
-
-        timer += deltaTime;
-
-        if (timer <= TIME_1) {
-            isDocSpeaking = true;
-            currentText = "Надіюся що це все було не дарма і я встиг.";
-        } else if (timer <= TIME_2) {
-            isDocSpeaking = false;
-            currentText = "Дані отримано, людство буде врятовано.";
-        } else if (timer <= TIME_3) {
-            isDocSpeaking = false;
-            currentText = "За вашу відвагу одразу по вашому поверненні вас буде нагороджено медаллю за героїзм\nвищого ступеню і забезпечено всім найкращим до кінця життя.";
-        } else if (timer <= TIME_4) {
-            isDocSpeaking = false;
-            currentText = "Очікуйте на підкріплення, яке зачистить корабель і доставить вас додому.";
-        } else if (timer <= TIME_5) {
-            currentText = ""; // Очищуємо текст перед фінальним повідомленням
-        } else {
-            showFinalMessage = true;
-        }
+        // Логіка тепер керується натисканням клавіш
     }
 
     @Override
@@ -84,8 +82,7 @@ public class FinalCutsceneState implements GameState {
             gc.setFill(Color.WHITE);
             gc.setFont(UIResources.getFont(36));
             gc.setTextAlign(TextAlignment.CENTER);
-            String finalMessage = "Так могло б бути, але людство вже програло, відповідь так і не надійшла,\nа це були всього лише його галюцинації.";
-            String[] lines = finalMessage.split("\\n");
+            String[] lines = currentText.split("\\n");
             for (int i = 0; i < lines.length; i++) {
                 gc.fillText(lines[i], width / 2.0, height / 2.0 - 40 + (i * 40));
             }
@@ -95,12 +92,9 @@ public class FinalCutsceneState implements GameState {
         // --- Основна кат-сцена ---
         gc.clearRect(0, 0, width, height);
         gc.drawImage(background, 0, 0, width, height);
-
-        // Затемнення фону
         gc.setFill(new Color(0, 0, 0, 0.5));
         gc.fillRect(0, 0, width, height);
 
-        // --- Блок для тексту (нижня чорна смуга) ---
         double textAreaHeight = 150;
         double textAreaY = height - textAreaHeight;
         gc.setFill(Color.BLACK);
@@ -108,10 +102,8 @@ public class FinalCutsceneState implements GameState {
 
         // --- Аватари ---
         double avatarDisplaySize = 200;
-
         double docY = textAreaY - avatarDisplaySize;
         double docX = width * 0.1 - avatarDisplaySize / 2;
-
         double baseY = textAreaY - avatarDisplaySize;
         double baseX = width * 0.9 - avatarDisplaySize / 2;
 
@@ -125,7 +117,6 @@ public class FinalCutsceneState implements GameState {
             gc.drawImage(baseAvatar, baseX, baseY, avatarDisplaySize, avatarDisplaySize);
         }
         gc.restore();
-
 
         // --- Текст ---
         gc.save();

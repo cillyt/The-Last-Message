@@ -1,5 +1,7 @@
 package backend.weapon;
 
+import backend.SoundManager;
+
 public class AR extends Weapon{
 
     public AR () {
@@ -9,12 +11,12 @@ public class AR extends Weapon{
         ammunitionNumber = 15;
         isShooting = false;
 
-
         bullets = new AR_Bullet [15];
         for (int i = 0; i < bullets.length; i++){
             bullets[i] = new AR_Bullet();
         }
 
         noiseLevel = 1.5;
+        shotSound = SoundManager.SoundType.arShot;
     }
 }

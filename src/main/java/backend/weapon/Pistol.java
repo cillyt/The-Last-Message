@@ -1,5 +1,7 @@
 package backend.weapon;
 
+import backend.SoundManager;
+
 public class Pistol extends Weapon{
 
     public Pistol () {
@@ -13,5 +15,6 @@ public class Pistol extends Weapon{
         }
 
         noiseLevel = 1;
+        shotSound = SoundManager.SoundType.pistolShot;
     }
 }

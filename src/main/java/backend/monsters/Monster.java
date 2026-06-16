@@ -84,14 +84,18 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
     protected double currentSpriteTime;
     protected int currentSpriteIndex;
 
-    private final double moveAnimTime = 1; // час прокручення всього масиву спрайтів
-    private double moveAnimPeriod; // час перемикання спрайтів
+    protected final double moveAnimTime = 1; // час прокручення всього масиву спрайтів
+    protected double moveAnimPeriod; // час перемикання спрайтів
 
-    private double attackAnimTime;
-    private double attackAnimPeriod;
+    protected double attackAnimTime;
+    protected double attackAnimPeriod;
 
-    private final double dyingAnimTime = 1;
-    private double dyingAnimPeriod;
+    protected final double dyingAnimTime = 1;
+    protected double dyingAnimPeriod;
+
+    // звуки
+    protected SoundManager.SoundType agroSound;
+    protected SoundManager.SoundType deathSound;
 
     public Monster(int x, int y) {
         super(x, y);
@@ -169,6 +173,8 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         moveToPoint(lastSeenPlayerX);
 
         behState = BehavioralState.CHASE;
+
+        SoundManager.getInstance().playSound(agroSound);
     }
 
     protected void toInvestigate() {
@@ -226,6 +232,8 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         currentSpriteTime = 0;
         currentSpriteIndex = 0;
         currentImage = dyingImgs[0];
+
+        SoundManager.getInstance().playSound(deathSound);
     }
 
     // Допоміжні методи

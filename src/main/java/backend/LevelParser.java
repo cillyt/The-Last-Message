@@ -20,6 +20,9 @@ public class LevelParser {
     private static int casheCounter = 0;
 
     public static Level loadLevel(StateManager manager, File jsonFile) throws Exception {
+        // Повністю очищуємо попередній рівень перед завантаженням нового
+        Level.clearLevel();
+
         String content = new String(Files.readAllBytes(jsonFile.toPath()));
         JSONObject root = new JSONObject(content);
 
