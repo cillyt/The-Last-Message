@@ -4,6 +4,7 @@
 
 package backend.monsters;
 
+import backend.SoundManager;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -77,6 +78,9 @@ public class SimpleMonster extends Monster {
 
         };
         // -----------------
+
+        agroSound = SoundManager.SoundType.simpAgro;
+        deathSound = SoundManager.SoundType.simpDeath;
 
         initialTimePeriods();
     }

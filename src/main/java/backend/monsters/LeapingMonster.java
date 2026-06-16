@@ -4,6 +4,7 @@
 
 package backend.monsters;
 
+import backend.SoundManager;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -71,6 +72,10 @@ public class LeapingMonster extends Monster {
                 // ...
         };
         // -----------------
+
+        agroSound = SoundManager.SoundType.leapAgro;
+        deathSound = SoundManager.SoundType.leapDeath;
+
         initialTimePeriods();
     }
 

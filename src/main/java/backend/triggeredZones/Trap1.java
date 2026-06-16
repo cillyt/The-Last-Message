@@ -25,6 +25,7 @@ public class Trap1 extends Detector {
         timePeriod = 1;
 
         triggerOnce = false;
+        havePeriodicActoin = true;
 
         currentImage = new Image("file:assets/detectors/назва.png");
 
@@ -50,7 +51,7 @@ public class Trap1 extends Detector {
     @Override
     protected void onEnter(GameEntity entity) {
         if (entity instanceof Player player) {
-            player.setSpeedModifier(0.5);
+            player.setSpeedModifier(0.2);
         }
     }
 

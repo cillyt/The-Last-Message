@@ -311,8 +311,8 @@
         "id": "SimpleMonster",
         "iid": "8ceb15a0-48b0-11f1-a911-eb7b6a3dce20",
         "layer": "Entities",
-        "x": 2216,
-        "y": 264,
+        "x": 2501,
+        "y": 203,
         "width": 50,
         "height": 150,
         "color": 10078003,
@@ -438,19 +438,6 @@
         "customFields": {
           "blockDirection": "TOP"
         }
-      },
-      {
-        "id": "PartialBlock",
-        "iid": "c5cb8b40-48b0-11f1-af01-996f45abbf69",
-        "layer": "Entities",
-        "x": 2053,
-        "y": 292,
-        "width": 49,
-        "height": 123,
-        "color": 9149364,
-        "customFields": {
-          "blockDirection": "RIGHT"
-        }
       }
     ],
     "LevelEndTrigger": [
@@ -506,8 +493,7 @@
         "color": 14984818,
         "customFields": {
           "triggerOnce": true,
-          "message": "Протягом свого шляху Вам будуть траплятись схованки - заховані від очей місця,\n в яких знаходяться ресурси. Варто не пропускати, ресурси зайвими не бувають!"
-        }
+          "message": "Протягом свого шляху Вам будуть траплятись схованки - заховані від очей місця,\n в яких знаходяться ресурси. Варто не пропускати, ресурси зайвими не бувають!"        }
       },
       {
         "id": "PopupMessageTrigger",
@@ -548,8 +534,7 @@
         "color": 14984818,
         "customFields": {
           "triggerOnce": true,
-          "message": "Вітаю, Ви отримали нову зброю! На відміну від пістолета, AR завдає більшої шкоди,\n але також має обмежену кількість набоїв. Їх Ви зможете знайти під час свого подальшого просування.\n Не витрачайте їх задарма, вони справді можуть знадобитись у критичний момент!"
-        }
+          "message": "Вітаю, Ви отримали нову зброю! На відміну від пістолета, AR завдає більшої шкоди,\n але також має обмежену кількість набоїв. Їх Ви зможете знайти під час свого подальшого просування.\n Не витрачайте їх задарма, вони справді можуть знадобитись у критичний момент!"        }
       },
       {
         "id": "PopupMessageTrigger",
@@ -567,58 +552,7 @@
       }
     ],
     "LeapingMonster": [
-      {
-        "id": "LeapingMonster",
-        "iid": "9b676c30-48b0-11f1-9b05-4bd3b73f3c8c",
-        "layer": "Entities",
-        "x": 5712,
-        "y": 238,
-        "width": 40,
-        "height": 50,
-        "color": 3903894,
-        "customFields": {
-          "patrolRadius": 150
-        }
-      },
-      {
-        "id": "LeapingMonster",
-        "iid": "9c46cfb0-48b0-11f1-9b05-317803ad8d9d",
-        "layer": "Entities",
-        "x": 5571,
-        "y": 238,
-        "width": 40,
-        "height": 50,
-        "color": 3903894,
-        "customFields": {
-          "patrolRadius": 150
-        }
-      },
-      {
-        "id": "LeapingMonster",
-        "iid": "9e63e350-48b0-11f1-9b05-033ba575b7f7",
-        "layer": "Entities",
-        "x": 5912,
-        "y": 237,
-        "width": 40,
-        "height": 50,
-        "color": 3903894,
-        "customFields": {
-          "patrolRadius": 150
-        }
-      },
-      {
-        "id": "LeapingMonster",
-        "iid": "a0f319b0-48b0-11f1-9b05-59379da29e59",
-        "layer": "Entities",
-        "x": 5835,
-        "y": 237,
-        "width": 40,
-        "height": 50,
-        "color": 3903894,
-        "customFields": {
-          "patrolRadius": 150
-        }
-      }
+
     ]
   }
 }

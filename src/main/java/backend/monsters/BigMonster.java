@@ -4,6 +4,7 @@
 
 package backend.monsters;
 
+import backend.SoundManager;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -79,6 +80,9 @@ public class BigMonster extends Monster {
                 new Image(Paths.get("assets/monsters/big_monster/dying/DEAD_03.png").toUri().toString()),
         };
         // -----------------
+
+        agroSound = SoundManager.SoundType.bigAgro;
+        deathSound = SoundManager.SoundType.bigDeath;
 
         initialTimePeriods();
     }
