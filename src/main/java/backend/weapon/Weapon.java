@@ -2,6 +2,7 @@ package backend.weapon;
 
 import backend.Level;
 import backend.Player;
+import backend.SoundManager;
 import backend.SoundPrint;
 import lombok.Getter;
 
@@ -16,11 +17,13 @@ public abstract class Weapon {
 
     protected Bullet[] bullets;
 
+    public double noiseLevel;
+
+    protected SoundManager.SoundType shotSound;
+
     public void startFire() {
         isShooting = true;
     }
-
-    public double noiseLevel;
 
     public void stopFire() {
         isShooting = false;
@@ -34,15 +37,16 @@ public abstract class Weapon {
                 if (!bullets[i].isFlying) {
                     bullets[i].shootOut(angle);
                     currentFireTime = 0;
-                    if (!(this instanceof Pistol)) {
-                        ammunitionNumber--;
-                    }
+                    if (!(this instanceof Pistol)) ammunitionNumber--;
+
                     Level.getCurrentLevel().getSoundPrints().add(
                             new SoundPrint(Player.getInstance().getX(), Player.getInstance().getY(), noiseLevel));
+                    SoundManager.getInstance().playSound(shotSound);
                     return;
                 }
             }
         }
+        if(ammunitionNumber <= 0) SoundManager.getInstance().playSound(SoundManager.SoundType.noBullet);
     }
 
     public void addAmmunition(int amount) {

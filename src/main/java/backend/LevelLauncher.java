@@ -41,6 +41,7 @@ public class LevelLauncher extends Application {
         SaveManager.loadGame();
         new CameraWindow(width, height);
         new LightingManager();
+        new SoundManager();
 
         Controller controller = new Controller(Player.getInstance());
         scene.setOnKeyPressed(controller::handleKeyPressed);
