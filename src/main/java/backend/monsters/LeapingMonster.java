@@ -47,29 +47,30 @@ public class LeapingMonster extends Monster {
         // ----------------
 
         // ----- АСЕТИ -----
-        standImg = new Image("file:assets/monsters/leap_monster/назва.png");
-        jumpImg = new Image("file:assets/monsters/leap_monster/назва.png");
+        standImg = new Image(getAssetPath("file:assets/monsters/leap_monster/IDLE_01.png"));
+        jumpImg = new Image(getAssetPath("file:assets/monsters/leap_monster/move/WALK_03.png"));
 
-        moveImgs = new Image[]{
-                new Image("file:assets/monsters/leap_monster/move/назва.png"),
-                new Image("file:assets/monsters/leap_monster/move/назва.png"),
-                new Image("file:assets/monsters/leap_monster/move/назва.png"),
-                new Image("file:assets/monsters/leap_monster/move/назва.png"),
-                // ...
+
+                moveImgs = new Image[]{
+                new Image(getAssetPath("file:assets/monsters/leap_monster/move/WALK_01.png")),
+                new Image(getAssetPath("file:assets/monsters/leap_monster/move/WALK_02.png")),
+                new Image(getAssetPath("file:assets/monsters/leap_monster/move/WALK_03.png")),
+                new Image(getAssetPath("file:assets/monsters/leap_monster/move/WALK_04.png")),
+                new Image(getAssetPath("file:assets/monsters/leap_monster/move/WALK_05.png")),
+                new Image(getAssetPath("file:assets/monsters/leap_monster/move/WALK_06.png")),
         };
         attackImgs = new Image[]{
-                new Image("file:assets/monsters/leap_monster/attack/назва.png"),
-                new Image("file:assets/monsters/leap_monster/attack/назва.png"),
-                new Image("file:assets/monsters/leap_monster/attack/назва.png"),
-                new Image("file:assets/monsters/leap_monster/attack/назва.png"),
-                // ...
+                new Image(getAssetPath("file:assets/monsters/leap_monster/attack/ATTACK_01.png")),
+                new Image(getAssetPath("file:assets/monsters/leap_monster/attack/ATTACK_02png")),
+                new Image(getAssetPath("file:assets/monsters/leap_monster/attack/ATTACK_03.png")),
+                new Image(getAssetPath("file:assets/monsters/leap_monster/attack/ATTACK_04.png")),
+                new Image(getAssetPath("file:assets/monsters/leap_monster/attack/ATTACK_05.png")),
+                new Image(getAssetPath("file:assets/monsters/leap_monster/attack/ATTACK_06.png")),
+                new Image(getAssetPath("file:assets/monsters/leap_monster/attack/ATTACK_07.png")),
         };
         dyingImgs = new Image[]{
-                new Image("file:assets/monsters/leap_monster/dying/назва.png"),
-                new Image("file:assets/monsters/leap_monster/dying/назва.png"),
-                new Image("file:assets/monsters/leap_monster/dying/назва.png"),
-                new Image("file:assets/monsters/leap_monster/dying/назва.png"),
-                // ...
+                new Image(getAssetPath("file:assets/monsters/leap_monster/dying/DEAD_01.png")),
+                new Image(getAssetPath("file:assets/monsters/leap_monster/dying/DEAD_02.png")),
         };
         // -----------------
 
