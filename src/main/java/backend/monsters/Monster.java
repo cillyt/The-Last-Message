@@ -97,6 +97,8 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
     protected SoundManager.SoundType agroSound;
     protected SoundManager.SoundType deathSound;
 
+    protected boolean sawFirst = true;
+
     public Monster(int x, int y) {
         super(x, y);
 
@@ -174,11 +176,15 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
 
         behState = BehavioralState.CHASE;
 
-        SoundManager.getInstance().playSound(agroSound);
+        if(sawFirst) {
+            SoundManager.getInstance().playSound(agroSound);
+            sawFirst = false;
+        }
     }
 
     protected void toInvestigate() {
         moveToPoint(lastSeenPlayerX);
+        sawFirst = false;
     }
 
     protected void toLose() {
@@ -191,6 +197,8 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         currentImage = standImg;
         currentSpriteTime = 0;
         currentSpriteIndex = 0;
+
+        sawFirst = true;
     }
 
     protected void toStuck() {
@@ -208,6 +216,8 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         moveToPoint(rightPatrolPoint);
 
         behState = BehavioralState.COMEBACK;
+
+        sawFirst = true;
     }
 
     protected void toAttack() {
