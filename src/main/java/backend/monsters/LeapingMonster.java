@@ -28,7 +28,7 @@ public class LeapingMonster extends Monster {
         targetJumpHeight = 75;
         initialJumpParams();
 
-        damage = 3;
+        damage = 2;
         cooldown = 0.5;
 
         toPatrol();

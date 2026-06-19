@@ -42,7 +42,7 @@ public class BigMonster extends Monster {
        // tempGc.fillRect(0, 0, width, height);
         tempGc.setFill(Color.WHITE);
         tempGc.setFont(new Font("Arial", 12));
-        tempGc.fillText("BIG_MONST", 5, 15);
+        //tempGc.fillText("BIG_MONST", 5, 15);
         SnapshotParameters params = new SnapshotParameters();
         params.setFill(Color.TRANSPARENT);
         this.image = canvas.snapshot(params, null);
