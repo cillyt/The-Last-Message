@@ -54,7 +54,7 @@ public class BigMonster extends Monster {
         standImg = new Image(Paths.get("assets/monsters/big_monster/IDLE04.png").toUri().toString());
 
 
-        jumpImg = new Image("file:assets/monsters/big_monster/назва.png");
+        jumpImg = new Image(getAssetPath("assets/monsters/big_monster/IDLE04.png"));
 
         moveImgs = new Image[]{
 

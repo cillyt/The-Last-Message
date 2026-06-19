@@ -48,7 +48,7 @@ public class SimpleMonster extends Monster {
         
         // ----- АСЕТИ -----
         standImg = new Image(getAssetPath("assets/monsters/simp_monster/scifi_alien_idle_2.png"));
-        jumpImg = new Image("file:assets/monsters/simp_monster/назва.png");
+        jumpImg = new Image(getAssetPath("assets/monsters/simp_monster/move/scifi_alien_run_2.png"));
 
 
                 moveImgs = new Image[]{
