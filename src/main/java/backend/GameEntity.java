@@ -18,6 +18,8 @@ public abstract class GameEntity {
     protected boolean isActive = true;
     protected Image image; // заглушка
     protected Image currentImage; // справжній спрайт
+    protected int topImgMarg;
+    protected int sideImgMarg; // відступи зверху і з боків для зображень
 
     protected boolean isWalkable;
 
@@ -68,28 +70,35 @@ public abstract class GameEntity {
 
         inCamera = isVisible;
 
-        if (isVisible && image != null) {
+        if (isVisible) {
             int screenX = this.x - camera.getX();
             int screenY = this.y - camera.getY();
 
-            gc.drawImage(image, screenX, screenY, width, height);
+            if (image != null) {
+                gc.drawImage(image, screenX, screenY, width, height);
+            }
+
+            int drawX = screenX - sideImgMarg;
+            int drawY = screenY - topImgMarg;
+            int drawW = width + 2 * sideImgMarg;
+            int drawH = height + topImgMarg;
 
             if (currentImage != null) {
                 if (this instanceof MovingGameEntity && !((MovingGameEntity) this).isFacingRight()) {
                     gc.save();
 
-                    gc.translate(screenX + width, screenY);
+                    gc.translate(screenX + width / 2.0, screenY);
                     gc.scale(-1, 1);
 
-                    gc.drawImage(currentImage, 0, 0, width, height);
+                    gc.drawImage(currentImage, -width / 2.0 - sideImgMarg, -topImgMarg, drawW, drawH);
 
                     gc.restore();
-                } else gc.drawImage(currentImage, screenX, screenY, width, height);
-
+                } else {
+                    gc.drawImage(currentImage, drawX, drawY, drawW, drawH);
+                }
             }
         }
     }
-
     @Override
     public String toString() {
         return this.getClass().getSimpleName();

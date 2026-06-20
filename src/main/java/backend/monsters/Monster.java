@@ -1,9 +1,7 @@
 package backend.monsters;
 
 import backend.*;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.text.TextAlignment;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -177,7 +175,7 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         behState = BehavioralState.CHASE;
 
         if(sawFirst) {
-            SoundManager.getInstance().playSound(agroSound);
+            SoundManager.getInstance().play(agroSound);
             sawFirst = false;
         }
     }
@@ -243,7 +241,7 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         currentSpriteIndex = 0;
         currentImage = dyingImgs[0];
 
-        SoundManager.getInstance().playSound(deathSound);
+        SoundManager.getInstance().play(deathSound);
     }
 
     // Допоміжні методи
