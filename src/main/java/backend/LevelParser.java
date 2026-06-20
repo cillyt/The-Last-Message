@@ -80,7 +80,7 @@ public class LevelParser {
                 switch (entityType) {
                     case "Player":
                         Player.getInstance().setX(x);
-                        Player.getInstance().setY(y);
+                        Player.getInstance().setY(y-10);
                         break;
                     case "BlockOfGround":
                         allObjects.add(new BlockOfGround(x, y, w, h));
@@ -116,7 +116,7 @@ public class LevelParser {
                                 patrolRadius = custom.getInt("patrolRadius");
                             }
                         }
-                        allObjects.add(new SimpleMonster(x, y, patrolRadius));
+                        allObjects.add(new SimpleMonster(x, y-10, patrolRadius));
                         break;
                     case "BigMonster":
                         patrolRadius = 300;
@@ -126,7 +126,7 @@ public class LevelParser {
                                 patrolRadius = custom.getInt("patrolRadius");
                             }
                         }
-                        allObjects.add(new BigMonster(x, y, patrolRadius));
+                        allObjects.add(new BigMonster(x, y-10, patrolRadius));
                         break;
                     case "LeapingMonster":
                         patrolRadius = 300;
@@ -136,7 +136,7 @@ public class LevelParser {
                                 patrolRadius = custom.getInt("patrolRadius");
                             }
                         }
-                        allObjects.add(new LeapingMonster(x, y, patrolRadius));
+                        allObjects.add(new LeapingMonster(x, y-10, patrolRadius));
                         break;
                     case "Trap1":
                         allObjects.add(new Trap1(x, y));

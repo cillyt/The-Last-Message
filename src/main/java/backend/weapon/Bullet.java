@@ -35,7 +35,8 @@ public abstract class Bullet extends MovingGameEntity {
             x = player.getX() + player.getWidth() + 1;
         }
         else x = player.getX() - width - 1;
-        y = player.getY() + 40;
+        y = player.getY() + 80;
+        if(player.isCrouching()) y -= 40;
 
         this.width = (int) (Math.abs(baseWidth * Math.cos(angle)) + Math.abs(baseHeight * Math.sin(angle)));
         this.height = (int) (Math.abs(baseWidth * Math.sin(angle)) + Math.abs(baseHeight * Math.cos(angle)));

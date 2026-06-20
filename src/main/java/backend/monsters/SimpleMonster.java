@@ -17,8 +17,11 @@ public class SimpleMonster extends Monster {
     public SimpleMonster(int x, int y, int patrolRadius) {
         super(x, y, patrolRadius);
 
-        height = 128;
-        width = 256;
+        width = 120;
+        height = 90;
+
+        topImgMarg = 38;
+        sideImgMarg = 68;
 
         speedX = 200;
 
@@ -36,11 +39,11 @@ public class SimpleMonster extends Monster {
         // --- ЗАГЛУШКА ---
         Canvas canvas = new Canvas(width, height);
         GraphicsContext tempGc = canvas.getGraphicsContext2D();
-       // tempGc.setFill(Color.web("#FF8C00"));
-        //tempGc.fillRect(0, 0, width, height);
-        //tempGc.setFill(Color.BLACK);
+        tempGc.setFill(Color.web("#FF8C00"));
+        tempGc.fillRect(0, 0, width, height);
+        tempGc.setFill(Color.BLACK);
         tempGc.setFont(new Font("Arial", 10));
-        //tempGc.fillText("SIMP_Monst", 2, 15);
+        tempGc.fillText("SIMP_Monst", 2, 15);
         SnapshotParameters params = new SnapshotParameters();
         params.setFill(Color.TRANSPARENT);
         this.image = canvas.snapshot(params, null);
