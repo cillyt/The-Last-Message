@@ -17,7 +17,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import lombok.Setter;
 
 @Getter
@@ -126,14 +125,7 @@ public class Player extends MovingGameEntity{
     private int currentSpriteIndex; // для бігу і повзання
 
     // масив звуків кроків
-    private SoundManager.SoundType[] stepsSounds = new SoundType[] {
-            SoundManager.SoundType.footstep1,
-            SoundManager.SoundType.footstep2,
-            SoundManager.SoundType.footstep3,
-            SoundManager.SoundType.footstep4,
-            SoundManager.SoundType.footstep5
-    };
-    int currentStepNumber = 0; // поточний крок
+    private SoundManager.SoundType stepsSound = SoundType.footsteps;
 
 
     public Player(int x, int y) {
@@ -237,7 +229,7 @@ public class Player extends MovingGameEntity{
         currentSpriteIndex = 0;
 
         currentStepTime = 0.599;
-        currentStepNumber = 0;
+        SoundManager.getInstance().stop(stepsSound);
     }
 
     private void go() {
@@ -252,6 +244,8 @@ public class Player extends MovingGameEntity{
 
         currentSpriteTime = 0;
         currentSpriteIndex = 0;
+
+        SoundManager.getInstance().playLoop(stepsSound);
     }
 
     private void jump() {
@@ -266,7 +260,7 @@ public class Player extends MovingGameEntity{
         currentSpriteIndex = 0;
 
         currentStepTime = 0.599;
-        currentStepNumber = 0;
+        SoundManager.getInstance().stop(stepsSound);
     }
 
     private void crouch (){
@@ -286,7 +280,7 @@ public class Player extends MovingGameEntity{
         currentSpriteIndex = 0;
 
         currentStepTime = 0.599;
-        currentStepNumber = 0;
+        SoundManager.getInstance().stop(stepsSound);
     }
 
     private void standUp (){
@@ -297,6 +291,7 @@ public class Player extends MovingGameEntity{
 
         if(currentState == State.GO){
             currentVelocityX = facingRight ? speedX : -speedX;
+            SoundManager.getInstance().playLoop(stepsSound);
         }
 
         if (currentWeaponIndex == 0) currentImage = standImgP;
@@ -306,7 +301,6 @@ public class Player extends MovingGameEntity{
         currentSpriteIndex = 0;
 
         currentStepTime = 0.599;
-        currentStepNumber = 0;
     }
 
     // Методи прийому команд
@@ -375,24 +369,24 @@ public class Player extends MovingGameEntity{
     }
 
     public void commandEquipPistol() {
-        if (!weaponUnlocked[0]) return;
+        if (!weaponUnlocked[0] || currentWeaponIndex == 0) return;
 
         currentWeapon.stopFire();
         currentWeapon = weapons[0];
         currentWeaponIndex = 0;
 
         changeWeaponSprite();
-        SoundManager.getInstance().playSound(SoundType.gunChange);
+        SoundManager.getInstance().playOnce(SoundType.gunChange);
     }
 
     public void commandEquipAR() {
-        if (!weaponUnlocked[1]) return;
+        if (!weaponUnlocked[1] || currentWeaponIndex == 1) return;
         currentWeapon.stopFire();
         currentWeapon = weapons[1];
         currentWeaponIndex = 1;
 
         changeWeaponSprite();
-        SoundManager.getInstance().playSound(SoundType.gunChange);
+        SoundManager.getInstance().playOnce(SoundType.gunChange);
     }
 
     // Допоміжні методи
@@ -512,9 +506,6 @@ public class Player extends MovingGameEntity{
                 currentStepTime -= soundPeriod;
                 if(!isCrouching){
                     Level.getCurrentLevel().getSoundPrints().add(new SoundPrint(x, y, 0.3));
-                    SoundManager.getInstance().playSound(stepsSounds[currentStepNumber]);
-                    currentStepNumber++;
-                    if(currentStepNumber == stepsSounds.length) currentStepNumber = 0;
                 }
             }
         }
