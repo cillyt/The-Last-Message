@@ -246,7 +246,7 @@ public class Player extends MovingGameEntity{
             currentState = State.GO;
             currentSpriteTime = 0;
             currentSpriteIndex = 0;
-            SoundManager.getInstance().playLoop(stepsSound);
+            if(!isCrouching) SoundManager.getInstance().playLoop(stepsSound);
         }
     }
 
