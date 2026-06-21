@@ -83,6 +83,7 @@ public class SimpleMonster extends Monster {
 
         agroSound = SoundManager.SoundType.simpAgro;
         deathSound = SoundManager.SoundType.simpDeath;
+        attackSound = SoundManager.SoundType.simpAttack;
 
         initialTimePeriods();
     }

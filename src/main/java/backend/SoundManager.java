@@ -15,7 +15,10 @@ public class SoundManager {
     public enum SoundType { arShot, gunChange, noBullet, pistolShot,
         footsteps,
         death1, healing1,
-        bigAgro, bigDeath, leapAgro, leapDeath, simpAgro, simpDeath,
+        bigAgro, bigDeath, bigAttack,
+        leapAgro, leapDeath, leapAttack,
+        simpAgro, simpDeath, simpAttack,
+        nextLevel
     }
 
     private Map<SoundType, AudioClip> sounds = new HashMap<>();
@@ -35,10 +38,17 @@ public class SoundManager {
 
         loadSound(SoundType.bigAgro, "sounds/monsters/big_agro.wav");
         loadSound(SoundType.bigDeath, "sounds/monsters/big_death.wav");
+        loadSound(SoundType.bigAttack, "sounds/monsters/big_attack1.mp3");
+
         loadSound(SoundType.leapAgro, "sounds/monsters/leap_agro.wav");
         loadSound(SoundType.leapDeath, "sounds/monsters/leap_death.wav");
+        loadSound(SoundType.leapAttack, "sounds/monsters/leap_attack.mp3");
+
         loadSound(SoundType.simpAgro, "sounds/monsters/simp_agro.wav");
         loadSound(SoundType.simpDeath, "sounds/monsters/simp_death.wav");
+        loadSound(SoundType.simpAttack, "sounds/monsters/simp_attack.mp3");
+
+        loadSound(SoundType.nextLevel, "sounds/other/nextLevel1.mp3");
     }
 
     private void loadSound(SoundType type, String relativePath) {
@@ -83,6 +93,17 @@ public class SoundManager {
         if (clip != null) {
             if (clip.isPlaying()) return;
             clip.setCycleCount(AudioClip.INDEFINITE);
+            clip.play();
+        }
+    }
+
+    /**
+     Зупиняє і відтворює знову.
+     */
+    public void stopAndPlay(SoundType type) {
+        AudioClip clip = sounds.get(type);
+        if (clip != null) {
+            if(clip.isPlaying()) clip.stop();
             clip.play();
         }
     }

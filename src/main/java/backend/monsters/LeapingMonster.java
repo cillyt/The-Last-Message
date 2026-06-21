@@ -79,6 +79,7 @@ public class LeapingMonster extends Monster {
 
         agroSound = SoundManager.SoundType.leapAgro;
         deathSound = SoundManager.SoundType.leapDeath;
+        attackSound = SoundManager.SoundType.leapAttack;
 
         initialTimePeriods();
     }
