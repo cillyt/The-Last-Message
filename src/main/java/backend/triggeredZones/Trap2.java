@@ -20,22 +20,18 @@ public class Trap2 extends Detector {
 
     // ----- АСЕТИ -----
     // труба або інше джерело вогня
-    private Image sourceOfFire = new Image("file:assets/detectors/назва.png");
+    private Image sourceOfFire = new Image("file:assets/detectors/torch8.png");
 
     // спрати для початкової частини вогня, коли він розгортається
-    private Image spreadimgFireImgs[] = { new Image("file:assets/detectors/назва.png"),
-            new Image("file:assets/detectors/назва.png"),
-            new Image("file:assets/detectors/назва.png"),
-            new Image("file:assets/detectors/назва.png"),
-            // ...
+    private Image spreadimgFireImgs[] = { new Image("file:assets/detectors/torch1.png"),
+            new Image("file:assets/detectors/torch2.png"),
+            new Image("file:assets/detectors/torch3.png"),
     };
 
     // спрайти для основної частини анімації, які будуть прокручуватись кілька разів
-    private Image mainFireImgs[] = { new Image("file:assets/detectors/назва.png"),
-            new Image("file:assets/detectors/назва.png"),
-            new Image("file:assets/detectors/назва.png"),
-            new Image("file:assets/detectors/назва.png"),
-            // ...
+    private Image mainFireImgs[] = { new Image("file:assets/detectors/torch4.png"),
+            new Image("file:assets/detectors/torch5.png"),
+            new Image("file:assets/detectors/torch6.png"),   //?
     };
     // -----------------
 
