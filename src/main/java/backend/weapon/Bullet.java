@@ -1,17 +1,18 @@
 package backend.weapon;
 
-import backend.MovingGameEntity;
-import backend.Player;
-import backend.Level;
-import backend.GameEntity;
+import backend.*;
+import backend.background.Sticker;
 import backend.monsters.Monster;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import lombok.Getter;
 
+@Getter
 public abstract class Bullet extends MovingGameEntity {
     protected int damage;
     protected boolean isFlying;
@@ -19,10 +20,18 @@ public abstract class Bullet extends MovingGameEntity {
     protected int baseWidth;
     protected int baseHeight;
 
+    protected Image fireImg = new Image(getAssetPath("assets/player/fire.png"));
+    protected Sticker fireFlash;
+    protected double currentFlashTime = 0;
+    protected double flashTime = 0.08;
+
     public Bullet() {
-        super(0, 0);
+        super();
         this.isFlying = false;
         zIndex = 7;
+
+        fireFlash = new Sticker(-1000, -1000, fireImg);
+        fireFlash.setActive(false);
 
         // --- ЗАГЛУШКА ---
 
@@ -45,6 +54,12 @@ public abstract class Bullet extends MovingGameEntity {
         this.currentVelocityY = speedX * Math.sin(angle);
 
         this.isFlying = true;
+
+        // спалах
+        fireFlash.setX(player.isFacingRight() ? x : x - fireFlash.getWidth());
+        fireFlash.setY(y - fireFlash.getHeight() / 2);
+        fireFlash.setFacingRight(player.isFacingRight());
+        fireFlash.setActive(true);
     }
 
     public void deactivate() {
@@ -57,6 +72,14 @@ public abstract class Bullet extends MovingGameEntity {
 
     @Override
     public void update(double deltaTime) {
+        if(fireFlash.isActive()){
+            currentFlashTime += deltaTime;
+            if(currentFlashTime >= flashTime){
+                currentFlashTime = 0;
+                fireFlash.setActive(false);
+            }
+        }
+
         if (!isFlying) return;
 
         subPixelX += currentVelocityX * deltaTime;
@@ -88,7 +111,13 @@ public abstract class Bullet extends MovingGameEntity {
 
     @Override
     public void render(GraphicsContext gc) {
+        if (fireFlash.isActive()) {
+            fireFlash.render(gc);
+        }
+
         if (!isFlying) return;
         super.render(gc);
     }
+
+
 }

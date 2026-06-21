@@ -15,11 +15,11 @@ public class Cashe extends Detector {
 
     private boolean isTransparent = false;
 
-    public Cashe(int x, int y, int width, int height, int imageNumber) {
+    public Cashe(int x, int y, int width, int height, String imageName) {
         super(x, y, width, height);
         this.zIndex = 6;
 
-        this.image = new Image(getAssetPath("assets/cashe_textures/cashe" + imageNumber + ".png"));
+        this.image = new Image(getAssetPath("assets/cashe_textures/" + imageName + ".png"));
     }
 
     @Override

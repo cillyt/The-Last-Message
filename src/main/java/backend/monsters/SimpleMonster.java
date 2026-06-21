@@ -29,7 +29,7 @@ public class SimpleMonster extends Monster {
         initialJumpParams();
 
         damage = 10;
-        cooldown = 1;
+        cooldown = 0.7;
 
         toPatrol();
 

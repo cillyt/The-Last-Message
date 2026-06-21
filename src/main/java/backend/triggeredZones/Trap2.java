@@ -19,8 +19,6 @@ import javafx.scene.text.Font;
 public class Trap2 extends Detector {
 
     // ----- АСЕТИ -----
-    // труба або інше джерело вогня
-    private Image sourceOfFire = new Image("file:assets/detectors/torch8.png");
 
     // спрати для початкової частини вогня, коли він розгортається
     private Image spreadimgFireImgs[] = { new Image("file:assets/detectors/torch1.png"),

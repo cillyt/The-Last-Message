@@ -87,7 +87,14 @@ public class LevelParser {
                         break;
                     case "Cashe":
                         casheCounter++;
-                        allObjects.add(new Cashe(x, y, w, h, casheCounter));
+                        String imgName = "cashe1";
+                        if (obj.has("customFields")) {
+                            JSONObject custom = obj.getJSONObject("customFields");
+                            if (custom.has("imageName")) {
+                                imgName = custom.getString("imageName");
+                            }
+                        }
+                        allObjects.add(new Cashe(x, y, w, h, imgName));
                         break;
                     case "LevelEndTrigger":
                         allObjects.add(new LevelEndTrigger(x, y, w, h));
