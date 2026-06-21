@@ -215,9 +215,9 @@
         "iid": "c1ff42d0-48b0-11f1-9822-9f266dc3927f",
         "layer": "Entities",
         "x": 1691,
-        "y": 1123,
+        "y": 1158,
         "width": 169,
-        "height": 63,
+        "height": 28,
         "color": 4073265,
         "customFields" : {}
       }
@@ -411,8 +411,8 @@
         "id": "Deadzone",
         "iid": "6c05c940-48b0-11f1-b01b-972e470a8623",
         "layer": "Entities",
-        "x": 1651,
-        "y": 1113,
+        "x": 1654,
+        "y": 1145,
         "width": 266,
         "height": 9,
         "color": 0,
