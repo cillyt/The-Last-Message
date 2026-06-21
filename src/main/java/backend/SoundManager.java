@@ -13,7 +13,7 @@ public class SoundManager {
 
     // Перелік усіх звуків у грі (camelCase за запитом)
     public enum SoundType { arShot, gunChange, noBullet, pistolShot,
-        footstep1, footstep2, footstep3, footstep4, footstep5,
+        footsteps,
         death1, healing1,
         bigAgro, bigDeath, leapAgro, leapDeath, simpAgro, simpDeath,
     }
@@ -28,11 +28,7 @@ public class SoundManager {
         loadSound(SoundType.noBullet, "sounds/mainCharacter/weapon/no_bullet.wav");
         loadSound(SoundType.pistolShot, "sounds/mainCharacter/weapon/pistol_shot.mp3");
 
-        loadSound(SoundType.footstep1, "sounds/mainCharacter/footsteps/footstep1.wav");
-        loadSound(SoundType.footstep2, "sounds/mainCharacter/footsteps/footstep2.wav");
-        loadSound(SoundType.footstep3, "sounds/mainCharacter/footsteps/footstep3.wav");
-        loadSound(SoundType.footstep4, "sounds/mainCharacter/footsteps/footstep4.wav");
-        loadSound(SoundType.footstep5, "sounds/mainCharacter/footsteps/footstep5.wav");
+        loadSound(SoundType.footsteps, "sounds/mainCharacter/footsteps.wav");
 
         loadSound(SoundType.death1, "sounds/mainCharacter/death1.mp3");
         loadSound(SoundType.healing1, "sounds/mainCharacter/healing1.wav");
@@ -54,13 +50,50 @@ public class SoundManager {
         }
     }
 
-    // метод для відтворення
-    public void playSound(SoundType type) {
+    /**
+       Програвання звуку з накладанням.
+    */
+    public void play(SoundType type) {
         AudioClip clip = sounds.get(type);
         if (clip != null) {
             clip.play();
         } else {
             System.err.println("Спроба відтворити відсутній звук: " + type);
+        }
+    }
+
+    /**
+     Програвання звуку, лише якщо він не відтворюється.
+     */
+    public void playOnce(SoundType type){
+        AudioClip clip = sounds.get(type);
+        if (clip != null) {
+            if (clip.isPlaying()) return;
+            clip.play();
+        } else {
+            System.err.println("Спроба відтворити відсутній звук: " + type);
+        }
+    }
+
+    /**
+     Зациклене програвання.
+     */
+    public void playLoop(SoundType type) {
+        AudioClip clip = sounds.get(type);
+        if (clip != null) {
+            if (clip.isPlaying()) return;
+            clip.setCycleCount(AudioClip.INDEFINITE);
+            clip.play();
+        }
+    }
+
+    /**
+     Зупинка програвання.
+     */
+    public void stop(SoundType type) {
+        AudioClip clip = sounds.get(type);
+        if (clip != null && clip.isPlaying()) {
+            clip.stop();
         }
     }
 }

@@ -5,7 +5,6 @@ import backend.Player;
 import backend.SoundManager;
 import backend.SoundPrint;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public abstract class Weapon {
@@ -46,12 +45,12 @@ public abstract class Weapon {
 
                     Level.getCurrentLevel().getSoundPrints().add(
                             new SoundPrint(Player.getInstance().getX(), Player.getInstance().getY(), noiseLevel));
-                    SoundManager.getInstance().playSound(shotSound);
+                    SoundManager.getInstance().play(shotSound);
                     return;
                 }
             }
         }
-        if(ammunitionNumber <= 0) SoundManager.getInstance().playSound(SoundManager.SoundType.noBullet);
+        if(ammunitionNumber <= 0) SoundManager.getInstance().playOnce(SoundManager.SoundType.noBullet);
     }
 
     public void addAmmunition(int amount) {

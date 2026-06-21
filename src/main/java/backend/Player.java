@@ -17,7 +17,6 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.TextAlignment;
 import lombok.Setter;
 
 @Getter
@@ -57,24 +56,24 @@ public class Player extends MovingGameEntity{
     // ----- АСЕТИ -----
 
     // для пістолета
-    private final Image standImgP = new Image("file:assets/player/pistol/назва.png");
-    private final Image jumpImgP = new Image("file:assets/player/pistol/назва.png");
-    private final Image crouchImgP = new Image("file:assets/player/pistol/назва.png");
+    private final Image standImgP = new Image(getAssetPath("assets/player/pistol/назва.png"));
+    private final Image jumpImgP = new Image(getAssetPath("assets/player/pistol/назва.png"));
+    private final Image crouchImgP = new Image(getAssetPath("assets/player/pistol/назва.png"));
 
-    private final Image[] moveImgsP = { new Image("file:assets/player/pistol/move/назва.png"),
-            new Image("file:assets/player/pistol/move/назва.png"),
-            new Image("file:assets/player/pistol/move/назва.png"),
-            new Image("file:assets/player/pistol/move/назва.png"),
-            new Image("file:assets/player/pistol/move/назва.png"),
-            new Image("file:assets/player/pistol/move/назва.png"),
-            new Image("file:assets/player/pistol/move/назва.png"),
-            new Image("file:assets/player/pistol/move/назва.png")
+    private final Image[] moveImgsP = { new Image(getAssetPath("assets/player/pistol/move/назва.png")),
+            new Image(getAssetPath("assets/player/pistol/move/назва.png")),
+            new Image(getAssetPath("assets/player/pistol/move/назва.png")),
+            new Image(getAssetPath("assets/player/pistol/move/назва.png")),
+            new Image(getAssetPath("assets/player/pistol/move/назва.png")),
+            new Image(getAssetPath("assets/player/pistol/move/назва.png")),
+            new Image(getAssetPath("assets/player/pistol/move/назва.png")),
+            new Image(getAssetPath("assets/player/pistol/move/назва.png"))
             // ...
     };
-    private final Image[] crawlImgsP = { new Image("file:assets/player/pistol/crawl/назва.png"),
-            new Image("file:assets/player/pistol/crawl/назва.png"),
-            new Image("file:assets/player/pistol/crawl/назва.png"),
-            new Image("file:assets/player/pistol/crawl/назва.png"),
+    private final Image[] crawlImgsP = { new Image(getAssetPath("assets/player/pistol/crawl/назва.png")),
+            new Image(getAssetPath("assets/player/pistol/crawl/назва.png")),
+            new Image(getAssetPath("assets/player/pistol/crawl/назва.png")),
+            new Image(getAssetPath("assets/player/pistol/crawl/назва.png")),
             // ...
     };
 
@@ -92,21 +91,20 @@ public class Player extends MovingGameEntity{
             new Image(getAssetPath("assets/player/ar/move/arun5.png")),
             new Image(getAssetPath("assets/player/ar/move/arun6.png")),
             new Image(getAssetPath("assets/player/ar/move/arun7.png")),
-            new Image(getAssetPath("assets/player/ar/move/arun8.png")),
-            // ...
+            new Image(getAssetPath("assets/player/ar/move/arun8.png"))
     };
-    private final Image[] crawlImgsAR = { new Image("file:assets/player/ar/crawl/назва.png"),
-            new Image("file:assets/player/ar/crawl/назва.png"),
-            new Image("file:assets/player/ar/crawl/назва.png"),
-            new Image("file:assets/player/ar/crawl/назва.png"),
+    private final Image[] crawlImgsAR = { new Image(getAssetPath("assets/player/ar/crawl/назва.png")),
+            new Image(getAssetPath("assets/player/ar/crawl/назва.png")),
+            new Image(getAssetPath("assets/player/ar/crawl/назва.png")),
+            new Image(getAssetPath("assets/player/ar/crawl/назва.png")),
             // ...
     };
 
     // смерть
-    private final Image[] dyingImgs = { new Image("file:assets/player/dying/назва.png"),
-            new Image("file:assets/player/dying/назва.png"),
-            new Image("file:assets/player/dying/назва.png"),
-            new Image("file:assets/player/dying/назва.png"),
+    private final Image[] dyingImgs = { new Image(getAssetPath("assets/player/dying/назва.png")),
+            new Image(getAssetPath("assets/player/dying/назва.png")),
+            new Image(getAssetPath("assets/player/dying/назва.png")),
+            new Image(getAssetPath("assets/player/dying/назва.png")),
             // ...
     };
 
@@ -126,14 +124,7 @@ public class Player extends MovingGameEntity{
     private int currentSpriteIndex; // для бігу і повзання
 
     // масив звуків кроків
-    private SoundManager.SoundType[] stepsSounds = new SoundType[] {
-            SoundManager.SoundType.footstep1,
-            SoundManager.SoundType.footstep2,
-            SoundManager.SoundType.footstep3,
-            SoundManager.SoundType.footstep4,
-            SoundManager.SoundType.footstep5
-    };
-    int currentStepNumber = 0; // поточний крок
+    private SoundManager.SoundType stepsSound = SoundType.footsteps;
 
 
     public Player(int x, int y) {
@@ -143,6 +134,9 @@ public class Player extends MovingGameEntity{
 
         height = 170;
         width = 50;
+
+        topImgMarg = 6;
+        sideImgMarg = 63;
 
         isWalkable = false;
         zIndex = 4;
@@ -166,6 +160,8 @@ public class Player extends MovingGameEntity{
         periodAnimationMove = timeAnimationMove / moveImgsP.length;
         periodAnimationCrawl = timeAnimationCrawl / crawlImgsP.length;
         periodAnimationDying = timeAnimationDying / dyingImgs.length;
+
+        calcImgMarg(2.75, moveImgsAR[0]);
 
         // --- ЗАГЛУШКА ---
         Canvas canvas = new Canvas(width, height);
@@ -237,7 +233,7 @@ public class Player extends MovingGameEntity{
         currentSpriteIndex = 0;
 
         currentStepTime = 0.599;
-        currentStepNumber = 0;
+        SoundManager.getInstance().stop(stepsSound);
     }
 
     private void go() {
@@ -248,10 +244,12 @@ public class Player extends MovingGameEntity{
 
         if (!facingRight) currentVelocityX *= -1;
 
-        currentState = State.GO;
-
-        currentSpriteTime = 0;
-        currentSpriteIndex = 0;
+        if (currentState != State.GO) {
+            currentState = State.GO;
+            currentSpriteTime = 0;
+            currentSpriteIndex = 0;
+            if(!isCrouching) SoundManager.getInstance().playLoop(stepsSound);
+        }
     }
 
     private void jump() {
@@ -266,7 +264,7 @@ public class Player extends MovingGameEntity{
         currentSpriteIndex = 0;
 
         currentStepTime = 0.599;
-        currentStepNumber = 0;
+        SoundManager.getInstance().stop(stepsSound);
     }
 
     private void crouch (){
@@ -286,7 +284,7 @@ public class Player extends MovingGameEntity{
         currentSpriteIndex = 0;
 
         currentStepTime = 0.599;
-        currentStepNumber = 0;
+        SoundManager.getInstance().stop(stepsSound);
     }
 
     private void standUp (){
@@ -297,6 +295,7 @@ public class Player extends MovingGameEntity{
 
         if(currentState == State.GO){
             currentVelocityX = facingRight ? speedX : -speedX;
+            SoundManager.getInstance().playLoop(stepsSound);
         }
 
         if (currentWeaponIndex == 0) currentImage = standImgP;
@@ -306,12 +305,12 @@ public class Player extends MovingGameEntity{
         currentSpriteIndex = 0;
 
         currentStepTime = 0.599;
-        currentStepNumber = 0;
     }
 
     // Методи прийому команд
 
     public void commandMoveRight() {
+        if (wantToMoveRight) return;
         wantToMoveRight = true;
         if(onGround) {
             facingRight = true;
@@ -331,6 +330,7 @@ public class Player extends MovingGameEntity{
     }
 
     public void commandMoveLeft() {
+        if (wantToMoveLeft) return;
         wantToMoveLeft = true;
         if(onGround) {
             facingRight = false;
@@ -350,6 +350,7 @@ public class Player extends MovingGameEntity{
     }
 
     public void commandCrouch() {
+        if(wantToCrouch) return;
         wantToCrouch = true;
         if (onGround) crouch();
     }
@@ -375,24 +376,24 @@ public class Player extends MovingGameEntity{
     }
 
     public void commandEquipPistol() {
-        if (!weaponUnlocked[0]) return;
+        if (!weaponUnlocked[0] || currentWeaponIndex == 0) return;
 
         currentWeapon.stopFire();
         currentWeapon = weapons[0];
         currentWeaponIndex = 0;
 
         changeWeaponSprite();
-        SoundManager.getInstance().playSound(SoundType.gunChange);
+        SoundManager.getInstance().playOnce(SoundType.gunChange);
     }
 
     public void commandEquipAR() {
-        if (!weaponUnlocked[1]) return;
+        if (!weaponUnlocked[1] || currentWeaponIndex == 1) return;
         currentWeapon.stopFire();
         currentWeapon = weapons[1];
         currentWeaponIndex = 1;
 
         changeWeaponSprite();
-        SoundManager.getInstance().playSound(SoundType.gunChange);
+        SoundManager.getInstance().playOnce(SoundType.gunChange);
     }
 
     // Допоміжні методи
@@ -512,9 +513,6 @@ public class Player extends MovingGameEntity{
                 currentStepTime -= soundPeriod;
                 if(!isCrouching){
                     Level.getCurrentLevel().getSoundPrints().add(new SoundPrint(x, y, 0.3));
-                    SoundManager.getInstance().playSound(stepsSounds[currentStepNumber]);
-                    currentStepNumber++;
-                    if(currentStepNumber == stepsSounds.length) currentStepNumber = 0;
                 }
             }
         }

@@ -17,8 +17,8 @@ public class LeapingMonster extends Monster {
     public LeapingMonster(int x, int y, int patrolRadius) {
         super(x, y, patrolRadius);
 
-        width = 100;
-        height = 80;
+        width = 65;
+        height = 54;
 
         speedX = 270;
 
@@ -35,12 +35,12 @@ public class LeapingMonster extends Monster {
 
         // --- ЗАГЛУШКА ---
         Canvas canvas = new Canvas(width, height);
-       //GraphicsContext tempGc = canvas.getGraphicsContext2D();
-        //tempGc.setFill(Color.web("#DC143C"));
-        //tempGc.fillRect(0, 0, width, height);
-       // tempGc.setFill(Color.WHITE);
-       //tempGc.setFont(new Font("Arial", 12));
-       // tempGc.fillText("LEAP_MONST", 5, 15);
+        GraphicsContext tempGc = canvas.getGraphicsContext2D();
+        tempGc.setFill(Color.web("#DC143C"));
+        tempGc.fillRect(0, 0, width, height);
+        tempGc.setFill(Color.WHITE);
+        tempGc.setFont(new Font("Arial", 12));
+        tempGc.fillText("LEAP_MONST", 5, 15);
         SnapshotParameters params = new SnapshotParameters();
         params.setFill(Color.TRANSPARENT);
         this.image = canvas.snapshot(params, null);
@@ -73,6 +73,8 @@ public class LeapingMonster extends Monster {
                 new Image(getAssetPath("assets/monsters/leap_monster/dying/DEAD_02.png")),
         };
         // -----------------
+
+        calcImgMarg(1.5, jumpImg);
 
         agroSound = SoundManager.SoundType.leapAgro;
         deathSound = SoundManager.SoundType.leapDeath;

@@ -37,11 +37,12 @@ public class LevelLauncher extends Application {
         StackPane root = new StackPane(canvas);
         Scene scene = new Scene(root, width, height);
 
-        new Player(0, 0);
-        SaveManager.loadGame();
+
         new CameraWindow(width, height);
         new LightingManager();
         new SoundManager();
+        new Player(0, 0);
+        SaveManager.loadGame();
 
         Controller controller = new Controller(Player.getInstance());
         stateManager = new StateManager(root, canvas, width, height);

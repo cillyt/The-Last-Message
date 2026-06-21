@@ -18,6 +18,8 @@ public abstract class GameEntity {
     protected boolean isActive = true;
     protected Image image; // заглушка
     protected Image currentImage; // справжній спрайт
+    protected int topImgMarg;
+    protected int sideImgMarg; // відступи зверху і з боків для зображень
 
     protected boolean isWalkable;
 
@@ -26,24 +28,35 @@ public abstract class GameEntity {
         y = -1000;
     }
 
-    public GameEntity (int x, int y){
+    public GameEntity(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public GameEntity (int x, int y, int width, int height){
+    public GameEntity(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
     }
 
-    public GameEntity (int x, int y, int width, int height, boolean isWalkable){
+    public GameEntity(int x, int y, int width, int height, boolean isWalkable) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.isWalkable = isWalkable;
+    }
+
+    /*
+      Викликати в нащадках, кому потрібно
+     */
+    protected void calcImgMarg(double imgSizeCoef, Image image){
+        int finalImgWidth = (int) (image.getWidth() * imgSizeCoef);
+        int finalImgHeight = (int) (image.getHeight() * imgSizeCoef);
+
+        topImgMarg = finalImgHeight - height;
+        sideImgMarg = (finalImgWidth - width) / 2;
     }
 
     public Rectangle2D getBounds() {
@@ -68,28 +81,35 @@ public abstract class GameEntity {
 
         inCamera = isVisible;
 
-        if (isVisible && image != null) {
+        if (isVisible) {
             int screenX = this.x - camera.getX();
             int screenY = this.y - camera.getY();
 
-            gc.drawImage(image, screenX, screenY, width, height);
+            if (image != null) {
+                gc.drawImage(image, screenX, screenY, width, height);
+            }
+
+            int drawX = screenX - sideImgMarg;
+            int drawY = screenY - topImgMarg;
+            int drawW = width + 2 * sideImgMarg;
+            int drawH = height + topImgMarg;
 
             if (currentImage != null) {
                 if (this instanceof MovingGameEntity && !((MovingGameEntity) this).isFacingRight()) {
                     gc.save();
 
-                    gc.translate(screenX + width, screenY);
+                    gc.translate(screenX + width / 2.0, screenY);
                     gc.scale(-1, 1);
 
-                    gc.drawImage(currentImage, 0, 0, width, height);
+                    gc.drawImage(currentImage, -width / 2.0 - sideImgMarg, -topImgMarg, drawW, drawH);
 
                     gc.restore();
-                } else gc.drawImage(currentImage, screenX, screenY, width, height);
-
+                } else {
+                    gc.drawImage(currentImage, drawX, drawY, drawW, drawH);
+                }
             }
         }
     }
-
     @Override
     public String toString() {
         return this.getClass().getSimpleName();

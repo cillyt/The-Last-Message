@@ -48,18 +48,18 @@ public class LevelParser {
         // текстури фону
         int width = 4000; // довжина одної текстури
         int numberFullBlocks = levelWidth / width; // скільки є цілих блоків довжиною width
-        String path = "file:assets/back_textures/level" + levelNumber + "/texture";
+        String path = "file:assets/back_textures/level" + levelNumber + "/row-1-column-";
 
-        for (int i = 0; i < numberFullBlocks; i++){
+        for (int i = 1; i <= numberFullBlocks; i++){
             Image bacKTexture = new Image(path + i + ".png");
-            BackgroundTexture bTexture = new BackgroundTexture(levelX + width * i, levelY, width, levelHeight, bacKTexture);
+            BackgroundTexture bTexture = new BackgroundTexture(levelX + width * (i-1), levelY, width, levelHeight, bacKTexture);
             allObjects.add(bTexture);
         }
 
         // чи є неповний блок
         int remainderWidth = levelWidth % width;
         if (remainderWidth > 0) {
-            Image bacKTexture = new Image(path + numberFullBlocks + ".png");
+            Image bacKTexture = new Image(path + (numberFullBlocks+1) + ".png");
             BackgroundTexture bTexture = new BackgroundTexture(levelX + width * numberFullBlocks, levelY, remainderWidth, levelHeight, bacKTexture);
             allObjects.add(bTexture);
         }
@@ -80,7 +80,7 @@ public class LevelParser {
                 switch (entityType) {
                     case "Player":
                         Player.getInstance().setX(x);
-                        Player.getInstance().setY(y);
+                        Player.getInstance().setY(y-10);
                         break;
                     case "BlockOfGround":
                         allObjects.add(new BlockOfGround(x, y, w, h));
@@ -116,7 +116,7 @@ public class LevelParser {
                                 patrolRadius = custom.getInt("patrolRadius");
                             }
                         }
-                        allObjects.add(new SimpleMonster(x, y, patrolRadius));
+                        allObjects.add(new SimpleMonster(x, y-10, patrolRadius));
                         break;
                     case "BigMonster":
                         patrolRadius = 300;
@@ -126,7 +126,7 @@ public class LevelParser {
                                 patrolRadius = custom.getInt("patrolRadius");
                             }
                         }
-                        allObjects.add(new BigMonster(x, y, patrolRadius));
+                        allObjects.add(new BigMonster(x, y-10, patrolRadius));
                         break;
                     case "LeapingMonster":
                         patrolRadius = 300;
@@ -136,7 +136,7 @@ public class LevelParser {
                                 patrolRadius = custom.getInt("patrolRadius");
                             }
                         }
-                        allObjects.add(new LeapingMonster(x, y, patrolRadius));
+                        allObjects.add(new LeapingMonster(x, y-10, patrolRadius));
                         break;
                     case "Trap1":
                         allObjects.add(new Trap1(x, y));
