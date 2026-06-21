@@ -28,24 +28,35 @@ public abstract class GameEntity {
         y = -1000;
     }
 
-    public GameEntity (int x, int y){
+    public GameEntity(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public GameEntity (int x, int y, int width, int height){
+    public GameEntity(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
     }
 
-    public GameEntity (int x, int y, int width, int height, boolean isWalkable){
+    public GameEntity(int x, int y, int width, int height, boolean isWalkable) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.isWalkable = isWalkable;
+    }
+
+    /*
+      Викликати в нащадках, кому потрібно
+     */
+    protected void calcImgMarg(double imgSizeCoef, Image image){
+        int finalImgWidth = (int) (image.getWidth() * imgSizeCoef);
+        int finalImgHeight = (int) (image.getHeight() * imgSizeCoef);
+
+        topImgMarg = finalImgHeight - height;
+        sideImgMarg = (finalImgWidth - width) / 2;
     }
 
     public Rectangle2D getBounds() {

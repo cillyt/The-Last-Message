@@ -82,6 +82,8 @@ public class BigMonster extends Monster {
         };
         // -----------------
 
+        calcImgMarg(1.0, moveImgs[0]);
+
         agroSound = SoundManager.SoundType.bigAgro;
         deathSound = SoundManager.SoundType.bigDeath;
 

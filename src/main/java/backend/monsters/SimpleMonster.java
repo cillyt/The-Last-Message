@@ -20,9 +20,6 @@ public class SimpleMonster extends Monster {
         width = 120;
         height = 90;
 
-        topImgMarg = 38;
-        sideImgMarg = 68;
-
         speedX = 200;
 
         maxHp = 10;
@@ -81,6 +78,8 @@ public class SimpleMonster extends Monster {
 
         };
         // -----------------
+
+        calcImgMarg(2, standImg);
 
         agroSound = SoundManager.SoundType.simpAgro;
         deathSound = SoundManager.SoundType.simpDeath;

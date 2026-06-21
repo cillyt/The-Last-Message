@@ -161,6 +161,8 @@ public class Player extends MovingGameEntity{
         periodAnimationCrawl = timeAnimationCrawl / crawlImgsP.length;
         periodAnimationDying = timeAnimationDying / dyingImgs.length;
 
+        calcImgMarg(2.75, moveImgsAR[0]);
+
         // --- ЗАГЛУШКА ---
         Canvas canvas = new Canvas(width, height);
         GraphicsContext tempGc = canvas.getGraphicsContext2D();

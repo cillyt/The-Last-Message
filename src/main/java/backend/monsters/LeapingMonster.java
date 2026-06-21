@@ -20,9 +20,6 @@ public class LeapingMonster extends Monster {
         width = 65;
         height = 54;
 
-        topImgMarg = 132;
-        sideImgMarg = 80;
-
         speedX = 270;
 
         maxHp = 5;
@@ -76,6 +73,8 @@ public class LeapingMonster extends Monster {
                 new Image(getAssetPath("assets/monsters/leap_monster/dying/DEAD_02.png")),
         };
         // -----------------
+
+        calcImgMarg(1.5, jumpImg);
 
         agroSound = SoundManager.SoundType.leapAgro;
         deathSound = SoundManager.SoundType.leapDeath;
