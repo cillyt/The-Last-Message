@@ -27,17 +27,19 @@ public class AR_Item extends Detector {
 
         currentImage = new Image("file:assets/detectors/ar.png");
 
+        calcImgMarg(1, currentImage);
+
         // --- ЗАГЛУШКА ---
         Canvas canvas = new Canvas(width, height);
         GraphicsContext tempGc = canvas.getGraphicsContext2D();
-        //tempGc.setFill(Color.web("#B026FF"));
-       // tempGc.fillRect(0, 0, width, height);
-       // tempGc.setFill(Color.WHITE);
-       // tempGc.setFont(new Font("Arial", 10));
-       // tempGc.fillText("AR", 5, 15);
+        tempGc.setFill(Color.web("#B026FF"));
+        tempGc.fillRect(0, 0, width, height);
+        tempGc.setFill(Color.WHITE);
+        tempGc.setFont(new Font("Arial", 10));
+        tempGc.fillText("AR", 5, 15);
         SnapshotParameters params = new SnapshotParameters();
         params.setFill(Color.TRANSPARENT);
-        this.image = canvas.snapshot(params, null);
+        //this.image = canvas.snapshot(params, null);
         // ----------------
     }
 
