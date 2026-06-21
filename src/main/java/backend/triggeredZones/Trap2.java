@@ -56,8 +56,8 @@ public class Trap2 extends Detector {
         super(x, y);
         zIndex = 6;
 
-        width = 30;
-        height = 200;
+        width = 45;
+        height = 150;
 
         havePeriodicActoin = true;
         timePeriod = 1;
