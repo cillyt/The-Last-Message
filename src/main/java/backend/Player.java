@@ -29,7 +29,7 @@ public class Player extends MovingGameEntity{
     private final int defaultHeight = 170;
     private final int heightInCrouch = 100;
 
-    private final int speedXinCrouch = 100;
+    private final int speedXinCrouch = 150;
 
     private boolean isCrouching = false;
 
@@ -368,6 +368,8 @@ public class Player extends MovingGameEntity{
     }
 
     public void commandStartShooting() {
+        if (currentState == State.GO) return;
+
         currentWeapon.startFire();
     }
 

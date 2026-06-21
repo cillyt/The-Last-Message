@@ -18,6 +18,7 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         INVESTIGATE, // пошук за звуком
         LOSE, // втратив героя з поля зору
         STUCK, // бачить героя, але не може до нього дістатися
+        RETREAT, // втеча після STUCK
         ATTACK, // б'є героя
         COMEBACK, // повертається до патрулювання
         DYING // помирає
@@ -45,6 +46,8 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
     protected double scaneTime = 0.5; // час одного озирання
     protected double loseTime = 5; // час, який монстр буде стояти на місці при втраті гравця
     protected double dyingTime = 0.5; // час для анімації смерті
+    protected double stuckAttackTimer;
+    protected double stuckRoarTimer;
 
     protected double cooldown = 0.5; // час перед атакою
 
@@ -203,11 +206,29 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         currentVelocityX = 0;
         currentState = State.STAND;
         currentTime = 0;
+        stuckAttackTimer = 0;
+        stuckRoarTimer = 0;
+
         behState = BehavioralState.STUCK;
 
         currentImage = standImg;
         currentSpriteTime = 0;
         currentSpriteIndex = 0;
+    }
+
+    protected void toRetreat() {
+        facingRight = x > Player.getInstance().getX();
+        currentVelocityX = facingRight ? speedX : -speedX;
+        currentState = State.GO;
+
+        behState = BehavioralState.RETREAT;
+
+        SoundManager.getInstance().stop(agroSound);
+        SoundManager.getInstance().play(agroSound);
+
+        currentSpriteIndex = 1;
+        currentImage = moveImgs[0];
+        currentTime = 0;
     }
 
     protected void toComeback() {
@@ -265,10 +286,10 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
 
     protected PathCondition checkObstacle() {
         int colWidth = maxJumpDistance / 2;
-        int colX = facingRight ? x + width : x - colWidth;
+        int finalX = facingRight ? x + width : x - colWidth;
         int moveDir = facingRight ? 1 : -1;
 
-        GameEntity obstacle = collision(colX, y-1, colWidth, height, moveDir, 0, Level.getCurrentLevel().getWallsAndPartBlocks());
+        GameEntity obstacle = collision(finalX, y-1, colWidth, height, moveDir, 0, Level.getCurrentLevel().getWallsAndPartBlocks());
 
         if (obstacle == null) return PathCondition.CLEAR;
 
@@ -285,8 +306,23 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
             }
         }
 
-        int apexY = y - targetJumpHeight;
-        boolean canJumpOver = collision(colX, apexY, colWidth, height, moveDir, 0, Level.getCurrentLevel().getWallsAndPartBlocks()) == null;
+        // перевіряємо послідовно 5 положень монстра в стрибку
+        int finalY = y - targetJumpHeight;
+
+        int deltaX = (finalX - x) / 6;
+        int deltaY = (finalY - y) / 6;
+
+        boolean canJumpOver = true;
+
+        for(int i = 0; i < 6; i++){
+            finalX -= deltaX;
+            finalY -= deltaY;
+
+            canJumpOver = collision(finalX, finalY, width, height,
+                    moveDir, 0, Level.getCurrentLevel().getWallsAndPartBlocks()) == null;
+
+            if(!canJumpOver) break;
+        }
 
         return canJumpOver ? PathCondition.PASSABLE : PathCondition.IMPASSABLE;
     }
@@ -296,7 +332,7 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
         int checkX = facingRight ? x + width + 10 : x - 10;
         int checkY = y + height + 5;
 
-        boolean hasGround = collision(checkX, checkY, 5, 5, 0, 1, Level.getCurrentLevel().getWallsAndPartBlocks()) != null;
+        boolean hasGround = collision(checkX, checkY, 5, 100, 0, 1, Level.getCurrentLevel().getWallsAndPartBlocks()) != null;
 
         if (hasGround) return PathCondition.CLEAR;
 
@@ -369,6 +405,11 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
             case CHASE:
                 toStuck();
                 break;
+            case RETREAT:
+                this.rightPatrolPoint = this.x + patrolRadius;
+                this.leftPatrolPoint = this.x - patrolRadius;
+                toScane();
+                break;
         }
     }
 
@@ -436,7 +477,11 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
 
     public void takeDamage(int damage) {
         currentHP -= damage;
-        if (currentHP <= 0) toDying();
+        if (currentHP <= 0) {
+            toDying();
+        } else if (behState == BehavioralState.STUCK || behState == BehavioralState.LOSE) {
+            toRetreat();
+        }
     }
 
     @Override
@@ -508,6 +553,11 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
                 if (checkAttack()) toAttack();
                 break;
             case INVESTIGATE:
+                if (seePlayer()) {
+                    toChase();
+                    break;
+                }
+
                 checkPathAndMove();
 
                 double invStep = Math.abs(currentVelocityX) * deltaTime;
@@ -523,22 +573,78 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
                 break;
             case STUCK:
                 currentTime += deltaTime;
-                if (currentTime >= 0.5) {
-                    currentTime = 0;
+                stuckAttackTimer += deltaTime;
+                stuckRoarTimer += deltaTime;
 
-                    if (!seePlayer()) {
-                        toLose();
-                    } else {
-                        facingRight = lastSeenPlayerX > x;
+                // агро звук раз на 5 секунд
+                if (stuckRoarTimer >= 5) {
+                    stuckRoarTimer -= 5;
+                    SoundManager.getInstance().stop(agroSound);
+                    SoundManager.getInstance().play(agroSound);
+                }
 
-                        if (checkObstacle() != PathCondition.IMPASSABLE && checkHole() != PathCondition.IMPASSABLE) {
-                            toChase();
+                // якщо минуло 5 секунд - здається і йде
+                if (currentTime >= 7) {
+                    toComeback();
+                    break;
+                }
+
+                // атака в повітря раз на 3 секунди
+                if (stuckAttackTimer >= 3.0) {
+                    stuckAttackTimer -= 3.0;
+                    currentSpriteTime = 0;
+                    currentSpriteIndex = 0;
+                    currentImage = attackImgs[0];
+                }
+
+                boolean isAttacking = false;
+                for (Image img : attackImgs) {
+                    if (currentImage == img) {
+                        isAttacking = true;
+                        break;
+                    }
+                }
+
+                if (isAttacking) {
+                    currentSpriteTime += deltaTime;
+                    if(currentSpriteTime >= attackAnimPeriod){
+                        currentSpriteTime -= attackAnimPeriod;
+                        currentSpriteIndex++;
+                        if (currentSpriteIndex < attackImgs.length) {
+                            currentImage = attackImgs[currentSpriteIndex];
+                        } else {
+                            currentImage = standImg;
+                            currentSpriteIndex = 0;
                         }
                     }
+                }
+
+                if (!seePlayer()) {
+                    toLose();
+                } else {
+                    facingRight = lastSeenPlayerX > x;
+                    if (checkObstacle() != PathCondition.IMPASSABLE && checkHole() != PathCondition.IMPASSABLE) {
+                        toChase();
+                    }
+                }
+                break;
+            case RETREAT:
+                currentTime += deltaTime;
+                checkPathAndMove();
+
+                if (currentTime >= 3.0) {
+                    this.rightPatrolPoint = this.x + patrolRadius;
+                    this.leftPatrolPoint = this.x - patrolRadius;
+                    toScane();
                 }
                 break;
             case COMEBACK:
                 checkPathAndMove();
+
+                double cbStep = Math.abs(currentVelocityX) * deltaTime;
+                if (x - cbStep <= rightPatrolPoint && rightPatrolPoint <= x + cbStep) {
+                    toPatrol();
+                }
 
                 if (hearPlayer()) toInvestigate();
                 if (seePlayer()) toChase();
@@ -547,9 +653,13 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
                 currentTime += deltaTime;
                 if (currentTime >= cooldown) {
                     currentTime = 0;
-                    Player.getInstance().takeDamage(damage);
+
+                    if (checkAttack()) {
+                        Player.getInstance().takeDamage(damage);
+                    } else {
+                        toChase();
+                    }
                 }
-                if (!checkAttack()) toChase();
 
                 currentSpriteTime += deltaTime;
                 if(currentSpriteTime >= attackAnimPeriod){
@@ -557,7 +667,6 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
                     currentImage = attackImgs[currentSpriteIndex];
                     currentSpriteIndex = (currentSpriteIndex + 1) % attackImgs.length;
                 }
-
                 break;
             case DYING:
                 currentTime += deltaTime;
