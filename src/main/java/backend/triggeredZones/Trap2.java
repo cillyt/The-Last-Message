@@ -19,17 +19,18 @@ import javafx.scene.text.Font;
 public class Trap2 extends Detector {
 
     // ----- АСЕТИ -----
+    // спрайт без вогню для стану паузи
+    private Image breakImg = new Image(getAssetPath("assets/detectors/torch8.png"));
 
-    // спрати для початкової частини вогня, коли він розгортається
-    private Image spreadimgFireImgs[] = { new Image("file:assets/detectors/torch1.png"),
-            new Image("file:assets/detectors/torch2.png"),
-            new Image("file:assets/detectors/torch3.png"),
-    };
-
-    // спрайти для основної частини анімації, які будуть прокручуватись кілька разів
-    private Image mainFireImgs[] = { new Image("file:assets/detectors/torch4.png"),
-            new Image("file:assets/detectors/torch5.png"),
-            new Image("file:assets/detectors/torch6.png"),   //?
+    // спрайти для анімації, які будуть прокручуватись кілька разів
+    private Image fireImgs[] = { new Image(getAssetPath("assets/detectors/torch1.png")),
+            new Image(getAssetPath("assets/detectors/torch2.png")),
+            new Image(getAssetPath("assets/detectors/torch3.png")),
+            new Image(getAssetPath("assets/detectors/torch4.png")),
+            new Image(getAssetPath("assets/detectors/torch5.png")),
+            new Image(getAssetPath("assets/detectors/torch6.png")),
+            new Image(getAssetPath("assets/detectors/torch7.png")),
+            new Image(getAssetPath("assets/detectors/torch8.png")),
     };
     // -----------------
 
@@ -38,34 +39,28 @@ public class Trap2 extends Detector {
     private double currentSpriteTime;
     private double sumTime; // для перемикання частин
 
-    private double spreadingTime = 1; // час початкової частини анімації
-    private double spreadingPeriod;
+    private double fireTime; // час анімації
+    private double firePeriod = 0.05;
 
-    private double mainTime; // час основної частини анімації + spreadingTime
-    private double mainPeriod;
-
-    private double breakTime; // час перерви (вогонь не б'є) + mainAnimTime + spreadingTime
-
-    private boolean isMainPhase = false;
+    private double breakTime; // час перерви (вогонь не б'є) + fireTime
 
     private Image stubImage; // зберігач заглушки
+    private boolean firePhase;
 
     public Trap2 (int x, int y, double fireTime, double breakTime) {
         super(x, y);
         zIndex = 6;
 
-        width = 30;
-        height = 200;
+        width = 60;
+        height = 180;
+
+        calcImgMarg(0.6, breakImg);
 
         havePeriodicActoin = true;
         timePeriod = 1;
 
-        mainTime = fireTime;
+        this.fireTime = fireTime;
         this.breakTime = fireTime + breakTime;
-
-        spreadingPeriod = spreadingTime / spreadimgFireImgs.length;
-        mainPeriod = mainTime / mainFireImgs.length;
-
 
         // --- ЗАГЛУШКА ---
         Canvas canvas = new Canvas(width, height);
@@ -77,14 +72,14 @@ public class Trap2 extends Detector {
         tempGc.fillText("TRAP2", 2, 15);
         SnapshotParameters params = new SnapshotParameters();
         params.setFill(Color.TRANSPARENT);
-        this.image = canvas.snapshot(params, null);
+        //this.image = canvas.snapshot(params, null);
         stubImage = image;
         // ----------------
     }
 
     @Override
     protected void doPeriodicAction() {
-        if(sumTime < mainTime){
+        if(sumTime < fireTime){
             for (GameEntity obj : entitiesInside){
                 if(obj instanceof Player){
                     Player.getInstance().takeDamage(10);
@@ -104,36 +99,25 @@ public class Trap2 extends Detector {
         currentSpriteTime += deltaTime;
         sumTime += deltaTime;
 
-        if (sumTime <= spreadingTime) {
+        if (sumTime <= fireTime) {
+            if(!firePhase) firePhase = true;
             // ЗАГЛУШКА
-            image = stubImage;
-
-            isMainPhase = false;
-            if (currentSpriteTime >= spreadingPeriod) {
-                currentSpriteTime -= spreadingPeriod;
-                currentImage = spreadimgFireImgs[currentSpriteIndex];
-                currentSpriteIndex = (currentSpriteIndex + 1) % spreadimgFireImgs.length;
-            }
-        } else if (sumTime <= mainTime) {
-            if (!isMainPhase) {
-                isMainPhase = true;
-                currentSpriteIndex = 0;
-            }
-            if (currentSpriteTime >= mainPeriod) {
-                currentSpriteTime -= mainPeriod;
-                currentImage = mainFireImgs[currentSpriteIndex];
-                currentSpriteIndex = (currentSpriteIndex + 1) % mainFireImgs.length;
+            //image = stubImage;
+            if (currentSpriteTime >= firePeriod) {
+                currentSpriteTime -= firePeriod;
+                currentImage = fireImgs[currentSpriteIndex];
+                currentSpriteIndex = (currentSpriteIndex + 1) % fireImgs.length;
             }
         } else if (sumTime <= breakTime) {
-            if(isMainPhase) {
-                currentImage = null;
-                isMainPhase = false;
+            if(firePhase) {
+                currentImage = breakImg;
+                firePhase = false;
                 // ЗАГЛУШКА
-                image = null;
-
+                //image = null;
             }
         } else {
             sumTime = 0;
+            currentSpriteTime = 0;
             currentSpriteIndex = 0;
         }
     }

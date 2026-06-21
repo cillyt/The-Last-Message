@@ -472,7 +472,7 @@ public class Player extends MovingGameEntity{
         if (isDying || isDead) return;
 
         currentHp -= damage;
-        CameraWindow.getInstance().applyShake(5, 0.2);
+        CameraWindow.getInstance().applyShake(damage / 2, 0.2);
 
         if(currentHp > 0) return;
 

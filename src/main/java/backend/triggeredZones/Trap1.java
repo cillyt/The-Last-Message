@@ -45,7 +45,7 @@ public class Trap1 extends Detector {
 
     @Override
     protected void doPeriodicAction(){
-        if(checkCollision(targetPlayer)) targetPlayer.takeDamage(10);
+        if(checkCollision(targetPlayer)) targetPlayer.takeDamage(5);
     }
 
     @Override
