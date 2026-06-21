@@ -28,16 +28,16 @@ public class AR_Ammunition extends Detector {
 
         zIndex = 3;
 
-        currentImage = new Image("file:assets/detectors/назва.png");
+        currentImage = new Image("file:assets/detectors/bullets.png");
 
         // --- ЗАГЛУШКА ---
         Canvas canvas = new Canvas(width, height);
-        GraphicsContext tempGc = canvas.getGraphicsContext2D();
-        tempGc.setFill(Color.web("#FFD700"));
-        tempGc.fillRect(0, 0, width, height);
-        tempGc.setFill(Color.BLACK);
-        tempGc.setFont(new Font("Arial", 10));
-        tempGc.fillText("Ammo", 2, 15);
+        //GraphicsContext tempGc = canvas.getGraphicsContext2D();
+       // tempGc.setFill(Color.web("#FFD700"));
+       // tempGc.fillRect(0, 0, width, height);
+       // tempGc.setFill(Color.BLACK);
+       // tempGc.setFont(new Font("Arial", 10));
+       // tempGc.fillText("Ammo", 2, 15);
         SnapshotParameters params = new SnapshotParameters();
         params.setFill(Color.TRANSPARENT);
         this.image = canvas.snapshot(params, null);

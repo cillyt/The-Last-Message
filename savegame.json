@@ -1,5 +1,5 @@
 {
-    "arUnlocked": true,
+    "arUnlocked": false,
     "arAmmo": 0,
-    "maxLevelReached": 2
+    "maxLevelReached": 1
 }
