@@ -4,7 +4,7 @@
   "x": 268,
   "y": 1479,
   "width": 10000,
-  "height": 1000,
+  "height": 1189,
   "bgColor": "#696A79",
   "neighbourLevels": [
     {
@@ -27,10 +27,10 @@
         "id": "BlockOfGround",
         "iid": "823cdfd0-48b0-11f1-a911-bfa8c3e58b1e",
         "layer": "Entities",
-        "x": 1856,
+        "x": 1859,
         "y": 914,
-        "width": 8143,
-        "height": 86,
+        "width": 8140,
+        "height": 274,
         "color": 4073265,
         "customFields" : {}
       },
@@ -140,7 +140,7 @@
         "x": 2,
         "y": 915,
         "width": 1694,
-        "height": 85,
+        "height": 270,
         "color": 4073265,
         "customFields" : {}
       },
@@ -179,17 +179,6 @@
       },
       {
         "id": "BlockOfGround",
-        "iid": "2fd5ced0-48b0-11f1-b2f3-d5a1e0cd4e0a",
-        "layer": "Entities",
-        "x": 1675,
-        "y": 974,
-        "width": 203,
-        "height": 24,
-        "color": 4073265,
-        "customFields" : {}
-      },
-      {
-        "id": "BlockOfGround",
         "iid": "979bfd20-48b0-11f1-bbe6-7be17b0f5bbc",
         "layer": "Entities",
         "x": 2,
@@ -218,6 +207,17 @@
         "y": 393,
         "width": 1566,
         "height": 134,
+        "color": 4073265,
+        "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "c1ff42d0-48b0-11f1-9822-9f266dc3927f",
+        "layer": "Entities",
+        "x": 1691,
+        "y": 1123,
+        "width": 169,
+        "height": 63,
         "color": 4073265,
         "customFields" : {}
       }
@@ -411,9 +411,9 @@
         "id": "Deadzone",
         "iid": "6c05c940-48b0-11f1-b01b-972e470a8623",
         "layer": "Entities",
-        "x": 1696,
-        "y": 963,
-        "width": 159,
+        "x": 1651,
+        "y": 1113,
+        "width": 266,
         "height": 9,
         "color": 0,
         "customFields" : {}
