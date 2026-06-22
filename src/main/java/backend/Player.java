@@ -95,10 +95,12 @@ public class Player extends MovingGameEntity{
             new Image(getAssetPath("assets/player/ar/move/arun7.png")),
             new Image(getAssetPath("assets/player/ar/move/arun8.png"))
     };
-    private final Image[] crawlImgsAR = { new Image(getAssetPath("assets/player/ar/crawl/назва.png")),
-            new Image(getAssetPath("assets/player/ar/crawl/назва.png")),
-            new Image(getAssetPath("assets/player/ar/crawl/назва.png")),
-            new Image(getAssetPath("assets/player/ar/crawl/назва.png")),
+    private final Image[] crawlImgsAR = { new Image(getAssetPath("assets/player/ar/crawl/crouching1.png")),
+            new Image(getAssetPath("assets/player/ar/crawl/crouching2.png")),
+            new Image(getAssetPath("assets/player/ar/crawl/crouching3.png")),
+            new Image(getAssetPath("assets/player/ar/crawl/crouching4.png")),
+            new Image(getAssetPath("assets/player/ar/crawl/crouching5.png")),
+            new Image(getAssetPath("assets/player/ar/crawl/crouching6.png")),
             // ...
     };
 

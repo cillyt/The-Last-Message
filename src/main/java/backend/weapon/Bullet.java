@@ -90,8 +90,14 @@ public abstract class Bullet extends MovingGameEntity {
             barrelX = player.isFacingRight() ? player.getX() + player.getWidth() + 48 : player.getX() - this.width - 46;
             barrelY = !player.isCrouching() ? player.getY() + 34 : player.getY() + 57;
 
-            if (player.isCrouching())
+            if (player.isCrouching()) {
                 barrelX += player.isFacingRight() ? -3 : 3;
+
+                if (player.getCurrentState() == State.GO){
+                    barrelX += player.isFacingRight() ? 1 : -1;
+                    barrelY += -13;
+                }
+            }
 
             else if (player.getCurrentState() == State.GO) {
                 barrelX += player.isFacingRight() ? -10 : 10;
