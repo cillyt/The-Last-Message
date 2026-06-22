@@ -556,6 +556,20 @@
           "triggerOnce": true,
           "message": "Для руху вліво та вправо використовуйте клавіші A та D відповідно"
         }
+      },
+      {
+        "id": "PopupMessageTrigger",
+        "iid": "116f9450-48b0-11f1-9969-6bf4fedcf959",
+        "layer": "Entities",
+        "x": 6463,
+        "y": 389,
+        "width": 16,
+        "height": 402,
+        "color": 14984818,
+        "customFields": {
+          "triggerOnce": true,
+          "message": "Щоб переключатись між зброєю, натискайте клавіші 1 та 2 для пістолету та AR відповідно"
+        }
       }
     ],
     "LeapingMonster": [
