@@ -175,7 +175,7 @@ public class Player extends MovingGameEntity{
         tempGc.fillText("Player", 5, 15);
         SnapshotParameters params = new SnapshotParameters();
         params.setFill(Color.TRANSPARENT);
-        this.image = canvas.snapshot(params, null);
+        //this.image = canvas.snapshot(params, null);
         // ----------------
     }
 

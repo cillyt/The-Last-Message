@@ -44,7 +44,7 @@ public class LeapingMonster extends Monster {
         tempGc.fillText("LEAP_MONST", 5, 15);
         SnapshotParameters params = new SnapshotParameters();
         params.setFill(Color.TRANSPARENT);
-        this.image = canvas.snapshot(params, null);
+        //this.image = canvas.snapshot(params, null);
         // ----------------
 
         // ----- АСЕТИ -----

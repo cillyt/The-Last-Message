@@ -48,7 +48,7 @@ public class BigMonster extends Monster {
         tempGc.fillText("BIG_MONST", 5, 15);
         SnapshotParameters params = new SnapshotParameters();
         params.setFill(Color.TRANSPARENT);
-        this.image = canvas.snapshot(params, null);
+        //this.image = canvas.snapshot(params, null);
         // ----------------
 
         // ----- АСЕТИ -----

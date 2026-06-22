@@ -43,7 +43,7 @@ public class SimpleMonster extends Monster {
         tempGc.fillText("SIMP_Monst", 2, 15);
         SnapshotParameters params = new SnapshotParameters();
         params.setFill(Color.TRANSPARENT);
-        this.image = canvas.snapshot(params, null);
+        //this.image = canvas.snapshot(params, null);
         // ----------------
         
         // ----- АСЕТИ -----
