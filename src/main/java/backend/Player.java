@@ -57,7 +57,7 @@ public class Player extends MovingGameEntity{
 
     // для пістолета
     private final Image standImgP = new Image(getAssetPath("assets/player/pistol/stand.png"));
-    private final Image jumpImgP = new Image(getAssetPath("assets/player/pistol/назва.png"));
+    private final Image jumpImgP = new Image(getAssetPath("assets/player/pistol/jump.png"));
     private final Image crouchImgP = new Image(getAssetPath("assets/player/pistol/crouch.png"));
 
     private final Image[] moveImgsP = {
