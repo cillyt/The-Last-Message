@@ -157,6 +157,7 @@ public class Player extends MovingGameEntity{
         weapons[1] = new AR();
 
         weaponUnlocked[0] = true;
+        weaponUnlocked[1] = true;
         currentWeapon = weapons[0];
 
         periodAnimationMove = timeAnimationMove / moveImgsP.length;

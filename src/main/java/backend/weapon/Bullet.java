@@ -72,16 +72,31 @@ public abstract class Bullet extends MovingGameEntity {
     }
 
     protected void updateBarrelPosition(Player player) {
-        barrelX = player.isFacingRight() ? player.getX() + player.getWidth() + 23 : player.getX() - this.width - 21;
-        barrelY = !player.isCrouching() ? player.getY() + 38 : player.getY() + 30;
+        if(player.getCurrentWeapon() instanceof Pistol){
+            barrelX = player.isFacingRight() ? player.getX() + player.getWidth() + 23 : player.getX() - this.width - 21;
+            barrelY = !player.isCrouching() ? player.getY() + 38 : player.getY() + 30;
 
-        if (player.isCrouching())
-            barrelX += player.isFacingRight() ? 12 : -12;
+            if (player.isCrouching())
+                barrelX += player.isFacingRight() ? 12 : -12;
 
-        if (player.getCurrentState() == State.GO) {
-            barrelX += player.isFacingRight() ? 6 : -6;
-            barrelY += 3;
+            if (player.getCurrentState() == State.GO) {
+                barrelX += player.isFacingRight() ? 6 : -6;
+                barrelY += 3;
+            }
         }
+        if (player.getCurrentWeapon() instanceof AR){
+            barrelX = player.isFacingRight() ? player.getX() + player.getWidth() + 48 : player.getX() - this.width - 46;
+            barrelY = !player.isCrouching() ? player.getY() + 34 : player.getY() + 57;
+
+            if (player.isCrouching())
+                barrelX += player.isFacingRight() ? -3 : 3;
+
+            else if (player.getCurrentState() == State.GO) {
+                barrelX += player.isFacingRight() ? -10 : 10;
+                barrelY += 27;
+            }
+        }
+
     }
 
     public void deactivate() {
