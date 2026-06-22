@@ -377,8 +377,6 @@ public class Player extends MovingGameEntity{
     }
 
     public void commandStartShooting() {
-        if (currentState == State.GO) return;
-
         currentWeapon.startFire();
     }
 

@@ -20,6 +20,10 @@ public abstract class Bullet extends MovingGameEntity {
     protected int baseWidth;
     protected int baseHeight;
 
+    protected int barrelX;
+    protected int barrelY;
+    protected boolean justFired = false;
+
     protected Image fireImg = new Image(getAssetPath("assets/player/fire.png"));
     protected Sticker fireFlash;
     protected double currentFlashTime = 0;
@@ -32,20 +36,15 @@ public abstract class Bullet extends MovingGameEntity {
 
         fireFlash = new Sticker(-1000, -1000, fireImg);
         fireFlash.setActive(false);
-
-        // --- ЗАГЛУШКА ---
-
-        // ----------------
     }
 
     public void shootOut(double angle) {
         Player player = Player.getInstance();
-        if (player.isFacingRight()) {
-            x = player.getX() + player.getWidth() + 1;
-        }
-        else x = player.getX() - width - 1;
-        y = player.getY() + 80;
-        if(player.isCrouching()) y -= 40;
+
+        updateBarrelPosition(player);
+
+        this.x = barrelX;
+        this.y = barrelY;
 
         this.width = (int) (Math.abs(baseWidth * Math.cos(angle)) + Math.abs(baseHeight * Math.sin(angle)));
         this.height = (int) (Math.abs(baseWidth * Math.sin(angle)) + Math.abs(baseHeight * Math.cos(angle)));
@@ -54,12 +53,35 @@ public abstract class Bullet extends MovingGameEntity {
         this.currentVelocityY = speedX * Math.sin(angle);
 
         this.isFlying = true;
+        this.justFired = true;
 
-        // спалах
-        fireFlash.setX(player.isFacingRight() ? x : x - fireFlash.getWidth());
-        fireFlash.setY(y - fireFlash.getHeight() / 2);
-        fireFlash.setFacingRight(player.isFacingRight());
+        updateFlashPosition(player);
         fireFlash.setActive(true);
+        currentFlashTime = 0;
+    }
+
+    protected void updateFlashPosition(Player player) {
+        // Оновлюємо змінні barrelX та barrelY
+        updateBarrelPosition(player);
+
+        int flashX = player.isFacingRight() ? barrelX : barrelX - fireFlash.getWidth() + this.width;
+
+        fireFlash.setX(flashX);
+        fireFlash.setY(barrelY - fireFlash.getHeight() / 2);
+        fireFlash.setFacingRight(player.isFacingRight());
+    }
+
+    protected void updateBarrelPosition(Player player) {
+        barrelX = player.isFacingRight() ? player.getX() + player.getWidth() + 23 : player.getX() - this.width - 21;
+        barrelY = !player.isCrouching() ? player.getY() + 38 : player.getY() + 30;
+
+        if (player.isCrouching())
+            barrelX += player.isFacingRight() ? 12 : -12;
+
+        if (player.getCurrentState() == State.GO) {
+            barrelX += player.isFacingRight() ? 6 : -6;
+            barrelY += 3;
+        }
     }
 
     public void deactivate() {
@@ -77,10 +99,18 @@ public abstract class Bullet extends MovingGameEntity {
             if(currentFlashTime >= flashTime){
                 currentFlashTime = 0;
                 fireFlash.setActive(false);
+            } else {
+                updateFlashPosition(Player.getInstance());
             }
         }
 
         if (!isFlying) return;
+
+        // скіпаємо рух у першому кадрі
+        if (justFired) {
+            justFired = false;
+            return;
+        }
 
         subPixelX += currentVelocityX * deltaTime;
         subPixelY += currentVelocityY * deltaTime;
