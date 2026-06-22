@@ -26,7 +26,7 @@ public class LeapingMonster extends Monster {
         maxHp = 5;
         currentHP = maxHp;
 
-        targetJumpHeight = 75;
+        targetJumpHeight = 90;
         initialJumpParams();
 
         damage = 2;

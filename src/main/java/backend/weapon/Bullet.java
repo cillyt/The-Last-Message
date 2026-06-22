@@ -72,6 +72,7 @@ public abstract class Bullet extends MovingGameEntity {
     }
 
     protected void updateBarrelPosition(Player player) {
+
         if(player.getCurrentWeapon() instanceof Pistol){
             barrelX = player.isFacingRight() ? player.getX() + player.getWidth() + 23 : player.getX() - this.width - 21;
             barrelY = !player.isCrouching() ? player.getY() + 38 : player.getY() + 30;
@@ -84,6 +85,7 @@ public abstract class Bullet extends MovingGameEntity {
                 barrelY += 3;
             }
         }
+
         if (player.getCurrentWeapon() instanceof AR){
             barrelX = player.isFacingRight() ? player.getX() + player.getWidth() + 48 : player.getX() - this.width - 46;
             barrelY = !player.isCrouching() ? player.getY() + 34 : player.getY() + 57;
