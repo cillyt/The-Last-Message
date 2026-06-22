@@ -97,6 +97,7 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
     // звуки
     protected SoundManager.SoundType agroSound;
     protected SoundManager.SoundType deathSound;
+    protected SoundManager.SoundType attackSound;
 
     protected boolean sawFirst = true;
 
@@ -664,6 +665,9 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
                 currentSpriteTime += deltaTime;
                 if(currentSpriteTime >= attackAnimPeriod){
                     currentSpriteTime -= attackAnimPeriod;
+
+                    if(currentSpriteIndex == 1) SoundManager.getInstance().stopAndPlay(attackSound);
+
                     currentImage = attackImgs[currentSpriteIndex];
                     currentSpriteIndex = (currentSpriteIndex + 1) % attackImgs.length;
                 }

@@ -4,6 +4,7 @@
 
 package backend.monsters;
 
+import backend.Player;
 import backend.SoundManager;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
@@ -78,13 +79,34 @@ public class LeapingMonster extends Monster {
 
         agroSound = SoundManager.SoundType.leapAgro;
         deathSound = SoundManager.SoundType.leapDeath;
+        attackSound = SoundManager.SoundType.leapAttack;
 
         initialTimePeriods();
+    }
+
+    private boolean isPlayerAbove() {
+        Player p = Player.getInstance();
+
+        // чи перетинаються координати по горизонталі
+        boolean overlapX = (this.x < p.getX() + p.getWidth()) && (this.x + this.width > p.getX());
+
+        // чи ноги гравця знаходяться над головою монстра
+        boolean overlapY = (p.getY() + p.getHeight() >= this.y - 150) && (p.getY() + p.getHeight() <= this.y + 30);
+
+        return overlapX && overlapY;
     }
 
     @Override
     protected void checkPathAndMove() {
         if (!onGround) return;
+
+        // якщо гравець прямо над головою - не стрибаємо
+        if (isPlayerAbove()) {
+            currentVelocityX = 0;
+            currentState = State.STAND;
+            currentImage = standImg;
+            return;
+        }
 
         PathCondition obstacle = checkObstacle();
         PathCondition hole = checkHole();

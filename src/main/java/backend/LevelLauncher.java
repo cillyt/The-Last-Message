@@ -65,6 +65,7 @@ public class LevelLauncher extends Application {
                     return;
                 }
                 double deltaTime = (now - lastTime) / 1_000_000_000.0;
+                if (deltaTime > 0.05) deltaTime = 0.05;
                 lastTime = now;
 
                 stateManager.update(deltaTime);

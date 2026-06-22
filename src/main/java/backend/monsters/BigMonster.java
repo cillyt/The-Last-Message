@@ -86,6 +86,7 @@ public class BigMonster extends Monster {
 
         agroSound = SoundManager.SoundType.bigAgro;
         deathSound = SoundManager.SoundType.bigDeath;
+        attackSound = SoundManager.SoundType.bigAttack;
 
         initialTimePeriods();
     }
