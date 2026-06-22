@@ -18,7 +18,7 @@ public class SimpleMonster extends Monster {
         super(x, y, patrolRadius);
 
         width = 120;
-        height = 90;
+        height = 125;
 
         speedX = 200;
 
