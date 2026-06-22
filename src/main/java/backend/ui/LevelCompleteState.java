@@ -33,7 +33,7 @@ public class LevelCompleteState implements GameState {
         }
 
         // зберігаємо гру
-        SaveManager.saveGame();
+        SaveManager.saveStateForLevel(nextLevel);
 
         Button next = new Button("НАСТУПНИЙ РІВЕНЬ");
         Button toMenu = new Button("В МЕНЮ");

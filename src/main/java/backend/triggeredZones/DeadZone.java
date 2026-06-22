@@ -20,10 +20,10 @@ public class DeadZone extends Detector{
     @Override
     protected void onEnter(GameEntity entity) {
         if(entity instanceof Player player){
-            player.takeDamage(10000);
+            player.takeDamage(player.getMaxHp());
         }
         if(entity instanceof Monster monster){
-            monster.takeDamage(10000);
+            monster.takeDamage(monster.getMaxHp());
         }
     }
 

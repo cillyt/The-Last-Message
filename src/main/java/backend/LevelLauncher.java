@@ -96,7 +96,8 @@ public class LevelLauncher extends Application {
     }
 
     private static void loadLevel(int levelNumber, StateManager manager) {
-        Player.getInstance().reset(); // Звичайний reset для HP і стану
+        Player.getInstance().reset();
+        SaveManager.loadStateForLevel(levelNumber);
         currentLevelNumber = levelNumber;
         try {
             String levelFileName = "src/main/java/gamedesign/levels/Level_" + levelNumber + ".json";

@@ -1,3 +1,8 @@
+/*
+ * Author: П'ятаченко Гліб
+ * File: SaveManager.java
+ * Description: Менеджер порівневого збереження прогресу гри, ХП та стану зброї у JSON.
+ */
 package backend;
 
 import org.json.JSONObject;
@@ -9,20 +14,27 @@ import java.io.FileWriter;
 
 public class SaveManager {
     private static final String SAVE_FILE = "savegame.json";
+    private static JSONObject rootJson = new JSONObject();
 
-    public static void saveGame() {
+    public static void saveStateForLevel(int levelNumber) {
         try {
-            JSONObject json = new JSONObject();
-            json.put("maxLevelReached", GameProgress.maxLevelReached);
+            rootJson.put("maxLevelReached", GameProgress.maxLevelReached);
 
             Player p = Player.getInstance();
+            JSONObject levelState = new JSONObject();
             if (p != null) {
-                json.put("arUnlocked", p.getWeaponUnlocked()[1]);
-                json.put("arAmmo", p.getWeapons()[1].getAmmunitionNumber());
+                levelState.put("hp", p.getCurrentHp());
+                levelState.put("arUnlocked", p.getWeaponUnlocked()[1]);
+                levelState.put("arAmmo", p.getWeapons()[1].getAmmunitionNumber());
             }
 
+            if (!rootJson.has("levelStates")) {
+                rootJson.put("levelStates", new JSONObject());
+            }
+            rootJson.getJSONObject("levelStates").put(String.valueOf(levelNumber), levelState);
+
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(SAVE_FILE))) {
-                writer.write(json.toString(4));
+                writer.write(rootJson.toString(4));
             }
         } catch (Exception e) {
             System.err.println("Помилка при збереженні гри: " + e.getMessage());
@@ -42,20 +54,27 @@ public class SaveManager {
             while ((line = reader.readLine()) != null) {
                 content.append(line);
             }
-
-            JSONObject json = new JSONObject(content.toString());
-
-            GameProgress.maxLevelReached = json.optInt("maxLevelReached", 1);
-
-            Player p = Player.getInstance();
-            if (p != null) {
-                p.getWeaponUnlocked()[1] = json.optBoolean("arUnlocked", false);
-                int savedArAmmo = json.optInt("arAmmo", 20); // Даємо 20 патронів за замовчуванням
-                p.getWeapons()[1].setAmmunitionNumber(savedArAmmo);
-            }
+            rootJson = new JSONObject(content.toString());
+            GameProgress.maxLevelReached = rootJson.optInt("maxLevelReached", 1);
         } catch (Exception e) {
             System.err.println("Помилка при завантаженні гри: " + e.getMessage());
             resetProgress();
+        }
+    }
+
+    public static void loadStateForLevel(int levelNumber) {
+        Player p = Player.getInstance();
+        if (p == null) return;
+
+        if (rootJson.has("levelStates") && rootJson.getJSONObject("levelStates").has(String.valueOf(levelNumber))) {
+            JSONObject levelState = rootJson.getJSONObject("levelStates").getJSONObject(String.valueOf(levelNumber));
+            p.setCurrentHp(levelState.optInt("hp", p.getMaxHp()));
+            p.getWeaponUnlocked()[1] = levelState.optBoolean("arUnlocked", false);
+            p.getWeapons()[1].setAmmunitionNumber(levelState.optInt("arAmmo", 0));
+        } else if (levelNumber == 1) {
+            p.setCurrentHp(p.getMaxHp());
+            p.getWeaponUnlocked()[1] = false;
+            p.getWeapons()[1].setAmmunitionNumber(0);
         }
     }
 
@@ -63,13 +82,13 @@ public class SaveManager {
         GameProgress.maxLevelReached = 1;
         GameProgress.introCutscenePlayed = false;
 
-        Player.getInstance().fullReset(); // Викликаємо повне скидання гравця
+        Player.getInstance().fullReset();
+        rootJson = new JSONObject();
 
         File file = new File(SAVE_FILE);
         if (file.exists()) {
             file.delete();
         }
-        // Після скидання, зберігаємо чистий стан
-        saveGame();
+        saveStateForLevel(1);
     }
 }

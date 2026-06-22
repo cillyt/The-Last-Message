@@ -187,6 +187,8 @@ public class Player extends MovingGameEntity{
         wantToMoveRight = false;
         wantToMoveLeft = false;
         wantToCrouch = false;
+        setSpeedModifier(1.0);
+        commandEquipPistol();
 
         if (isCrouching) {
             y -= defaultHeight - heightInCrouch;
