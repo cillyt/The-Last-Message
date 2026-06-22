@@ -2,6 +2,7 @@ package backend.ui;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -34,11 +35,13 @@ public class FinalCutsceneState implements GameState {
 
     @Override
     public void onKeyPressed(KeyEvent event) {
-        dialogueStep++;
-        if (dialogueStep <= 4) {
-            updateDialogue();
-        } else if (dialogueStep == 5) {
-            manager.changeState(new CreditsState(manager));
+        if (event.getCode() == KeyCode.SPACE) {
+            dialogueStep++;
+            if (dialogueStep <= 4) {
+                updateDialogue();
+            } else {
+                manager.changeState(new CreditsState(manager));
+            }
         }
     }
 
@@ -68,17 +71,13 @@ public class FinalCutsceneState implements GameState {
     }
 
     @Override
-    public void update(double deltaTime) {
-        // Логіка тепер керується натисканням клавіш
-    }
+    public void update(double deltaTime) {}
 
     @Override
     public void render(GraphicsContext gc, int width, int height) {
         if (showFinalMessage) {
-            // Фінальний екран
             gc.setFill(Color.BLACK);
             gc.fillRect(0, 0, width, height);
-
             gc.setFill(Color.WHITE);
             gc.setFont(UIResources.getFont(36));
             gc.setTextAlign(TextAlignment.CENTER);
@@ -86,10 +85,13 @@ public class FinalCutsceneState implements GameState {
             for (int i = 0; i < lines.length; i++) {
                 gc.fillText(lines[i], width / 2.0, height / 2.0 - 40 + (i * 40));
             }
+            // Підказка
+            gc.setFont(UIResources.getFont(18));
+            gc.setFill(Color.GRAY);
+            gc.fillText("Натисніть [SPACE] для продовження", width / 2.0, height - 20);
             return;
         }
 
-        // --- Основна кат-сцена ---
         gc.clearRect(0, 0, width, height);
         gc.drawImage(background, 0, 0, width, height);
         gc.setFill(new Color(0, 0, 0, 0.5));
@@ -100,7 +102,7 @@ public class FinalCutsceneState implements GameState {
         gc.setFill(Color.BLACK);
         gc.fillRect(0, textAreaY, width, textAreaHeight);
 
-        // --- Аватари ---
+        // Аватари
         double avatarDisplaySize = 200;
         double docY = textAreaY - avatarDisplaySize;
         double docX = width * 0.1 - avatarDisplaySize / 2;
@@ -118,7 +120,7 @@ public class FinalCutsceneState implements GameState {
         }
         gc.restore();
 
-        // --- Текст ---
+        // Текст
         gc.save();
         gc.setFont(UIResources.getFont(24));
         gc.setTextAlign(TextAlignment.CENTER);
@@ -137,6 +139,11 @@ public class FinalCutsceneState implements GameState {
         for (int i = 0; i < lines.length; i++) {
             gc.fillText(lines[i], width / 2.0, textStartY + (i * lineHeight));
         }
+
+        // Підказка
+        gc.setFont(UIResources.getFont(18));
+        gc.setFill(Color.GRAY);
+        gc.fillText("Натисніть [SPACE] для продовження", width / 2.0, height - 20);
         gc.restore();
     }
 

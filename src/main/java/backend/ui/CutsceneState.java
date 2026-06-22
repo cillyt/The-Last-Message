@@ -4,6 +4,7 @@ import backend.GameProgress;
 import backend.LevelLauncher;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
@@ -42,13 +43,15 @@ public class CutsceneState implements GameState {
 
     @Override
     public void onKeyPressed(KeyEvent event) {
-        if (isFadingOut) return; // Ігноруємо натискання під час затемнення
+        if (event.getCode() == KeyCode.SPACE) {
+            if (isFadingOut) return;
 
-        dialogueStep++;
-        if (dialogueStep < 6) {
-            updateDialogue();
-        } else {
-            isFadingOut = true;
+            dialogueStep++;
+            if (dialogueStep < 6) {
+                updateDialogue();
+            } else {
+                isFadingOut = true;
+            }
         }
     }
 
@@ -70,10 +73,9 @@ public class CutsceneState implements GameState {
                 isDocSpeaking = false;
                 currentText = "Стій... Часу мало... Слухай уважно! На нашому кораблі сталось вороже вторгнення.\nЇх... Їх набагато більше ніж ми могли б очікувити...\nбільшість особовогу складу вже загинули, а іншим залишилось не довго.";
                 soldierCurrentAvatar = soldierTalk;
-                docCurrentAvatar = docSadOpen; // Реакція
+                docCurrentAvatar = docSadOpen;
                 break;
             case 3:
-                // Та сама репліка, але лікар заплющує очі
                 isDocSpeaking = false;
                 docCurrentAvatar = docSadClosed;
                 break;
@@ -115,7 +117,7 @@ public class CutsceneState implements GameState {
         gc.setFill(Color.BLACK);
         gc.fillRect(0, textAreaY, width, textAreaHeight);
 
-        // --- Аватари ---
+        // Аватари
         double avatarDisplaySize = 250;
         double docY = height / 2.0 + 50;
         double docX = width * 0.15;
@@ -129,7 +131,7 @@ public class CutsceneState implements GameState {
         if (soldierCurrentAvatar != null) gc.drawImage(soldierCurrentAvatar, soldierX, soldierY, avatarDisplaySize, avatarDisplaySize);
         gc.restore();
 
-        // --- Текст ---
+        // Текст
         gc.save();
         gc.setFont(UIResources.getFont(24));
         gc.setTextAlign(TextAlignment.CENTER);
@@ -141,6 +143,11 @@ public class CutsceneState implements GameState {
         for (int i = 0; i < lines.length; i++) {
             gc.fillText(lines[i], width / 2.0, textStartY + (i * lineHeight));
         }
+
+        // Підказка
+        gc.setFont(UIResources.getFont(18));
+        gc.setFill(Color.GRAY);
+        gc.fillText("Натисніть [SPACE] для продовження", width / 2.0, height - 20);
         gc.restore();
 
         if (isFadingOut) {

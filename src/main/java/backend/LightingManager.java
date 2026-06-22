@@ -26,57 +26,62 @@ public class LightingManager {
     private static final int LIGHT_PENETRATION = 35;
 
     public void renderLighting(GraphicsContext gc) {
-        CameraWindow camera = CameraWindow.getInstance();
-        Player player = Player.getInstance();
+        gc.save();
+        try {
+            CameraWindow camera = CameraWindow.getInstance();
+            Player player = Player.getInstance();
 
-        if (!player.isActive()) return;
+            if (!player.isActive()) return;
 
-        int sourceX = player.getX() + player.getWidth() / 2 - camera.getX();
-        int sourceY = player.getY() + player.getEyeH() - camera.getY();
+            int sourceX = player.getX() + player.getWidth() / 2 - camera.getX();
+            int sourceY = player.getY() + player.getEyeH() - camera.getY();
 
-        List<Point> polygonPoints = calculateVisibilityPolygon(sourceX, sourceY);
+            List<Point> polygonPoints = calculateVisibilityPolygon(sourceX, sourceY);
 
-        gc.setFillRule(FillRule.EVEN_ODD);
-        gc.setFill(Color.rgb(0, 0, 0, DARKNESS_OPACITY));
+            gc.setFillRule(FillRule.EVEN_ODD);
+            gc.setFill(Color.rgb(0, 0, 0, DARKNESS_OPACITY));
 
-        gc.beginPath();
+            gc.beginPath();
 
-        // Обводимо екран
-        double pad = 100;
-        gc.moveTo(-pad, -pad);
-        gc.lineTo(camera.getScreenWidth() + pad, -pad);
-        gc.lineTo(camera.getScreenWidth() + pad, camera.getScreenHeight() + pad);
-        gc.lineTo(-pad, camera.getScreenHeight() + pad);
-        gc.lineTo(-pad, -pad);
+            // Обводимо екран
+            double pad = 100;
+            gc.moveTo(-pad, -pad);
+            gc.lineTo(camera.getScreenWidth() + pad, -pad);
+            gc.lineTo(camera.getScreenWidth() + pad, camera.getScreenHeight() + pad);
+            gc.lineTo(-pad, camera.getScreenHeight() + pad);
+            gc.lineTo(-pad, -pad);
 
-        // Вирізаємо світло
-        if (!polygonPoints.isEmpty()) {
-            gc.moveTo(polygonPoints.getFirst().x, polygonPoints.getFirst().y);
-            for (int i = 1; i < polygonPoints.size(); i++) {
-                gc.lineTo(polygonPoints.get(i).x, polygonPoints.get(i).y);
+            // Вирізаємо світло
+            if (!polygonPoints.isEmpty()) {
+                gc.moveTo(polygonPoints.getFirst().x, polygonPoints.getFirst().y);
+                for (int i = 1; i < polygonPoints.size(); i++) {
+                    gc.lineTo(polygonPoints.get(i).x, polygonPoints.get(i).y);
+                }
+                gc.lineTo(polygonPoints.getFirst().x, polygonPoints.getFirst().y);
             }
-            gc.lineTo(polygonPoints.getFirst().x, polygonPoints.getFirst().y);
+
+            gc.fill();
+            gc.closePath();
+
+            // кастомний блюр
+            gc.setLineJoin(StrokeLineJoin.ROUND);
+
+            gc.setStroke(Color.rgb(0, 0, 0, DARKNESS_OPACITY * 0.4));
+            gc.setLineWidth(15);
+            gc.stroke();
+
+            gc.setStroke(Color.rgb(0, 0, 0, DARKNESS_OPACITY * 0.15));
+            gc.setLineWidth(35);
+            gc.stroke();
+
+            gc.setStroke(Color.rgb(0, 0, 0, DARKNESS_OPACITY * 0.05));
+            gc.setLineWidth(60);
+            gc.stroke();
+
+            gc.closePath();
+        } finally {
+            gc.restore();
         }
-
-        gc.fill();
-        gc.closePath();
-
-        // кастомний блюр
-        gc.setLineJoin(StrokeLineJoin.ROUND);
-
-        gc.setStroke(Color.rgb(0, 0, 0, DARKNESS_OPACITY * 0.4));
-        gc.setLineWidth(15);
-        gc.stroke();
-
-        gc.setStroke(Color.rgb(0, 0, 0, DARKNESS_OPACITY * 0.15));
-        gc.setLineWidth(35);
-        gc.stroke();
-
-        gc.setStroke(Color.rgb(0, 0, 0, DARKNESS_OPACITY * 0.05));
-        gc.setLineWidth(60);
-        gc.stroke();
-
-        gc.closePath();
     }
 
     private List<Point> calculateVisibilityPolygon(double sourceX, double sourceY) {
