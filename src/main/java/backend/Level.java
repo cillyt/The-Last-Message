@@ -91,6 +91,7 @@ public class Level {
             manager.changeState(new FinalCutsceneState(manager));
         } else {
             manager.changeState(new LevelCompleteState(manager));
+            SoundManager.getInstance().play(SoundManager.SoundType.nextLevel);
         }
     }
 
@@ -98,6 +99,7 @@ public class Level {
         if (isFinished) return;
         isFinished = true;
         manager.changeState(new GameOverState(manager));
+        SoundManager.getInstance().play(SoundManager.SoundType.deathScreen);
     }
 
     private void initialLists(){

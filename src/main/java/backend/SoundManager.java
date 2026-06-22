@@ -18,7 +18,7 @@ public class SoundManager {
         bigAgro, bigDeath, bigAttack,
         leapAgro, leapDeath, leapAttack,
         simpAgro, simpDeath, simpAttack,
-        nextLevel
+        nextLevel, deathScreen
     }
 
     private Map<SoundType, AudioClip> sounds = new HashMap<>();
@@ -31,7 +31,7 @@ public class SoundManager {
         loadSound(SoundType.noBullet, "sounds/mainCharacter/weapon/no_bullet.wav");
         loadSound(SoundType.pistolShot, "sounds/mainCharacter/weapon/pistol_shot.mp3");
 
-        loadSound(SoundType.footsteps, "sounds/mainCharacter/footsteps.wav");
+        loadSound(SoundType.footsteps, "sounds/mainCharacter/footsteps.mp3");
 
         loadSound(SoundType.death1, "sounds/mainCharacter/death1.mp3");
         loadSound(SoundType.healing1, "sounds/mainCharacter/healing1.wav");
@@ -49,6 +49,7 @@ public class SoundManager {
         loadSound(SoundType.simpAttack, "sounds/monsters/simp_attack.mp3");
 
         loadSound(SoundType.nextLevel, "sounds/other/nextLevel1.mp3");
+        loadSound(SoundType.deathScreen, "sounds/other/deathScreen.mp3");
     }
 
     private void loadSound(SoundType type, String relativePath) {

@@ -6,6 +6,7 @@ package backend.triggeredZones;
 
 import backend.GameEntity;
 import backend.Player;
+import backend.SoundManager;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -46,6 +47,8 @@ public class Medkit extends Detector {
         isTriggered = true;
 
         Player.getInstance().healHp(20);
+
+        SoundManager.getInstance().play(SoundManager.SoundType.healing1);
 
         isActive = false;
     }

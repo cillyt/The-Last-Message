@@ -479,6 +479,7 @@ public class Player extends MovingGameEntity{
         stop();
         currentWeapon.stopFire();
         isDying = true;
+        SoundManager.getInstance().play(SoundType.death1);
     }
 
     public void unlockWeapon(int i) {
