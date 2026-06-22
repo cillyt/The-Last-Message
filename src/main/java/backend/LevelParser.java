@@ -172,8 +172,9 @@ public class LevelParser {
                         }
                         allObjects.add(new PartialBlock(x, y, w, h, blockDir));
                         break;
-                    case "DeadZone":
+                    case "Deadzone":
                         allObjects.add(new DeadZone(x, y, w, h));
+                        break;
                     case "PopupMessageTrigger":
                         boolean triggerOnce = true;
                         String message = "";

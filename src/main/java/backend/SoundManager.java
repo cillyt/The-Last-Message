@@ -49,7 +49,7 @@ public class SoundManager {
         loadSound(SoundType.simpAttack, "sounds/monsters/simp_attack.mp3");
 
         loadSound(SoundType.nextLevel, "sounds/other/nextLevel1.mp3");
-        loadSound(SoundType.deathScreen, "sounds/other/deathScreen.mp3");
+        loadSound(SoundType.deathScreen, "sounds/other/deathScreen.wav");
     }
 
     private void loadSound(SoundType type, String relativePath) {
