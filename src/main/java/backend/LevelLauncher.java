@@ -53,7 +53,13 @@ public class LevelLauncher extends Application {
         });
         scene.setOnKeyReleased(controller::handleKeyReleased);
 
+        // --- ТИМЧАСОВИЙ КОД ДЛЯ ТЕСТУВАННЯ (ЗАКОМЕНТОВАНО) ---
+        // stateManager.changeState(new FinalCutsceneState(stateManager));
+        // ----------------------------------------------------
+
+        // --- СТАНДАРТНИЙ ЗАПУСК ---
         stateManager.changeState(new MainMenuState(stateManager));
+        // -------------------------
 
         AnimationTimer gameLoop = new AnimationTimer() {
             private long lastTime = 0;
