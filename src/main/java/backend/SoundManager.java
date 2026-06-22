@@ -13,7 +13,7 @@ public class SoundManager {
 
     // Перелік усіх звуків у грі (camelCase за запитом)
     public enum SoundType { arShot, gunChange, noBullet, pistolShot,
-        footsteps,
+        footsteps, jumpSound,
         death1, healing1,
         bigAgro, bigDeath, bigAttack,
         leapAgro, leapDeath, leapAttack,
@@ -32,6 +32,7 @@ public class SoundManager {
         loadSound(SoundType.pistolShot, "sounds/mainCharacter/weapon/pistol_shot.mp3");
 
         loadSound(SoundType.footsteps, "sounds/mainCharacter/footsteps.mp3");
+        loadSound(SoundType.jumpSound, "sounds/mainCharacter/jump_sound.mp3");
 
         loadSound(SoundType.death1, "sounds/mainCharacter/death1.mp3");
         loadSound(SoundType.healing1, "sounds/mainCharacter/healing1.wav");

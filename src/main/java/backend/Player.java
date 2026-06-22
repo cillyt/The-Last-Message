@@ -70,7 +70,6 @@ public class Player extends MovingGameEntity{
             new Image(getAssetPath("assets/player/pistol/move/prun7.png")),
             new Image(getAssetPath("assets/player/pistol/move/prun8.png")),
             new Image(getAssetPath("assets/player/pistol/move/prun9.png"))
-            // ...
     };
     private final Image[] crawlImgsP = {
             new Image(getAssetPath("assets/player/pistol/crawl/pcrawl1.png")),
@@ -79,7 +78,6 @@ public class Player extends MovingGameEntity{
             new Image(getAssetPath("assets/player/pistol/crawl/pcrawl4.png")),
             new Image(getAssetPath("assets/player/pistol/crawl/pcrawl5.png")),
             new Image(getAssetPath("assets/player/pistol/crawl/pcrawl6.png"))
-            // ...
     };
 
     // для автомата
@@ -277,6 +275,7 @@ public class Player extends MovingGameEntity{
 
         currentStepTime = 0.599;
         SoundManager.getInstance().stop(stepsSound);
+        SoundManager.getInstance().stopAndPlay(SoundType.jumpSound);
     }
 
     private void crouch (){
