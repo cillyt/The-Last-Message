@@ -97,11 +97,11 @@ public abstract class Bullet extends MovingGameEntity {
                     barrelX += player.isFacingRight() ? 1 : -1;
                     barrelY += -13;
                 }
-            }
-
-            else if (player.getCurrentState() == State.GO) {
+            } else if (player.getCurrentState() == State.GO) {
                 barrelX += player.isFacingRight() ? -10 : 10;
                 barrelY += 27;
+            } else if (player.getCurrentState() == State.IN_AIR){
+                barrelY += 7;
             }
         }
 
