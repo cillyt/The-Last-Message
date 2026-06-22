@@ -118,4 +118,15 @@ public class SoundManager {
             clip.stop();
         }
     }
+
+    /**
+     Зупинка програвання всіх звуків.
+     */
+    public void stopAll() {
+        for (AudioClip clip : sounds.values()) {
+            if (clip != null && clip.isPlaying()) {
+                clip.stop();
+            }
+        }
+    }
 }

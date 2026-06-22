@@ -96,6 +96,7 @@ public class LevelLauncher extends Application {
     }
 
     private static void loadLevel(int levelNumber, StateManager manager) {
+        SoundManager.getInstance().stopAll(); // Додано глушіння звуків
         Player.getInstance().reset();
         SaveManager.loadStateForLevel(levelNumber);
         currentLevelNumber = levelNumber;

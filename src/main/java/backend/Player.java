@@ -114,7 +114,7 @@ public class Player extends MovingGameEntity{
 
     private double currentSpriteTime;
 
-    private final double timeAnimationMove = 1; // час прокручення всього масиву спрайтів
+    private final double timeAnimationMove = 0.6; // час прокручення всього масиву спрайтів
     private final double periodAnimationMove; // час перемикання спрайтів
 
     private final double timeAnimationCrawl = 1;
@@ -214,6 +214,7 @@ public class Player extends MovingGameEntity{
         currentWeapon = weapons[0];
         currentWeaponIndex = 0;
         weapons[1].setAmmunitionNumber(0);
+        currentImage = standImgP;
     }
 
 

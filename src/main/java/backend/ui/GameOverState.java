@@ -1,6 +1,7 @@
 package backend.ui;
 
 import backend.LevelLauncher;
+import backend.SoundManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
@@ -72,5 +73,6 @@ public class GameOverState implements GameState {
     @Override
     public void exit() {
         manager.getRootPane().getChildren().remove(menuBox);
+        SoundManager.getInstance().stopAll();
     }
 }
