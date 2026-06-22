@@ -1,6 +1,8 @@
 package backend;
 
 import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import lombok.Getter;
 
 import java.nio.file.Paths;
@@ -18,10 +20,19 @@ public class SoundManager {
         bigAgro, bigDeath, bigAttack,
         leapAgro, leapDeath, leapAttack,
         simpAgro, simpDeath, simpAttack,
-        nextLevel, deathScreen
+        nextLevel, deathScreen, buttonClick
+    }
+
+    public enum MusicType {
+        mainMenu, gameplay
     }
 
     private Map<SoundType, AudioClip> sounds = new HashMap<>();
+
+    private Map<MusicType, String> musicPaths = new HashMap<>();
+    private MediaPlayer currentMusicPlayer;
+    private MusicType currentPlayingMusic;
+
 
     public SoundManager() {
         instance = this;
@@ -51,6 +62,10 @@ public class SoundManager {
 
         loadSound(SoundType.nextLevel, "sounds/other/nextLevel1.mp3");
         loadSound(SoundType.deathScreen, "sounds/other/deathScreen.wav");
+        loadSound(SoundType.buttonClick, "sounds/other/buttons/buttonClick1.wav");
+
+        musicPaths.put(MusicType.mainMenu, "sounds/other/menu/menuTheme2.mp3");
+        musicPaths.put(MusicType.gameplay, "sounds/other/menu/menuTheme4.mp3");
     }
 
     private void loadSound(SoundType type, String relativePath) {
@@ -120,6 +135,37 @@ public class SoundManager {
         }
     }
 
+    public void playMusic(MusicType type) {
+        if (currentPlayingMusic == type && currentMusicPlayer != null && currentMusicPlayer.getStatus() == MediaPlayer.Status.PLAYING) {
+            return;
+        }
+
+        stopMusic();
+
+        try {
+            String relativePath = musicPaths.get(type);
+            if (relativePath != null) {
+                String uri = Paths.get(relativePath).toUri().toString();
+                Media media = new Media(uri);
+                currentMusicPlayer = new MediaPlayer(media);
+                currentMusicPlayer.setCycleCount(MediaPlayer.INDEFINITE);
+                currentMusicPlayer.play();
+                currentPlayingMusic = type;
+            }
+        } catch (Exception e) {
+            System.err.println("Помилка відтворення музики: " + type);
+        }
+    }
+
+    public void stopMusic() {
+        if (currentMusicPlayer != null) {
+            currentMusicPlayer.stop();
+            currentMusicPlayer.dispose(); // Звільняємо ресурси
+            currentMusicPlayer = null;
+            currentPlayingMusic = null;
+        }
+    }
+
     /**
      Зупинка програвання всіх звуків.
      */
@@ -129,5 +175,6 @@ public class SoundManager {
                 clip.stop();
             }
         }
+        stopMusic();
     }
 }

@@ -2,6 +2,7 @@ package backend.ui;
 
 import backend.GameProgress;
 import backend.LevelLauncher;
+import backend.SoundManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -38,6 +39,7 @@ public class CutsceneState implements GameState {
 
     @Override
     public void enter() {
+        SoundManager.getInstance().stopMusic();
         updateDialogue();
     }
 

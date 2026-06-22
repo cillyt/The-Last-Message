@@ -1,11 +1,6 @@
 package backend.ui;
 
-import backend.CameraWindow;
-import backend.GameEntity;
-import backend.Level;
-import backend.LightingManager;
-import backend.MovingGameEntity;
-import backend.Player;
+import backend.*;
 import backend.triggeredZones.PopupMessageTrigger;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.GraphicsContext;
@@ -36,6 +31,7 @@ public class PlayingState implements GameState {
 
     @Override
     public void enter() {
+        SoundManager.getInstance().playMusic(SoundManager.MusicType.gameplay);
         // Скидаємо таймер при вході в стан
         fadeTimer = 0.0;
         isFirstFrame = true;
@@ -47,7 +43,10 @@ public class PlayingState implements GameState {
         pauseButton.setFont(UIResources.getFont(14));
         pauseButton.setOnMouseEntered(e -> pauseButton.setStyle(pauseBtnHoverStyle));
         pauseButton.setOnMouseExited(e -> pauseButton.setStyle(pauseBtnStyle));
-        pauseButton.setOnAction(e -> manager.changeState(new PauseState(manager, this)));
+        pauseButton.setOnAction(e -> {
+            SoundManager.getInstance().play(SoundManager.SoundType.buttonClick);
+            manager.changeState(new PauseState(manager, this));
+        });
         StackPane.setAlignment(pauseButton, Pos.TOP_RIGHT);
         StackPane.setMargin(pauseButton, new Insets(10, 10, 0, 0));
         manager.getRootPane().getChildren().add(pauseButton);

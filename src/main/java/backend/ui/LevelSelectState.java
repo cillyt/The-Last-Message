@@ -2,6 +2,7 @@ package backend.ui;
 
 import backend.GameProgress;
 import backend.LevelLauncher;
+import backend.SoundManager;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
@@ -20,6 +21,7 @@ public class LevelSelectState implements GameState {
 
     @Override
     public void enter() {
+        SoundManager.getInstance().playMusic(SoundManager.MusicType.mainMenu);
         menuBox = new VBox(15);
         menuBox.setAlignment(Pos.CENTER);
         // Змінюємо фон на непрозорий

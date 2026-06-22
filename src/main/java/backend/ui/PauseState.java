@@ -1,5 +1,6 @@
 package backend.ui;
 
+import backend.SoundManager;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.GraphicsContext;
@@ -55,9 +56,17 @@ public class PauseState implements GameState {
         exit.setOnMouseEntered(e -> exit.setStyle(btnHoverStyle));
         exit.setOnMouseExited(e -> exit.setStyle(btnStyle));
 
-        resume.setOnAction(e -> manager.changeState(previousState));
-        toMenu.setOnAction(e -> manager.changeState(new MainMenuState(manager)));
-        exit.setOnAction(e -> Platform.exit());
+        resume.setOnAction(e -> {
+            SoundManager.getInstance().play(SoundManager.SoundType.buttonClick);
+            manager.changeState(previousState);
+        });
+        toMenu.setOnAction(e -> {SoundManager.getInstance().play(SoundManager.SoundType.buttonClick);
+            manager.changeState(new MainMenuState(manager));
+        });
+        exit.setOnAction(e -> {
+            SoundManager.getInstance().play(SoundManager.SoundType.buttonClick);
+            Platform.exit();
+        });
 
         menuBox.getChildren().addAll(title, resume, toMenu, exit);
         manager.getRootPane().getChildren().add(menuBox);

@@ -1,9 +1,6 @@
 package backend.ui;
 
-import backend.GameProgress;
-import backend.Level;
-import backend.LevelLauncher;
-import backend.SaveManager;
+import backend.*;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyEvent;
@@ -57,8 +54,14 @@ public class LevelCompleteState implements GameState {
         toMenu.setOnMouseEntered(e -> toMenu.setStyle(btnHoverStyle));
         toMenu.setOnMouseExited(e -> toMenu.setStyle(btnStyle));
 
-        next.setOnAction(e -> LevelLauncher.loadAndPlayLevel(nextLevel, manager));
-        toMenu.setOnAction(e -> manager.changeState(new MainMenuState(manager)));
+        next.setOnAction(e -> {
+            SoundManager.getInstance().play(SoundManager.SoundType.buttonClick);
+            LevelLauncher.loadAndPlayLevel(nextLevel, manager);
+        });
+        toMenu.setOnAction(e -> {
+            SoundManager.getInstance().play(SoundManager.SoundType.buttonClick);
+            manager.changeState(new MainMenuState(manager));
+        });
 
         menuBox.getChildren().addAll(next, toMenu);
         manager.getRootPane().getChildren().add(menuBox);

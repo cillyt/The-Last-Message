@@ -1,5 +1,6 @@
 package backend.ui;
 
+import backend.SoundManager;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -30,6 +31,7 @@ public class FinalCutsceneState implements GameState {
 
     @Override
     public void enter() {
+        SoundManager.getInstance().stopMusic();
         updateDialogue();
     }
 

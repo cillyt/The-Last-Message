@@ -3,6 +3,7 @@ package backend.ui;
 import backend.GameProgress;
 import backend.LevelLauncher;
 import backend.SaveManager;
+import backend.SoundManager;
 import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.GraphicsContext;
@@ -23,6 +24,7 @@ public class MainMenuState implements GameState {
 
     @Override
     public void enter() {
+        SoundManager.getInstance().playMusic(SoundManager.MusicType.mainMenu);
         menuBox = new VBox(24);
         menuBox.setAlignment(Pos.CENTER);
 
@@ -53,6 +55,7 @@ public class MainMenuState implements GameState {
 
         // Логіка кнопок
         continueButton.setOnAction(e -> {
+            SoundManager.getInstance().play(SoundManager.SoundType.buttonClick);
             if (GameProgress.maxLevelReached > 1) {
                 manager.changeState(new LevelSelectState(manager));
             } else {
@@ -62,11 +65,15 @@ public class MainMenuState implements GameState {
         });
 
         newGameButton.setOnAction(e -> {
+            SoundManager.getInstance().play(SoundManager.SoundType.buttonClick);
             SaveManager.resetProgress();
             LevelLauncher.loadAndPlayLevel(1, manager);
         });
 
-        exitButton.setOnAction(e -> Platform.exit());
+        exitButton.setOnAction(e -> {
+            SoundManager.getInstance().play(SoundManager.SoundType.buttonClick);
+            Platform.exit();
+        });
 
         menuBox.getChildren().addAll(continueButton, newGameButton, exitButton);
         manager.getRootPane().getChildren().add(menuBox);

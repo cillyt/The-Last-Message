@@ -20,6 +20,7 @@ public class GameOverState implements GameState {
 
     @Override
     public void enter() {
+        SoundManager.getInstance().stopMusic();
         menuBox = new VBox(24);
         menuBox.setAlignment(Pos.CENTER);
 
@@ -45,8 +46,14 @@ public class GameOverState implements GameState {
         toMenu.setOnMouseEntered(e -> toMenu.setStyle(btnHoverStyle));
         toMenu.setOnMouseExited(e -> toMenu.setStyle(btnStyle));
 
-        retry.setOnAction(e -> LevelLauncher.restartLevel(manager));
-        toMenu.setOnAction(e -> manager.changeState(new MainMenuState(manager)));
+        retry.setOnAction(e -> {
+            SoundManager.getInstance().play(SoundManager.SoundType.buttonClick);
+            LevelLauncher.restartLevel(manager);
+        });
+        toMenu.setOnAction(e -> {
+            SoundManager.getInstance().play(SoundManager.SoundType.buttonClick);
+            manager.changeState(new MainMenuState(manager));
+        });
 
         menuBox.getChildren().addAll(retry, toMenu);
         manager.getRootPane().getChildren().add(menuBox);
