@@ -56,18 +56,20 @@ public class Player extends MovingGameEntity{
     // ----- АСЕТИ -----
 
     // для пістолета
-    private final Image standImgP = new Image(getAssetPath("assets/player/pistol/назва.png"));
+    private final Image standImgP = new Image(getAssetPath("assets/player/pistol/stand.png"));
     private final Image jumpImgP = new Image(getAssetPath("assets/player/pistol/назва.png"));
-    private final Image crouchImgP = new Image(getAssetPath("assets/player/pistol/назва.png"));
+    private final Image crouchImgP = new Image(getAssetPath("assets/player/pistol/crouch.png"));
 
-    private final Image[] moveImgsP = { new Image(getAssetPath("assets/player/pistol/move/назва.png")),
-            new Image(getAssetPath("assets/player/pistol/move/назва.png")),
-            new Image(getAssetPath("assets/player/pistol/move/назва.png")),
-            new Image(getAssetPath("assets/player/pistol/move/назва.png")),
-            new Image(getAssetPath("assets/player/pistol/move/назва.png")),
-            new Image(getAssetPath("assets/player/pistol/move/назва.png")),
-            new Image(getAssetPath("assets/player/pistol/move/назва.png")),
-            new Image(getAssetPath("assets/player/pistol/move/назва.png"))
+    private final Image[] moveImgsP = {
+            new Image(getAssetPath("assets/player/pistol/move/prun1.png")),
+            new Image(getAssetPath("assets/player/pistol/move/prun2.png")),
+            new Image(getAssetPath("assets/player/pistol/move/prun3.png")),
+            new Image(getAssetPath("assets/player/pistol/move/prun4.png")),
+            new Image(getAssetPath("assets/player/pistol/move/prun5.png")),
+            new Image(getAssetPath("assets/player/pistol/move/prun6.png")),
+            new Image(getAssetPath("assets/player/pistol/move/prun7.png")),
+            new Image(getAssetPath("assets/player/pistol/move/prun8.png")),
+            new Image(getAssetPath("assets/player/pistol/move/prun9.png"))
             // ...
     };
     private final Image[] crawlImgsP = { new Image(getAssetPath("assets/player/pistol/crawl/назва.png")),
