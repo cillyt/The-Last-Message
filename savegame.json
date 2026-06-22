@@ -9,7 +9,12 @@
             "arUnlocked": true,
             "arAmmo": 500,
             "hp": 100
+        },
+        "3": {
+            "arUnlocked": true,
+            "arAmmo": 500,
+            "hp": 100
         }
     },
-    "maxLevelReached": 2
+    "maxLevelReached": 3
 }
