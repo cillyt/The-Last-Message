@@ -10,6 +10,7 @@ import backend.triggeredZones.PopupMessageTrigger;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.geometry.Pos;
@@ -56,7 +57,9 @@ public class PlayingState implements GameState {
 
     @Override
     public void onKeyPressed(KeyEvent event) {
-        // Ігровий процес керується Controller, тому тут нічого не робимо
+        if (event.getCode() == KeyCode.ESCAPE) {
+            manager.changeState(new PauseState(manager, this));
+        }
     }
 
     @Override
@@ -88,7 +91,7 @@ public class PlayingState implements GameState {
         current.update(deltaTime);
 
         Player p = Player.getInstance();
-        if (p != null && (p.isDying() || p.isDead())) {
+        if (p != null && p.isDead()) {
             Level.getCurrentLevel().lose();
         }
     }

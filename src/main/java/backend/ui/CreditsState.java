@@ -1,6 +1,7 @@
 package backend.ui;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
@@ -33,19 +34,22 @@ public class CreditsState implements GameState {
 
     @Override
     public void enter() {
+        // Починаємо з тексту за межами екрана (знизу)
         scrollY = manager.getHeight();
     }
 
     @Override
     public void onKeyPressed(KeyEvent event) {
-        // Пропустити титри по натисканню
-        manager.changeState(new MainMenuState(manager));
+        if (event.getCode() == KeyCode.SPACE) {
+            manager.changeState(new MainMenuState(manager));
+        }
     }
 
     @Override
     public void update(double deltaTime) {
         scrollY -= SCROLL_SPEED * deltaTime;
 
+        // Коли останній рядок зникне з екрана, повертаємося в меню
         double totalTextHeight = credits.length * 40;
         if (scrollY < -totalTextHeight) {
             manager.changeState(new MainMenuState(manager));
@@ -54,6 +58,7 @@ public class CreditsState implements GameState {
 
     @Override
     public void render(GraphicsContext gc, int width, int height) {
+        // Чорний фон
         gc.setFill(Color.BLACK);
         gc.fillRect(0, 0, width, height);
 
@@ -62,12 +67,19 @@ public class CreditsState implements GameState {
 
         for (int i = 0; i < credits.length; i++) {
             if (credits[i].startsWith("-")) {
+                // Менший шрифт для опису
                 gc.setFont(UIResources.getFont(20));
             } else {
+                // Більший шрифт для імен та заголовка
                 gc.setFont(UIResources.getFont(32));
             }
             gc.fillText(credits[i], width / 2.0, scrollY + i * 40);
         }
+
+        // Підказка
+        gc.setFont(UIResources.getFont(18));
+        gc.setFill(Color.GRAY);
+        gc.fillText("Натисніть [SPACE] щоб пропустити", width / 2.0, height - 20);
     }
 
     @Override

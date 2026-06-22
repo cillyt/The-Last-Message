@@ -4,6 +4,8 @@ import javafx.application.Platform;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -21,9 +23,15 @@ public class PauseState implements GameState {
 
     @Override
     public void enter() {
-        menuBox = new VBox(15);
+        menuBox = new VBox(20);
         menuBox.setAlignment(Pos.CENTER);
         menuBox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7); -fx-padding: 40px; -fx-border-radius: 20; -fx-background-radius: 20;");
+
+        // Створюємо заголовок як Label
+        Label title = new Label("ПАУЗА");
+        title.setFont(UIResources.getFont(48));
+        title.setTextFill(Color.WHITE);
+        VBox.setMargin(title, new javafx.geometry.Insets(0, 0, 30, 0)); // Відступ знизу
 
         Button resume = new Button("ПРОДОВЖИТИ");
         Button toMenu = new Button("В МЕНЮ");
@@ -51,13 +59,13 @@ public class PauseState implements GameState {
         toMenu.setOnAction(e -> manager.changeState(new MainMenuState(manager)));
         exit.setOnAction(e -> Platform.exit());
 
-        menuBox.getChildren().addAll(resume, toMenu, exit);
+        menuBox.getChildren().addAll(title, resume, toMenu, exit);
         manager.getRootPane().getChildren().add(menuBox);
     }
 
     @Override
     public void onKeyPressed(KeyEvent event) {
-        if (event.getCode().toString().equals("ESCAPE")) {
+        if (event.getCode() == KeyCode.ESCAPE) {
             manager.changeState(previousState);
         }
     }
@@ -68,16 +76,10 @@ public class PauseState implements GameState {
 
     @Override
     public void render(GraphicsContext gc, int width, int height) {
+        // Малюємо тільки ігровий світ на фоні. Весь UI тепер обробляє JavaFX.
         if (previousState != null) {
             previousState.render(gc, width, height);
         }
-        gc.setFill(new Color(0.1, 0.1, 0.2, 0.5));
-        gc.fillRect(0, 0, width, height);
-
-        gc.setFill(Color.WHITE);
-        gc.setFont(UIResources.getFont(48));
-        gc.setTextAlign(TextAlignment.CENTER);
-        gc.fillText("ПАУЗА", width / 2.0, height / 4.0);
     }
 
     @Override

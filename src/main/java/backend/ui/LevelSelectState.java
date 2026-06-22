@@ -5,10 +5,10 @@ import backend.LevelLauncher;
 import javafx.geometry.Pos;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.text.TextAlignment;
 
 public class LevelSelectState implements GameState {
     private final StateManager manager;
@@ -22,7 +22,14 @@ public class LevelSelectState implements GameState {
     public void enter() {
         menuBox = new VBox(15);
         menuBox.setAlignment(Pos.CENTER);
-        menuBox.setStyle("-fx-background-color: rgba(0, 0, 0, 0.7); -fx-padding: 40px; -fx-border-radius: 20; -fx-background-radius: 20;");
+        // Змінюємо фон на непрозорий
+        menuBox.setStyle("-fx-background-color: #050814; -fx-padding: 40px;");
+
+        // Створюємо заголовок як Label
+        Label title = new Label("ОБЕРІТЬ РІВЕНЬ");
+        title.setFont(UIResources.getFont(48));
+        title.setTextFill(Color.WHITE);
+        VBox.setMargin(title, new javafx.geometry.Insets(0, 0, 30, 0));
 
         // Стилі кнопок
         String btnStyle = "-fx-background-color: #ffffff; -fx-text-fill: black; " + UIResources.getFontCSS() + " -fx-font-size: 20px; -fx-padding: 8 25 8 25; -fx-background-radius: 15; -fx-cursor: hand;";
@@ -49,6 +56,7 @@ public class LevelSelectState implements GameState {
         backButton.setOnAction(e -> manager.changeState(new MainMenuState(manager)));
         menuBox.getChildren().add(backButton);
 
+        menuBox.getChildren().add(0, title); // Додаємо заголовок на початок
         manager.getRootPane().getChildren().add(menuBox);
     }
 
@@ -61,14 +69,7 @@ public class LevelSelectState implements GameState {
 
     @Override
     public void render(GraphicsContext gc, int width, int height) {
-        // Малюємо фон, щоб було видно, що це меню вибору
-        gc.setFill(new Color(0.1, 0.1, 0.2, 0.5));
-        gc.fillRect(0, 0, width, height);
-
-        gc.setFill(Color.WHITE);
-        gc.setFont(UIResources.getFont(48));
-        gc.setTextAlign(TextAlignment.CENTER);
-        gc.fillText("ОБЕРІТЬ РІВЕНЬ", width / 2.0, height / 4.0);
+        // Тепер тут нічого не малюємо, оскільки весь UI - це JavaFX елементи
     }
 
     @Override
