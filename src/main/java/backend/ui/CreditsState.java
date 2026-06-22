@@ -1,6 +1,7 @@
 package backend.ui;
 
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.paint.Color;
@@ -27,6 +28,7 @@ public class CreditsState implements GameState {
     };
 
     private static final double SCROLL_SPEED = 40.0; // Пікселів за секунду
+    private final Image background = new Image("file:assets_new/doc_cutscene/final_background.png");
 
     public CreditsState(StateManager manager) {
         this.manager = manager;
@@ -58,8 +60,11 @@ public class CreditsState implements GameState {
 
     @Override
     public void render(GraphicsContext gc, int width, int height) {
-        // Чорний фон
-        gc.setFill(Color.BLACK);
+        // Фон
+        gc.drawImage(background, 0, 0, width, height);
+
+        // Затемнення
+        gc.setFill(new Color(0, 0, 0, 0.7));
         gc.fillRect(0, 0, width, height);
 
         gc.setTextAlign(TextAlignment.CENTER);
