@@ -94,6 +94,8 @@ public abstract class GameEntity {
             int drawW = width + 2 * sideImgMarg;
             int drawH = height + topImgMarg;
 
+            if (this instanceof Player) drawY += 2;
+
             if (currentImage != null) {
                 if (this instanceof MovingGameEntity && !((MovingGameEntity) this).isFacingRight()) {
                     gc.save();

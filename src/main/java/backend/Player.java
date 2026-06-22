@@ -26,8 +26,8 @@ public class Player extends MovingGameEntity{
     @Getter
     private static Player instance;
 
-    private final int defaultHeight = 170;
-    private final int heightInCrouch = 100;
+    private final int defaultHeight = 160;
+    private final int heightInCrouch = 120;
 
     private final int speedXinCrouch = 150;
 
@@ -135,7 +135,7 @@ public class Player extends MovingGameEntity{
         instance = this;
 
         height = 170;
-        width = 50;
+        width = 70;
 
         topImgMarg = 6;
         sideImgMarg = 63;
@@ -163,7 +163,7 @@ public class Player extends MovingGameEntity{
         periodAnimationCrawl = timeAnimationCrawl / crawlImgsP.length;
         periodAnimationDying = timeAnimationDying / dyingImgs.length;
 
-        calcImgMarg(2.75, moveImgsAR[0]);
+        calcImgMarg(0.57, standImgP);
 
         // --- ЗАГЛУШКА ---
         Canvas canvas = new Canvas(width, height);
@@ -194,6 +194,7 @@ public class Player extends MovingGameEntity{
 
         if (isCrouching) {
             y -= defaultHeight - heightInCrouch;
+            topImgMarg -= defaultHeight - heightInCrouch;
         }
         isCrouching = false;
         height = defaultHeight;
@@ -277,6 +278,8 @@ public class Player extends MovingGameEntity{
         isCrouching = true;
         y += defaultHeight - heightInCrouch;
 
+        topImgMarg += defaultHeight - heightInCrouch;
+
         if (currentState == State.GO){
             currentVelocityX = facingRight ? speedXinCrouch : -speedXinCrouch;
         }
@@ -296,6 +299,8 @@ public class Player extends MovingGameEntity{
         height = defaultHeight;
         y -= defaultHeight - heightInCrouch;
         isCrouching = false;
+
+        topImgMarg -= defaultHeight - heightInCrouch;
 
         if(currentState == State.GO){
             currentVelocityX = facingRight ? speedX : -speedX;
