@@ -7,9 +7,14 @@
         },
         "2": {
             "arUnlocked": true,
-            "arAmmo": 500,
+            "arAmmo": 10,
             "hp": 100
+        },
+        "3": {
+            "arUnlocked": true,
+            "arAmmo": 13,
+            "hp": 45
         }
     },
-    "maxLevelReached": 2
+    "maxLevelReached": 3
 }
