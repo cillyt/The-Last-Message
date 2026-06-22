@@ -72,10 +72,13 @@ public class Player extends MovingGameEntity{
             new Image(getAssetPath("assets/player/pistol/move/prun9.png"))
             // ...
     };
-    private final Image[] crawlImgsP = { new Image(getAssetPath("assets/player/pistol/crawl/назва.png")),
-            new Image(getAssetPath("assets/player/pistol/crawl/назва.png")),
-            new Image(getAssetPath("assets/player/pistol/crawl/назва.png")),
-            new Image(getAssetPath("assets/player/pistol/crawl/назва.png")),
+    private final Image[] crawlImgsP = {
+            new Image(getAssetPath("assets/player/pistol/crawl/pcrawl1.png")),
+            new Image(getAssetPath("assets/player/pistol/crawl/pcrawl2.png")),
+            new Image(getAssetPath("assets/player/pistol/crawl/pcrawl3.png")),
+            new Image(getAssetPath("assets/player/pistol/crawl/pcrawl4.png")),
+            new Image(getAssetPath("assets/player/pistol/crawl/pcrawl5.png")),
+            new Image(getAssetPath("assets/player/pistol/crawl/pcrawl6.png"))
             // ...
     };
 
