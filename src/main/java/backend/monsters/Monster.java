@@ -331,7 +331,7 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
     protected PathCondition checkHole() {
         // 1. Перевіряємл землю під ногами
         int checkX = facingRight ? x + width + 10 : x - 10;
-        int checkY = y + height + 5;
+        int checkY = y + height + 1;
 
         boolean hasGround = collision(checkX, checkY, 5, 50, 0, 1, Level.getCurrentLevel().getWallsAndPartBlocks()) != null;
 
