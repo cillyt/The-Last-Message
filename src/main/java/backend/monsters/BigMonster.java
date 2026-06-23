@@ -30,8 +30,8 @@ public class BigMonster extends Monster {
         maxHp = 100;
         currentHP = maxHp;
 
-        damage = 25;
-        cooldown = 1;
+        damage = 30;
+        cooldown = 1.5;
 
         targetJumpHeight = 120;
         initialJumpParams();
