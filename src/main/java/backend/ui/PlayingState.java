@@ -149,7 +149,12 @@ public class PlayingState implements GameState {
 
                 gc.setFill(Color.WHITE);
                 gc.setFont(UIResources.getFont(14));
-                gc.fillText(String.format("HP: %d/%d", hp, maxHp), x + 6, y + barHeight - 2);
+                if(hp>0){
+                    gc.fillText(String.format("HP: %d/%d", hp, maxHp), x + 6, y + barHeight - 2);
+                }
+                else{
+                    gc.fillText(String.format("HP: %d/%d", 0, maxHp), x + 6, y + barHeight - 2);
+                }
 
                 // weapon icon and ammo below HP bar
                 int weaponX = x;
