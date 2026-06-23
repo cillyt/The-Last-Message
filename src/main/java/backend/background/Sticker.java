@@ -21,7 +21,7 @@ public class Sticker extends GameEntity {
     public Sticker(int x, int y){
         super(x, y);
         isWalkable = true;
-        zIndex = 2;
+        zIndex = 7;
     }
 
     public Sticker(int x, int y, Image image) {
