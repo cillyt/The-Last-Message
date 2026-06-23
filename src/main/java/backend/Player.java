@@ -106,10 +106,10 @@ public class Player extends MovingGameEntity{
     };
 
     // смерть
-    private final Image[] dyingImgs = { new Image(getAssetPath("assets/player/dying/назва.png")),
-            new Image(getAssetPath("assets/player/dying/назва.png")),
-            new Image(getAssetPath("assets/player/dying/назва.png")),
-            new Image(getAssetPath("assets/player/dying/назва.png")),
+    private final Image[] dyingImgs = { new Image(getAssetPath("assets/player/dying/death1.png")),
+            new Image(getAssetPath("assets/player/dying/death2.png")),
+           // new Image(getAssetPath("assets/player/dying/назва.png")),
+           // new Image(getAssetPath("assets/player/dying/назва.png")),
             // ...
     };
 
