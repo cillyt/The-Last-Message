@@ -57,7 +57,7 @@ public class Trap2 extends Detector {
         calcImgMarg(0.6, breakImg);
 
         havePeriodicActoin = true;
-        timePeriod = 1;
+        timePeriod = 0.5;
 
         this.fireTime = fireTime;
         this.breakTime = fireTime + breakTime;
@@ -82,10 +82,10 @@ public class Trap2 extends Detector {
         if(sumTime < fireTime){
             for (GameEntity obj : entitiesInside){
                 if(obj instanceof Player){
-                    Player.getInstance().takeDamage(10);
+                    Player.getInstance().takeDamage(8);
                 }
                 if(obj instanceof Monster){
-                    ((Monster) obj).takeDamage(10);
+                    ((Monster) obj).takeDamage(8);
                 }
             }
         }

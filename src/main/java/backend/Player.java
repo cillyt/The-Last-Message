@@ -256,7 +256,7 @@ public class Player extends MovingGameEntity{
 
         if (currentState != State.GO) {
             currentState = State.GO;
-            currentSpriteTime = 0;
+            currentSpriteTime = periodAnimationMove - 0.001;
             currentSpriteIndex = 0;
             if(!isCrouching) SoundManager.getInstance().playLoop(stepsSound);
         }
@@ -492,6 +492,11 @@ public class Player extends MovingGameEntity{
         stop();
         currentWeapon.stopFire();
         isDying = true;
+
+        currentSpriteIndex = 0;
+        currentImage = dyingImgs[0];
+        currentSpriteTime = 0;
+
         SoundManager.getInstance().play(SoundType.death1);
     }
 
@@ -507,11 +512,12 @@ public class Player extends MovingGameEntity{
 
         if (isDying && !isDead){
             currentSpriteTime += deltaTime;
-            if(currentSpriteTime >= periodAnimationDying){
-                currentSpriteTime -= periodAnimationDying;
-                currentImage = dyingImgs[currentSpriteIndex];
+            if(currentSpriteTime >= 0.5){
+                currentSpriteTime = 0;
                 currentSpriteIndex++;
-                if(currentSpriteIndex >= dyingImgs.length){
+                if(currentSpriteIndex < dyingImgs.length){
+                    currentImage = dyingImgs[currentSpriteIndex];
+                } else {
                     isDead = true;
                 }
             }

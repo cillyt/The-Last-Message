@@ -141,10 +141,13 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
     // Методи переходів
 
     protected void toPatrol() {
-        moveToPoint(rightPatrolPoint);
+        if (facingRight) {
+            moveToPoint(rightPatrolPoint);
+        } else {
+            moveToPoint(leftPatrolPoint);
+        }
         behState = BehavioralState.PATROL;
     }
-
 
     protected void toScane() {
         currentVelocityX = 0;
@@ -268,6 +271,11 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
 
     // Допоміжні методи
     protected void moveToPoint(int targetX) {
+        if (Math.abs(targetX - x) < 5) {
+            currentVelocityX = 0;
+            return;
+        }
+
         if(targetX > x){
             facingRight = true;
             currentVelocityX = speedX;
@@ -401,7 +409,7 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
                 // якщо шлях відрізано - новий дім
                 this.rightPatrolPoint = this.x + patrolRadius;
                 this.leftPatrolPoint = this.x - patrolRadius;
-                toPatrol();
+                toScane();
                 break;
             case CHASE:
                 toStuck();
@@ -546,7 +554,7 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
                 checkPathAndMove();
 
                 double step = Math.abs(currentVelocityX) * deltaTime;
-                if (x - step <= lastSeenPlayerX && lastSeenPlayerX <= x + step) {
+                if (Math.abs(x - lastSeenPlayerX) <= Math.max(5, step)) {
                     if (seePlayer()) toChase();
                     else if (hearPlayer()) toInvestigate();
                     else toLose();
@@ -562,7 +570,7 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
                 checkPathAndMove();
 
                 double invStep = Math.abs(currentVelocityX) * deltaTime;
-                if (x - invStep <= lastSeenPlayerX && lastSeenPlayerX <= x + invStep) {
+                if (Math.abs(x - lastSeenPlayerX) <= Math.max(5, invStep)) {
                     toScane();
                 }
                 break;
@@ -643,7 +651,7 @@ public abstract class Monster extends MovingGameEntity implements Raycaster {
                 checkPathAndMove();
 
                 double cbStep = Math.abs(currentVelocityX) * deltaTime;
-                if (x - cbStep <= rightPatrolPoint && rightPatrolPoint <= x + cbStep) {
+                if (Math.abs(x - rightPatrolPoint) <= Math.max(5, cbStep)) {
                     toPatrol();
                 }
 
