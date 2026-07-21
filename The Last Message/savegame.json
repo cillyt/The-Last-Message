@@ -1,0 +1,20 @@
+{
+    "levelStates": {
+        "1": {
+            "arUnlocked": false,
+            "arAmmo": 0,
+            "hp": 100
+        },
+        "2": {
+            "arUnlocked": true,
+            "arAmmo": 10,
+            "hp": 100
+        },
+        "3": {
+            "arUnlocked": true,
+            "arAmmo": 40,
+            "hp": 54
+        }
+    },
+    "maxLevelReached": 3
+}
