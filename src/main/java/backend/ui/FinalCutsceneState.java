@@ -16,9 +16,9 @@ public class FinalCutsceneState implements GameState {
     private int dialogueStep = 0;
 
     // Ресурси
-    private final Image background = new Image("file:assets_new/ControlPanelk.png");
-    private final Image docAvatar = new Image("file:assets_new/doc_cutscene/doc_calm.png");
-    private final Image baseAvatar = new Image("file:assets_new/soldier_cutscene/phone_soldier.png");
+    private final Image background = new Image(getClass().getResourceAsStream("/assets/ControlPanelk.png"));
+    private final Image docAvatar = new Image(getClass().getResourceAsStream("/assets/doc_cutscene/doc_calm.png"));
+    private final Image baseAvatar = new Image(getClass().getResourceAsStream("/assets/soldier_cutscene/phone_soldier.png"));
 
     // Стан діалогу
     private String currentText;
@@ -39,7 +39,7 @@ public class FinalCutsceneState implements GameState {
     public void onKeyPressed(KeyEvent event) {
         if (event.getCode() == KeyCode.SPACE) {
             dialogueStep++;
-            if (dialogueStep <= 4) {
+            if (dialogueStep <= 7) {
                 updateDialogue();
             } else {
                 manager.changeState(new CreditsState(manager));
@@ -51,7 +51,7 @@ public class FinalCutsceneState implements GameState {
         switch (dialogueStep) {
             case 0:
                 isDocSpeaking = true;
-                currentText = "Надіюся що це все було не дарма і я встиг.";
+                currentText = "Надіюсь це все було не дарма і я встиг.";
                 break;
             case 1:
                 isDocSpeaking = false;
@@ -67,7 +67,19 @@ public class FinalCutsceneState implements GameState {
                 break;
             case 4:
                 showFinalMessage = true;
-                currentText = "Так могло б бути, але людство вже програло, відповідь так і не надійшла,\nа це були всього лише його галюцинації.";
+                currentText = "Так могло б бути, але його ніхто не почув.";
+                break;
+            case 5:
+                showFinalMessage = true;
+                currentText = "І ніколи більше не почує.";
+                break;
+            case 6:
+                showFinalMessage = true;
+                currentText = "Людство програло.";
+                break;
+            case 7:
+                showFinalMessage = true;
+                currentText = "Він не встиг.";
                 break;
         }
     }

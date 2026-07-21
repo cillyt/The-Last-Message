@@ -9,21 +9,25 @@ import backend.ui.StateManager;
 import javafx.scene.image.Image;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.nio.file.Files;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.File;
+import java.util.Scanner;
 
 public class LevelParser {
 
     private static int casheCounter = 0;
 
-    public static Level loadLevel(StateManager manager, File jsonFile) throws Exception {
+    public static Level loadLevel(StateManager manager, InputStream jsonStream) throws Exception {
         // Повністю очищуємо попередній рівень перед завантаженням нового
         Level.clearLevel();
 
-        String content = new String(Files.readAllBytes(jsonFile.toPath()));
+
+        String content;
+        try (Scanner scanner = new Scanner(jsonStream, StandardCharsets.UTF_8.name())) {
+            content = scanner.useDelimiter("\\A").hasNext() ? scanner.next() : "";
+        }
         JSONObject root = new JSONObject(content);
 
         int levelX = root.optInt("x", 0);
@@ -48,20 +52,28 @@ public class LevelParser {
         // текстури фону
         int width = 4000; // довжина одної текстури
         int numberFullBlocks = levelWidth / width; // скільки є цілих блоків довжиною width
-        String path = "file:assets/back_textures/level" + levelNumber + "/row-1-column-";
+        String basePath = "/assets/back_textures/level" + levelNumber + "/row-1-column-";
 
         for (int i = 1; i <= numberFullBlocks; i++){
-            Image bacKTexture = new Image(path + i + ".png");
-            BackgroundTexture bTexture = new BackgroundTexture(levelX + width * (i-1), levelY, width, levelHeight, bacKTexture);
-            allObjects.add(bTexture);
+            String fullPath = basePath + i + ".png";
+            java.net.URL imageUrl = LevelParser.class.getResource(fullPath);
+            if (imageUrl != null) {
+                Image bacKTexture = new Image(imageUrl.toExternalForm());
+                BackgroundTexture bTexture = new BackgroundTexture(levelX + width * (i-1), levelY, width, levelHeight, bacKTexture);
+                allObjects.add(bTexture);
+            }
         }
 
         // чи є неповний блок
         int remainderWidth = levelWidth % width;
         if (remainderWidth > 0) {
-            Image bacKTexture = new Image(path + (numberFullBlocks+1) + ".png");
-            BackgroundTexture bTexture = new BackgroundTexture(levelX + width * numberFullBlocks, levelY, remainderWidth, levelHeight, bacKTexture);
-            allObjects.add(bTexture);
+            String remainderPath = basePath + (numberFullBlocks+1) + ".png";
+            java.net.URL imageUrl = LevelParser.class.getResource(remainderPath);
+            if (imageUrl != null) {
+                Image bacKTexture = new Image(imageUrl.toExternalForm());
+                BackgroundTexture bTexture = new BackgroundTexture(levelX + width * numberFullBlocks, levelY, remainderWidth, levelHeight, bacKTexture);
+                allObjects.add(bTexture);
+            }
         }
 
         for (String entityType : entities.keySet()) {
@@ -86,8 +98,19 @@ public class LevelParser {
                         allObjects.add(new BlockOfGround(x, y, w, h));
                         break;
                     case "Cashe":
-                        casheCounter++;
-                        String imgName = "cashe1";
+                        if (levelNumber == 1) {
+                            if (casheCounter < 1 || casheCounter >= 2) casheCounter = 1;
+                            else casheCounter++;
+                        }
+                        else if (levelNumber == 2) {
+                            if (casheCounter < 3 || casheCounter >= 4) casheCounter = 3;
+                            else casheCounter++;
+                        }
+                        else if (levelNumber == 3) {
+                            if (casheCounter < 5 || casheCounter >= 6) casheCounter = 5;
+                            else casheCounter++;
+                        }
+                        String imgName = "cashe" + casheCounter;
                         if (obj.has("customFields")) {
                             JSONObject custom = obj.getJSONObject("customFields");
                             if (custom.has("imageName")) {

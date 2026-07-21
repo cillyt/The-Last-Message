@@ -1,5 +1,6 @@
 package backend;
 
+import backend.triggeredZones.Cashe;
 import backend.ui.CutsceneState;
 import backend.ui.FinalCutsceneState;
 import backend.ui.MainMenuState;
@@ -14,7 +15,7 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import javafx.geometry.Rectangle2D;
-import java.io.File;
+import java.io.InputStream;
 
 public class LevelLauncher extends Application {
 
@@ -107,14 +108,15 @@ public class LevelLauncher extends Application {
         SaveManager.loadStateForLevel(levelNumber);
         currentLevelNumber = levelNumber;
         try {
-            String levelFileName = "src/main/java/gamedesign/levels/Level_" + levelNumber + ".json";
-            File levelFile = new File(levelFileName);
-            if (!levelFile.exists()) {
-                System.err.println("Помилка: Файл рівня не знайдено: " + levelFileName);
+            String levelPath = "/gamedesign/levels/Level_" + levelNumber + ".json";
+            InputStream is = LevelLauncher.class.getResourceAsStream(levelPath);
+
+            if (is == null) {
+                System.err.println("Помилка: Файл рівня не знайдено: " + levelPath);
                 manager.changeState(new MainMenuState(manager));
                 return;
             }
-            LevelParser.loadLevel(manager, levelFile);
+            LevelParser.loadLevel(manager, is);
         } catch (Exception e) {
             e.printStackTrace();
             manager.changeState(new MainMenuState(manager));

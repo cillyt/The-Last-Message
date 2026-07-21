@@ -32,49 +32,36 @@ public class SimpleMonster extends Monster {
         cooldown = 0.7;
 
         toPatrol();
-
-        // --- ЗАГЛУШКА ---
-        Canvas canvas = new Canvas(width, height);
-        GraphicsContext tempGc = canvas.getGraphicsContext2D();
-        tempGc.setFill(Color.web("#FF8C00"));
-        tempGc.fillRect(0, 0, width, height);
-        tempGc.setFill(Color.BLACK);
-        tempGc.setFont(new Font("Arial", 10));
-        tempGc.fillText("SIMP_Monst", 2, 15);
-        SnapshotParameters params = new SnapshotParameters();
-        params.setFill(Color.TRANSPARENT);
-        //this.image = canvas.snapshot(params, null);
-        // ----------------
         
         // ----- АСЕТИ -----
-        standImg = new Image(getAssetPath("assets/monsters/simp_monster/scifi_alien_idle_2.png"));
-        jumpImg = new Image(getAssetPath("assets/monsters/simp_monster/move/scifi_alien_run_2.png"));
+        standImg = new Image(getClass().getResourceAsStream("/assets/monsters/simp_monster/scifi_alien_idle_2.png"));
+        jumpImg = new Image(getClass().getResourceAsStream("/assets/monsters/simp_monster/move/scifi_alien_run_2.png"));
 
 
                 moveImgs = new Image[]{
 
-                new Image(getAssetPath("assets/monsters/simp_monster/move/scifi_alien_run_1.png")),
-                new Image(getAssetPath("assets/monsters/simp_monster/move/scifi_alien_run_2.png")),
-                new Image(getAssetPath("assets/monsters/simp_monster/move/scifi_alien_run_3.png")),
-                new Image(getAssetPath("assets/monsters/simp_monster/move/scifi_alien_run_4.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/simp_monster/move/scifi_alien_run_1.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/simp_monster/move/scifi_alien_run_2.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/simp_monster/move/scifi_alien_run_3.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/simp_monster/move/scifi_alien_run_4.png")),
 
         };
         attackImgs = new Image[]{
 
-                new Image(getAssetPath("assets/monsters/simp_monster/attack/scifi_alien_bite_1.png")),
-                new Image(getAssetPath("assets/monsters/simp_monster/attack/scifi_alien_bite_2.png")),
-                new Image(getAssetPath("assets/monsters/simp_monster/attack/scifi_alien_bite_3.png")),
-                new Image(getAssetPath("assets/monsters/simp_monster/attack/scifi_alien_bite_4.png")),
-                new Image(getAssetPath("assets/monsters/simp_monster/attack/scifi_alien_bite_5.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/simp_monster/attack/scifi_alien_bite_1.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/simp_monster/attack/scifi_alien_bite_2.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/simp_monster/attack/scifi_alien_bite_3.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/simp_monster/attack/scifi_alien_bite_4.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/simp_monster/attack/scifi_alien_bite_5.png")),
 
         };
         dyingImgs = new Image[]{
 
-                new Image(getAssetPath("assets/monsters/simp_monster/dying/scifi_alien_die_1.png")),
-                new Image(getAssetPath("assets/monsters/simp_monster/dying/scifi_alien_die_2.png")),
-                new Image(getAssetPath("assets/monsters/simp_monster/dying/scifi_alien_die_3.png")),
-                new Image(getAssetPath("assets/monsters/simp_monster/dying/scifi_alien_die_4.png")),
-                new Image(getAssetPath("assets/monsters/simp_monster/dying/scifi_alien_die_5.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/simp_monster/dying/scifi_alien_die_1.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/simp_monster/dying/scifi_alien_die_2.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/simp_monster/dying/scifi_alien_die_3.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/simp_monster/dying/scifi_alien_die_4.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/simp_monster/dying/scifi_alien_die_5.png")),
 
         };
         // -----------------

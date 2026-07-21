@@ -1,0 +1,660 @@
+{
+  "identifier": "Level_1",
+  "uniqueIdentifer": "fbdaed80-48b0-11f1-a911-ebb2713f54f8",
+  "x": 268,
+  "y": 1479,
+  "width": 10000,
+  "height": 1189,
+  "bgColor": "#696A79",
+  "neighbourLevels": [
+    {
+      "levelIid": "e017dfa0-48b0-11f1-b868-695114947ad3",
+      "dir": "e"
+    }
+  ],
+  "customFields" : {},
+  "layers": [
+    "Tiles2.png",
+    "Tiles.png",
+    "Blood.png",
+    "Bodies.png",
+    "Bodies2.png",
+    "Doors.png"
+  ],
+  "entities": {
+    "BlockOfGround": [
+      {
+        "id": "BlockOfGround",
+        "iid": "823cdfd0-48b0-11f1-a911-bfa8c3e58b1e",
+        "layer": "Entities",
+        "x": 1859,
+        "y": 914,
+        "width": 8140,
+        "height": 274,
+        "color": 4073265,
+        "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "3dce9490-48b0-11f1-a911-07da13398ca3",
+        "layer": "Entities",
+        "x": 2752,
+        "y": 850,
+        "width": 4960,
+        "height": 66,
+        "color": 4073265,
+        "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "3e48f4b0-48b0-11f1-a911-dd19ad3f1f48",
+        "layer": "Entities",
+        "x": 2752,
+        "y": 785,
+        "width": 4735,
+        "height": 65,
+        "color": 4073265,
+        "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "42bc7b70-48b0-11f1-a911-bf74ea7a645f",
+        "layer": "Entities",
+        "x": 9281,
+        "y": 799,
+        "width": 718,
+        "height": 66,
+        "color": 4073265,
+        "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "8039a490-48b0-11f1-a911-d77e1a222613",
+        "layer": "Entities",
+        "x": 8642,
+        "y": 850,
+        "width": 1360,
+        "height": 66,
+        "color": 4073265,
+        "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "b2d14d90-48b0-11f1-a911-2de876da5890",
+        "layer": "Entities",
+        "x": 3392,
+        "y": 510,
+        "width": 928,
+        "height": 146,
+        "color": 4073265,
+        "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "14a7e7f0-48b0-11f1-b868-8fa3fc23d925",
+        "layer": "Entities",
+        "x": 9281,
+        "y": 751,
+        "width": 718,
+        "height": 48,
+        "color": 4073265,
+        "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "df769ff0-48b0-11f1-b868-61975e58005c",
+        "layer": "Entities",
+        "x": 0,
+        "y": 498,
+        "width": 94,
+        "height": 502,
+        "color": 4073265,
+        "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "e068ef30-48b0-11f1-b868-4585479df466",
+        "layer": "Entities",
+        "x": 0,
+        "y": 3,
+        "width": 9999,
+        "height": 397,
+        "color": 4073265,
+        "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "e3c51280-48b0-11f1-b868-d55b4b2e43ca",
+        "layer": "Entities",
+        "x": 9906,
+        "y": 264,
+        "width": 93,
+        "height": 511,
+        "color": 4073265,
+        "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "4459c890-48b0-11f1-b868-53e4faec40f2",
+        "layer": "Entities",
+        "x": 2,
+        "y": 915,
+        "width": 1694,
+        "height": 270,
+        "color": 4073265,
+        "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "774bf0d0-48b0-11f1-b868-e1970751ee45",
+        "layer": "Entities",
+        "x": 2401,
+        "y": 851,
+        "width": 158,
+        "height": 61,
+        "color": 4073265,
+        "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "f6bb6260-48b0-11f1-b868-2301a9e1e935",
+        "layer": "Entities",
+        "x": 8865,
+        "y": 785,
+        "width": 223,
+        "height": 69,
+        "color": 4073265,
+        "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "c4b99d50-48b0-11f1-b2f3-515d9b657f44",
+        "layer": "Entities",
+        "x": 1088,
+        "y": 549,
+        "width": 62,
+        "height": 139,
+        "color": 4073265,
+        "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "979bfd20-48b0-11f1-bbe6-7be17b0f5bbc",
+        "layer": "Entities",
+        "x": 2,
+        "y": 6,
+        "width": 1148,
+        "height": 582,
+        "color": 4073265,
+        "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "c3da9680-48b0-11f1-bbe6-c32245399418",
+        "layer": "Entities",
+        "x": 899,
+        "y": 375,
+        "width": 635,
+        "height": 121,
+        "color": 4073265,
+        "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "85910690-48b0-11f1-bbe6-79247c99ce6a",
+        "layer": "Entities",
+        "x": 3072,
+        "y": 393,
+        "width": 1566,
+        "height": 134,
+        "color": 4073265,
+        "customFields" : {}
+      },
+      {
+        "id": "BlockOfGround",
+        "iid": "c1ff42d0-48b0-11f1-9822-9f266dc3927f",
+        "layer": "Entities",
+        "x": 1691,
+        "y": 1158,
+        "width": 169,
+        "height": 28,
+        "color": 4073265,
+        "customFields" : {}
+      }
+    ],
+    "Player": [
+      {
+        "id": "Player",
+        "iid": "9fd1a8a0-48b0-11f1-a911-0f96f6b3b45e",
+        "layer": "Entities",
+        "x": 479,
+        "y": 742,
+        "width": 50,
+        "height": 170,
+        "color": 16777215,
+        "customFields" : {}
+      }
+    ],
+    "BigMonster": [
+      {
+        "id": "BigMonster",
+        "iid": "1b0e7bd0-48b0-11f1-a911-19e31f6a9458",
+        "layer": "Entities",
+        "x": 8212,
+        "y": 730,
+        "width": 70,
+        "height": 180,
+        "color": 1149216,
+        "customFields": {
+          "patrolRadius": 350
+        }
+      }
+    ],
+    "Medkit": [
+      {
+        "id": "Medkit",
+        "iid": "30877660-48b0-11f1-a911-59b32b0716ad",
+        "layer": "Entities",
+        "x": 9195,
+        "y": 810,
+        "width": 40,
+        "height": 40,
+        "color": 14957380,
+        "customFields" : {}
+      },
+      {
+        "id": "Medkit",
+        "iid": "d946ece0-48b0-11f1-a911-a7aef021d302",
+        "layer": "Entities",
+        "x": 7097,
+        "y": 744,
+        "width": 40,
+        "height": 40,
+        "color": 14957380,
+        "customFields" : {}
+      },
+      {
+        "id": "Medkit",
+        "iid": "9a1d8870-48b0-11f1-a911-6b60ba34331e",
+        "layer": "Entities",
+        "x": 5222,
+        "y": 744,
+        "width": 40,
+        "height": 40,
+        "color": 14957380,
+        "customFields" : {}
+      },
+      {
+        "id": "Medkit",
+        "iid": "0c8bed70-48b0-11f1-b868-81db877f9cd1",
+        "layer": "Entities",
+        "x": 2635,
+        "y": 873,
+        "width": 40,
+        "height": 40,
+        "color": 14957380,
+        "customFields" : {}
+      }
+    ],
+    "Trap1": [
+      {
+        "id": "Trap1",
+        "iid": "430de4e0-48b0-11f1-a911-ff04ca315acc",
+        "layer": "Entities",
+        "x": 4855,
+        "y": 781,
+        "width": 100,
+        "height": 10,
+        "color": 3079936,
+        "customFields" : {}
+      }
+    ],
+    "SimpleMonster": [
+      {
+        "id": "SimpleMonster",
+        "iid": "8ceb15a0-48b0-11f1-a911-eb7b6a3dce20",
+        "layer": "Entities",
+        "x": 2808,
+        "y": 691,
+        "width": 120,
+        "height": 90,
+        "color": 10078003,
+        "customFields": {
+          "patrolRadius": 0
+        }
+      },
+      {
+        "id": "SimpleMonster",
+        "iid": "a3a47f70-48b0-11f1-a911-6597eaf0c9b5",
+        "layer": "Entities",
+        "x": 6705,
+        "y": 690,
+        "width": 120,
+        "height": 90,
+        "color": 10078003,
+        "customFields": {
+          "patrolRadius": 225
+        }
+      }
+    ],
+    "Cashe": [
+      {
+        "id": "Cashe",
+        "iid": "84a5a9e0-48b0-11f1-a911-432df1c0e9c7",
+        "layer": "Entities",
+        "x": 2560,
+        "y": 785,
+        "width": 192,
+        "height": 128,
+        "color": 12635100,
+        "customFields": {
+          "ImageName": "cashe1"
+        }
+      },
+      {
+        "id": "Cashe",
+        "iid": "d14fb170-48b0-11f1-b868-b5fd853d4372",
+        "layer": "Entities",
+        "x": 9088,
+        "y": 753,
+        "width": 193,
+        "height": 97,
+        "color": 12635100,
+        "customFields": {
+          "ImageName": "cashe2"
+        }
+      }
+    ],
+    "AR_Item": [
+      {
+        "id": "AR_Item",
+        "iid": "7ef840f0-48b0-11f1-b868-1fe876173b61",
+        "layer": "Entities",
+        "x": 6250,
+        "y": 737,
+        "width": 50,
+        "height": 50,
+        "color": 2501444,
+        "customFields" : {}
+      }
+    ],
+    "AR_Ammunition": [
+      {
+        "id": "AR_Ammunition",
+        "iid": "817bb780-48b0-11f1-b868-c94aed27da44",
+        "layer": "Entities",
+        "x": 6334,
+        "y": 743,
+        "width": 40,
+        "height": 40,
+        "color": 16705377,
+        "customFields": {
+          "number": 5
+        }
+      },
+      {
+        "id": "AR_Ammunition",
+        "iid": "3424d1e0-48b0-11f1-b868-9393ae77a7ef",
+        "layer": "Entities",
+        "x": 9122,
+        "y": 810,
+        "width": 40,
+        "height": 40,
+        "color": 16705377,
+        "customFields": {
+          "number": 5
+        }
+      }
+    ],
+    "Deadzone": [
+      {
+        "id": "Deadzone",
+        "iid": "6c05c940-48b0-11f1-b01b-972e470a8623",
+        "layer": "Entities",
+        "x": 1654,
+        "y": 1145,
+        "width": 266,
+        "height": 9,
+        "color": 0,
+        "customFields" : {}
+      }
+    ],
+    "PartialBlock": [
+      {
+        "id": "PartialBlock",
+        "iid": "35592250-48b0-11f1-b01b-dddf26ccc036",
+        "layer": "Entities",
+        "x": 2560,
+        "y": 785,
+        "width": 192,
+        "height": 128,
+        "color": 9149364,
+        "customFields": {
+          "blockDirection": "TOP"
+        }
+      },
+      {
+        "id": "PartialBlock",
+        "iid": "73ab6b30-48b0-11f1-b01b-2df639a8e987",
+        "layer": "Entities",
+        "x": 9088,
+        "y": 753,
+        "width": 193,
+        "height": 97,
+        "color": 9149364,
+        "customFields": {
+          "blockDirection": "TOP"
+        }
+      }
+    ],
+    "LevelEndTrigger": [
+      {
+        "id": "LevelEndTrigger",
+        "iid": "c82f1660-48b0-11f1-80a0-7700b7323f16",
+        "layer": "Entities",
+        "x": 9891,
+        "y": 392,
+        "width": 25,
+        "height": 360,
+        "color": 16773813,
+        "customFields" : {}
+      }
+    ],
+    "PopupMessageTrigger": [
+      {
+        "id": "PopupMessageTrigger",
+        "iid": "e31be700-48b0-11f1-9b05-2b69e76f4976",
+        "layer": "Entities",
+        "x": 1936,
+        "y": 371,
+        "width": 16,
+        "height": 543,
+        "color": 14984818,
+        "customFields": {
+          "triggerOnce": true,
+          "message": "Щоб завдати шкоди ворогу, натисніть клавішу ENTER"
+        }
+      },
+      {
+        "id": "PopupMessageTrigger",
+        "iid": "eebe43f0-48b0-11f1-9b05-6d51f7762e67",
+        "layer": "Entities",
+        "x": 1455,
+        "y": 461,
+        "width": 16,
+        "height": 453,
+        "color": 14984818,
+        "customFields": {
+          "triggerOnce": true,
+          "message": "Натисніть клавішу W щоб здійснити стрибок"
+        }
+      },
+      {
+        "id": "PopupMessageTrigger",
+        "iid": "f577ea20-48b0-11f1-9b05-e35f615d0c2e",
+        "layer": "Entities",
+        "x": 2560,
+        "y": 785,
+        "width": 16,
+        "height": 137,
+        "color": 14984818,
+        "customFields": {
+          "triggerOnce": true,
+          "message": "Протягом свого шляху Вам будуть траплятись схованки - заховані від очей місця,\n в яких знаходяться ресурси. Варто не пропускати, ресурси зайвими не бувають!"        }
+      },
+      {
+        "id": "PopupMessageTrigger",
+        "iid": "fefb5eb0-48b0-11f1-9b05-0573fc40409c",
+        "layer": "Entities",
+        "x": 3134,
+        "y": 522,
+        "width": 16,
+        "height": 262,
+        "color": 14984818,
+        "customFields": {
+          "triggerOnce": false,
+          "message": "Натисніть S щоб пригнутись"
+        }
+      },
+      {
+        "id": "PopupMessageTrigger",
+        "iid": "14a0c070-48b0-11f1-9b05-45929d489cdb",
+        "layer": "Entities",
+        "x": 5104,
+        "y": 392,
+        "width": 16,
+        "height": 393,
+        "color": 14984818,
+        "customFields": {
+          "triggerOnce": true,
+          "message": "Аптечка відновлює частинку Вашого здоров'я, збільшуючи шанси дожити до кінця"
+        }
+      },
+      {
+        "id": "PopupMessageTrigger",
+        "iid": "1adf1c20-48b0-11f1-9b05-d3ef5732ff9b",
+        "layer": "Entities",
+        "x": 6250,
+        "y": 387,
+        "width": 16,
+        "height": 399,
+        "color": 14984818,
+        "customFields": {
+          "triggerOnce": true,
+          "message": "Вітаю, Ви отримали нову зброю! На відміну від пістолета, AR завдає більшої шкоди,\n але також має обмежену кількість набоїв. Їх Ви зможете знайти під час свого подальшого просування.\n Не витрачайте їх задарма, вони справді можуть знадобитись у критичний момент!"        }
+      },
+      {
+        "id": "PopupMessageTrigger",
+        "iid": "3f193fd0-48b0-11f1-9b05-e791402709b8",
+        "layer": "Entities",
+        "x": 485,
+        "y": 563,
+        "width": 16,
+        "height": 350,
+        "color": 14984818,
+        "customFields": {
+          "triggerOnce": true,
+          "message": "Для руху вліво та вправо використовуйте клавіші A та D відповідно"
+        }
+      },
+      {
+        "id": "PopupMessageTrigger",
+        "iid": "116f9450-48b0-11f1-9969-6bf4fedcf959",
+        "layer": "Entities",
+        "x": 6463,
+        "y": 389,
+        "width": 16,
+        "height": 402,
+        "color": 14984818,
+        "customFields": {
+          "triggerOnce": true,
+          "message": "Щоб переключатись між зброєю, натискайте клавіші 1 та 2 для пістолету та AR відповідно"
+        }
+      }
+    ],
+    "LeapingMonster": [
+      {
+        "id": "LeapingMonster",
+        "iid": "9b676c30-48b0-11f1-9b05-4bd3b73f3c8c",
+        "layer": "Entities",
+        "x": 5716,
+        "y": 728,
+        "width": 65,
+        "height": 54,
+        "color": 3903894,
+        "customFields": {
+          "patrolRadius": 150
+        }
+      },
+      {
+        "id": "LeapingMonster",
+        "iid": "9c46cfb0-48b0-11f1-9b05-317803ad8d9d",
+        "layer": "Entities",
+        "x": 5572,
+        "y": 727,
+        "width": 65,
+        "height": 54,
+        "color": 3903894,
+        "customFields": {
+          "patrolRadius": 150
+        }
+      },
+      {
+        "id": "LeapingMonster",
+        "iid": "9e63e350-48b0-11f1-9b05-033ba575b7f7",
+        "layer": "Entities",
+        "x": 6055,
+        "y": 729,
+        "width": 65,
+        "height": 54,
+        "color": 3903894,
+        "customFields": {
+          "patrolRadius": 150
+        }
+      },
+      {
+        "id": "LeapingMonster",
+        "iid": "a0f319b0-48b0-11f1-9b05-59379da29e59",
+        "layer": "Entities",
+        "x": 5899,
+        "y": 728,
+        "width": 65,
+        "height": 54,
+        "color": 3903894,
+        "customFields": {
+          "patrolRadius": 150
+        }
+      }
+    ],
+    "Trap2": [
+      {
+        "id": "Trap2",
+        "iid": "d7d24b70-48b0-11f1-bbe6-0f9cdc330dd3",
+        "layer": "Entities",
+        "x": 3683,
+        "y": 635,
+        "width": 45,
+        "height": 150,
+        "color": 16733696,
+        "customFields": {
+          "fireTime": 8,
+          "breakTime": 5
+        }
+      },
+      {
+        "id": "Trap2",
+        "iid": "dac0b8d0-48b0-11f1-bbe6-c9cbc97456aa",
+        "layer": "Entities",
+        "x": 4034,
+        "y": 634,
+        "width": 45,
+        "height": 150,
+        "color": 16733696,
+        "customFields": {
+          "fireTime": 8,
+          "breakTime": 5
+        }
+      }
+    ]
+  }
+}

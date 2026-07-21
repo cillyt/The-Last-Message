@@ -56,61 +56,60 @@ public class Player extends MovingGameEntity{
     // ----- АСЕТИ -----
 
     // для пістолета
-    private final Image standImgP = new Image(getAssetPath("assets/player/pistol/stand.png"));
-    private final Image jumpImgP = new Image(getAssetPath("assets/player/pistol/jump.png"));
-    private final Image crouchImgP = new Image(getAssetPath("assets/player/pistol/crouch.png"));
+    private final Image standImgP = new Image(getClass().getResourceAsStream("/assets/player/pistol/stand.png"));
+    private final Image jumpImgP = new Image(getClass().getResourceAsStream("/assets/player/pistol/jump.png"));
+    private final Image crouchImgP = new Image(getClass().getResourceAsStream("/assets/player/pistol/crouch.png"));
 
     private final Image[] moveImgsP = {
-            new Image(getAssetPath("assets/player/pistol/move/prun1.png")),
-            new Image(getAssetPath("assets/player/pistol/move/prun2.png")),
-            new Image(getAssetPath("assets/player/pistol/move/prun3.png")),
-            new Image(getAssetPath("assets/player/pistol/move/prun4.png")),
-            new Image(getAssetPath("assets/player/pistol/move/prun5.png")),
-            new Image(getAssetPath("assets/player/pistol/move/prun6.png")),
-            new Image(getAssetPath("assets/player/pistol/move/prun7.png")),
-            new Image(getAssetPath("assets/player/pistol/move/prun8.png")),
-            new Image(getAssetPath("assets/player/pistol/move/prun9.png"))
+            new Image(getClass().getResourceAsStream("/assets/player/pistol/move/prun1.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/pistol/move/prun2.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/pistol/move/prun3.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/pistol/move/prun4.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/pistol/move/prun5.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/pistol/move/prun6.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/pistol/move/prun7.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/pistol/move/prun8.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/pistol/move/prun9.png"))
     };
     private final Image[] crawlImgsP = {
-            new Image(getAssetPath("assets/player/pistol/crawl/pcrawl1.png")),
-            new Image(getAssetPath("assets/player/pistol/crawl/pcrawl2.png")),
-            new Image(getAssetPath("assets/player/pistol/crawl/pcrawl3.png")),
-            new Image(getAssetPath("assets/player/pistol/crawl/pcrawl4.png")),
-            new Image(getAssetPath("assets/player/pistol/crawl/pcrawl5.png")),
-            new Image(getAssetPath("assets/player/pistol/crawl/pcrawl6.png"))
+            new Image(getClass().getResourceAsStream("/assets/player/pistol/crawl/pcrawl1.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/pistol/crawl/pcrawl2.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/pistol/crawl/pcrawl3.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/pistol/crawl/pcrawl4.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/pistol/crawl/pcrawl5.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/pistol/crawl/pcrawl6.png"))
     };
 
     // для автомата
-    private final Image standImgAR = new Image(getAssetPath("assets/player/ar/stand.png"));
-    private final Image jumpImgAR = new Image(getAssetPath("assets/player/ar/jump.png"));
-    private final Image crouchImgAR = new Image(getAssetPath("assets/player/ar/crouch.png"));
+    private final Image standImgAR = new Image(getClass().getResourceAsStream("/assets/player/ar/stand.png"));
+    private final Image jumpImgAR = new Image(getClass().getResourceAsStream("/assets/player/ar/jump.png"));
+    private final Image crouchImgAR = new Image(getClass().getResourceAsStream("/assets/player/ar/crouch.png"));
 
     private final Image[] moveImgsAR = {
-            new Image(getAssetPath("assets/player/ar/move/arun0.png")),
-            new Image(getAssetPath("assets/player/ar/move/arun1.png")),
-            new Image(getAssetPath("assets/player/ar/move/arun2.png")),
-            new Image(getAssetPath("assets/player/ar/move/arun3.png")),
-            new Image(getAssetPath("assets/player/ar/move/arun4.png")),
-            new Image(getAssetPath("assets/player/ar/move/arun5.png")),
-            new Image(getAssetPath("assets/player/ar/move/arun6.png")),
-            new Image(getAssetPath("assets/player/ar/move/arun7.png")),
-            new Image(getAssetPath("assets/player/ar/move/arun8.png"))
+            new Image(getClass().getResourceAsStream("/assets/player/ar/move/arun0.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/ar/move/arun1.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/ar/move/arun2.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/ar/move/arun3.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/ar/move/arun4.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/ar/move/arun5.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/ar/move/arun6.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/ar/move/arun7.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/ar/move/arun8.png"))
     };
-    private final Image[] crawlImgsAR = { new Image(getAssetPath("assets/player/ar/crawl/crouching1.png")),
-            new Image(getAssetPath("assets/player/ar/crawl/crouching2.png")),
-            new Image(getAssetPath("assets/player/ar/crawl/crouching3.png")),
-            new Image(getAssetPath("assets/player/ar/crawl/crouching4.png")),
-            new Image(getAssetPath("assets/player/ar/crawl/crouching5.png")),
-            new Image(getAssetPath("assets/player/ar/crawl/crouching6.png")),
+    private final Image[] crawlImgsAR = {
+            new Image(getClass().getResourceAsStream("/assets/player/ar/crawl/crouching1.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/ar/crawl/crouching2.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/ar/crawl/crouching3.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/ar/crawl/crouching4.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/ar/crawl/crouching5.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/ar/crawl/crouching6.png")),
             // ...
     };
 
     // смерть
-    private final Image[] dyingImgs = { new Image(getAssetPath("assets/player/dying/death1.png")),
-            new Image(getAssetPath("assets/player/dying/death2.png")),
-           // new Image(getAssetPath("assets/player/dying/назва.png")),
-           // new Image(getAssetPath("assets/player/dying/назва.png")),
-            // ...
+    private final Image[] dyingImgs = {
+            new Image(getClass().getResourceAsStream("/assets/player/dying/death1.png")),
+            new Image(getClass().getResourceAsStream("/assets/player/dying/death2.png")),
     };
 
     // -----------------
@@ -168,19 +167,6 @@ public class Player extends MovingGameEntity{
         periodAnimationDying = timeAnimationDying / dyingImgs.length;
 
         calcImgMarg(0.57, standImgP);
-
-        // --- ЗАГЛУШКА ---
-        Canvas canvas = new Canvas(width, height);
-        GraphicsContext tempGc = canvas.getGraphicsContext2D();
-        tempGc.setFill(Color.web("#00FFFF"));
-        tempGc.fillRect(0, 0, width, height);
-        tempGc.setFill(Color.BLACK);
-        tempGc.setFont(new Font("Arial", 12));
-        tempGc.fillText("Player", 5, 15);
-        SnapshotParameters params = new SnapshotParameters();
-        params.setFill(Color.TRANSPARENT);
-        //this.image = canvas.snapshot(params, null);
-        // ----------------
     }
 
     /**
