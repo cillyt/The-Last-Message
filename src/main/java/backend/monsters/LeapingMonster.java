@@ -34,44 +34,31 @@ public class LeapingMonster extends Monster {
 
         toPatrol();
 
-        // --- ЗАГЛУШКА ---
-        Canvas canvas = new Canvas(width, height);
-        GraphicsContext tempGc = canvas.getGraphicsContext2D();
-        tempGc.setFill(Color.web("#DC143C"));
-        tempGc.fillRect(0, 0, width, height);
-        tempGc.setFill(Color.WHITE);
-        tempGc.setFont(new Font("Arial", 12));
-        tempGc.fillText("LEAP_MONST", 5, 15);
-        SnapshotParameters params = new SnapshotParameters();
-        params.setFill(Color.TRANSPARENT);
-        //this.image = canvas.snapshot(params, null);
-        // ----------------
-
         // ----- АСЕТИ -----
-        standImg = new Image(getAssetPath("assets/monsters/leap_monster/IDLE_01.png"));
-        jumpImg = new Image(getAssetPath("assets/monsters/leap_monster/move/WALK_03.png"));
+        standImg = new Image(getClass().getResourceAsStream("/assets/monsters/leap_monster/IDLE_01.png"));
+        jumpImg = new Image(getClass().getResourceAsStream("/assets/monsters/leap_monster/move/WALK_03.png"));
 
 
                 moveImgs = new Image[]{
-                new Image(getAssetPath("assets/monsters/leap_monster/move/WALK_01.png")),
-                new Image(getAssetPath("assets/monsters/leap_monster/move/WALK_02.png")),
-                new Image(getAssetPath("assets/monsters/leap_monster/move/WALK_03.png")),
-                new Image(getAssetPath("assets/monsters/leap_monster/move/WALK_04.png")),
-                new Image(getAssetPath("assets/monsters/leap_monster/move/WALK_05.png")),
-                new Image(getAssetPath("assets/monsters/leap_monster/move/WALK_06.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/leap_monster/move/WALK_01.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/leap_monster/move/WALK_02.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/leap_monster/move/WALK_03.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/leap_monster/move/WALK_04.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/leap_monster/move/WALK_05.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/leap_monster/move/WALK_06.png")),
         };
         attackImgs = new Image[]{
-                new Image(getAssetPath("assets/monsters/leap_monster/attack/ATTACK_01.png")),
-                new Image(getAssetPath("assets/monsters/leap_monster/attack/ATTACK_02png")),
-                new Image(getAssetPath("assets/monsters/leap_monster/attack/ATTACK_03.png")),
-                new Image(getAssetPath("assets/monsters/leap_monster/attack/ATTACK_04.png")),
-                new Image(getAssetPath("assets/monsters/leap_monster/attack/ATTACK_05.png")),
-                new Image(getAssetPath("assets/monsters/leap_monster/attack/ATTACK_06.png")),
-                new Image(getAssetPath("assets/monsters/leap_monster/attack/ATTACK_07.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/leap_monster/attack/ATTACK_01.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/leap_monster/attack/ATTACK_02.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/leap_monster/attack/ATTACK_03.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/leap_monster/attack/ATTACK_04.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/leap_monster/attack/ATTACK_05.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/leap_monster/attack/ATTACK_06.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/leap_monster/attack/ATTACK_07.png")),
         };
         dyingImgs = new Image[]{
-                new Image(getAssetPath("assets/monsters/leap_monster/dying/DEAD_01.png")),
-                new Image(getAssetPath("assets/monsters/leap_monster/dying/DEAD_02.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/leap_monster/dying/DEAD_01.png")),
+                new Image(getClass().getResourceAsStream("/assets/monsters/leap_monster/dying/DEAD_02.png")),
         };
         // -----------------
 

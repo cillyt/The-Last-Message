@@ -2,11 +2,11 @@ package backend.ui;
 
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
-import java.io.File;
+import java.io.InputStream;
 
 public class UIResources {
-    private static final String FONT_PATH = "assets_old/font.ttf";
-    private static final String BG_PATH = "file:assets_old/background.png";
+    private static final String FONT_PATH = "/assets/font.ttf";
+    private static final String BG_PATH = "/assets/background.png";
 
     private static String fontFamily = "Arial";
     private static Image background = null;
@@ -14,9 +14,10 @@ public class UIResources {
     static {
         // Load custom font
         try {
-            File fontFile = new File(FONT_PATH);
-            if (fontFile.exists()) {
-                Font loaded = Font.loadFont(fontFile.toURI().toURL().toExternalForm(), 12);
+            InputStream is = UIResources.class.getResourceAsStream(FONT_PATH);
+            if (is != null) {
+                Font loaded = Font.loadFont(is, 12);
+
                 if (loaded != null) {
                     fontFamily = loaded.getFamily();
                     System.out.println("✓ Font loaded: " + fontFamily);
@@ -25,7 +26,7 @@ public class UIResources {
                     fontFamily = "Arial";
                 }
             } else {
-                System.err.println("✗ Font file not found: " + fontFile.getAbsolutePath());
+                System.err.println("✗ Font file not found in JAR: " + FONT_PATH);
                 fontFamily = "Arial";
             }
         } catch (Exception e) {
@@ -35,7 +36,12 @@ public class UIResources {
         }
 
         try {
-            background = new Image(BG_PATH, true);
+            InputStream is = UIResources.class.getResourceAsStream(BG_PATH);
+            if (is != null) {
+                background = new Image(is);
+            } else {
+                System.err.println("error: file with path " + BG_PATH + " doesent exist in JAR");
+            }
         } catch (Exception e) {
             System.err.println("✗ Error loading background: " + e.getMessage());
             background = null;
@@ -55,9 +61,14 @@ public class UIResources {
     }
 
     public static Image loadWeaponIcon(String name, double size) {
+        String path = String.format("/assets/weapon/%s.png", name);
         try {
-            String path = String.format("file:assets_old/weapon/%s.png", name);
-            return new Image(path, size, size, true, true);
+            InputStream is = UIResources.class.getResourceAsStream(path);
+            if (is == null) {
+                System.err.println("error: icon not found" + path);
+                return null;
+            }
+            return new Image(is, size, size, true, true);
         } catch (Exception e) {
             return null;
         }

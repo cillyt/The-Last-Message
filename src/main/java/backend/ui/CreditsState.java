@@ -28,7 +28,7 @@ public class CreditsState implements GameState {
     };
 
     private static final double SCROLL_SPEED = 40.0; // Пікселів за секунду
-    private final Image background = new Image("file:assets_new/doc_cutscene/final_background.png");
+    private final Image background = new Image(getClass().getResourceAsStream("/assets/doc_cutscene/final_background.png"));
 
     public CreditsState(StateManager manager) {
         this.manager = manager;

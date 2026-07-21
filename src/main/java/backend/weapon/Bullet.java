@@ -24,7 +24,7 @@ public abstract class Bullet extends MovingGameEntity {
     protected int barrelY;
     protected boolean justFired = false;
 
-    protected Image fireImg = new Image(getAssetPath("assets/player/fire.png"));
+    protected Image fireImg = new Image(getClass().getResourceAsStream("/assets/player/fire.png"));
     protected Sticker fireFlash;
     protected double currentFlashTime = 0;
     protected double flashTime = 0.08;

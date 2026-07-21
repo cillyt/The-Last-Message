@@ -16,13 +16,13 @@ public class CutsceneState implements GameState {
     private int dialogueStep = 0;
 
     // --- Асети ---
-    private final Image background = new Image("file:assets_new/cutscene_LVL1_BACKGROUND.png");
-    private final Image docTalk = new Image("file:assets_new/doc_cutscene/doc_talk.png");
-    private final Image docCalm = new Image("file:assets_new/doc_cutscene/doc_calm.png");
-    private final Image docSadOpen = new Image("file:assets_new/doc_cutscene/doc_sad_eyesopen.png");
-    private final Image docSadClosed = new Image("file:assets_new/doc_cutscene/doc_sad_eyesclosed.png");
-    private final Image soldierTalk = new Image("file:assets_new/soldier_cutscene/soldier_talk.png");
-    private final Image soldierSad = new Image("file:assets_new/soldier_cutscene/soldier_sad.png");
+    private final Image background = new Image(getClass().getResourceAsStream("/assets/cutscene_LVL1_background.png"));
+    private final Image docTalk = new Image(getClass().getResourceAsStream("/assets/doc_cutscene/doc_talk.png"));
+    private final Image docCalm = new Image(getClass().getResourceAsStream("/assets/doc_cutscene/doc_calm.png"));
+    private final Image docSadOpen = new Image(getClass().getResourceAsStream("/assets/doc_cutscene/doc_sad_eyesopen.png"));
+    private final Image docSadClosed = new Image(getClass().getResourceAsStream("/assets/doc_cutscene/doc_sad_eyesclosed.png"));
+    private final Image soldierTalk = new Image(getClass().getResourceAsStream("/assets/soldier_cutscene/soldier_talk.png"));
+    private final Image soldierSad = new Image(getClass().getResourceAsStream("/assets/soldier_cutscene/soldier_sad.png"));
 
     // --- Поточний стан ---
     private String currentText;

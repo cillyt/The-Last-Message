@@ -19,7 +19,7 @@ public class Cashe extends Detector {
         super(x, y, width, height);
         this.zIndex = 6;
 
-        this.image = new Image(getAssetPath("assets/cashe_textures/" + imageName + ".png"));
+        this.image = new Image(getClass().getResourceAsStream("/assets/cashe_textures/" + imageName + ".png"));
     }
 
     @Override

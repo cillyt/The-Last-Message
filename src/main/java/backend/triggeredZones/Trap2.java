@@ -20,17 +20,18 @@ public class Trap2 extends Detector {
 
     // ----- АСЕТИ -----
     // спрайт без вогню для стану паузи
-    private Image breakImg = new Image(getAssetPath("assets/detectors/torch8.png"));
+    private Image breakImg = new Image(getClass().getResourceAsStream("/assets/detectors/torch8.png"));
 
     // спрайти для анімації, які будуть прокручуватись кілька разів
-    private Image fireImgs[] = { new Image(getAssetPath("assets/detectors/torch1.png")),
-            new Image(getAssetPath("assets/detectors/torch2.png")),
-            new Image(getAssetPath("assets/detectors/torch3.png")),
-            new Image(getAssetPath("assets/detectors/torch4.png")),
-            new Image(getAssetPath("assets/detectors/torch5.png")),
-            new Image(getAssetPath("assets/detectors/torch6.png")),
-            new Image(getAssetPath("assets/detectors/torch7.png")),
-            new Image(getAssetPath("assets/detectors/torch8.png")),
+    private Image fireImgs[] = {
+            new Image(getClass().getResourceAsStream("/assets/detectors/torch1.png")),
+            new Image(getClass().getResourceAsStream("/assets/detectors/torch2.png")),
+            new Image(getClass().getResourceAsStream("/assets/detectors/torch3.png")),
+            new Image(getClass().getResourceAsStream("/assets/detectors/torch4.png")),
+            new Image(getClass().getResourceAsStream("/assets/detectors/torch5.png")),
+            new Image(getClass().getResourceAsStream("/assets/detectors/torch6.png")),
+            new Image(getClass().getResourceAsStream("/assets/detectors/torch7.png")),
+            new Image(getClass().getResourceAsStream("/assets/detectors/torch8.png")),
     };
     // -----------------
 
